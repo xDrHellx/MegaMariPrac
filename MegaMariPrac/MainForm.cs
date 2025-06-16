@@ -580,24 +580,20 @@ namespace MegaMariPrac
             {
                 if (!isTank)
                 {
+                    // Init the variable here since we'll be using it during this part
+                    object iconResource = null;
                     if (regularWeapon)
                     {
                         switch (flag)
                         {
                             case ON_NOBODY:
-                                object test = Properties.Resources.ResourceManager.GetObject(character + "_off");
-                                if (test is Image)
-                                    box.Image = (Image)Properties.Resources.ResourceManager.GetObject(character + "_off");
+                                iconResource = Properties.Resources.ResourceManager.GetObject(character + "_off");
                                 break;
                             case ON_MARISA:
-                                test = Properties.Resources.ResourceManager.GetObject(character + "_on_marisa");
-                                if (test is Image)
-                                    box.Image = (Image)Properties.Resources.ResourceManager.GetObject(character + "_on_marisa");
+                                iconResource = Properties.Resources.ResourceManager.GetObject(character + "_on_marisa");
                                 break;
                             case ON_ALICE:
-                                test = Properties.Resources.ResourceManager.GetObject(character + "_on_alice");
-                                if (test is Image)
-                                    box.Image = (Image)Properties.Resources.ResourceManager.GetObject(character + "_on_alice");
+                                iconResource = Properties.Resources.ResourceManager.GetObject(character + "_on_alice");
                                 break;
                         }
                     }
@@ -606,16 +602,22 @@ namespace MegaMariPrac
                         switch (flag)
                         {
                             case SPECIAL_WEAPON_OFF:
-                                object test = Properties.Resources.ResourceManager.GetObject(character + "_off");
-                                if (test is Image)
-                                    box.Image = (Image)Properties.Resources.ResourceManager.GetObject(character + "_off");
+                                iconResource = Properties.Resources.ResourceManager.GetObject(character + "_off");
                                 break;
                             case SPECIAL_WEAPON_ON:
-                                test = Properties.Resources.ResourceManager.GetObject(character + "_on");
-                                if (test is Image)
-                                    box.Image = (Image)Properties.Resources.ResourceManager.GetObject(character + "_on");
+                                iconResource = Properties.Resources.ResourceManager.GetObject(character + "_on");
                                 break;
                         }
+                    }
+
+                    // Check if the resource is an Image
+                    if (iconResource is Image icon)
+                    {
+                        // Get rid of the old icon to prevent memory leaks
+                        box.Image?.Dispose();
+
+                        // Assign a copy of the icon to prevent sharing the same object in memory (which will be "locked" and cause an error over time)
+                        box.Image = new Bitmap(icon);
                     }
                 }
                 else
