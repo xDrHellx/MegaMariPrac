@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utils\WinFormHelpers.cs" />
     <Compile Include="About\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
