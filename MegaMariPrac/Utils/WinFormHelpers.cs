@@ -25,7 +25,6 @@ namespace MegaMariPrac.Utils
                 Size = size,
                 Font = font,
                 AutoSize = autoSize,
-                TabIndex = 2,
                 TextAlign = GetTextAlignment(textAlignment)
             };
 
@@ -53,7 +52,6 @@ namespace MegaMariPrac.Utils
                 Size = size,
                 Font = font,
                 AutoSize = autoSize,
-                TabIndex = 2,
                 Enabled = enabled,
                 TextAlign = GetTextAlignment(textAlignment)
             };
