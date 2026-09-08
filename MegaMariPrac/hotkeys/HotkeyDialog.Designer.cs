@@ -1,4 +1,4 @@
-﻿namespace MegaMariPrac
+﻿namespace MegaMariPrac.Hotkeys
 {
     partial class HotkeyDialog
     {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-
-namespace MegaMariPrac
+﻿namespace MegaMariPrac.SaveStates
 {
     internal class SaveState
     {
@@ -25,14 +22,14 @@ namespace MegaMariPrac
         public int _MenuCursor { get; set; } public int _Tanks { get; set; } public int _Lives { get; set; }
 
         public SaveState(int X = 1, int Y = 1, float XF = 1, float YF = 1,
-                         int CameraViewX = 0, int CameraViewY = 0, int Camera1X = 0, int Camera1Y = 0, int Camera2X = 0, int Camera2Y = 0,
-                         int MarisaHP = 28, int AliceHP = 28, short Character = 0, int CharacterWeapon = 0, short CharacterSprite = 0,
-                         int BroomAmmo = 112, int BroomFlag = 255, int CirnoAmmo = 112, int CirnoFlag = 255,
-                         int DollAmmo = 112, int DollFlag = 255, int EirinAmmo = 112, int EirinFlag = 255,
-                         int ReimuAmmo = 112, int ReimuFlag = 255, int ReisenAmmo = 112, int ReisenFlag = 255,
-                         int RemiliaAmmo = 112, int RemiliaFlag = 255, int SakuyaAmmo = 112, int SakuyaFlag = 255,
-                         int YoumuAmmo = 112, int YoumuFlag = 255, int YuyukoAmmo = 112, int YuyukoFlag = 255,
-                         int MenuCursor = 0, int Tanks = 0, int Lives = 0)
+                            int CameraViewX = 0, int CameraViewY = 0, int Camera1X = 0, int Camera1Y = 0, int Camera2X = 0, int Camera2Y = 0,
+                            int MarisaHP = 28, int AliceHP = 28, short Character = 0, int CharacterWeapon = 0, short CharacterSprite = 0,
+                            int BroomAmmo = 112, int BroomFlag = 255, int CirnoAmmo = 112, int CirnoFlag = 255,
+                            int DollAmmo = 112, int DollFlag = 255, int EirinAmmo = 112, int EirinFlag = 255,
+                            int ReimuAmmo = 112, int ReimuFlag = 255, int ReisenAmmo = 112, int ReisenFlag = 255,
+                            int RemiliaAmmo = 112, int RemiliaFlag = 255, int SakuyaAmmo = 112, int SakuyaFlag = 255,
+                            int YoumuAmmo = 112, int YoumuFlag = 255, int YuyukoAmmo = 112, int YuyukoFlag = 255,
+                            int MenuCursor = 0, int Tanks = 0, int Lives = 0)
         {
             _X = X; _Y = Y; _XF = XF; _YF = YF;
             _CameraViewX = CameraViewX; _CameraViewY = CameraViewY;
@@ -78,15 +75,15 @@ namespace MegaMariPrac
         public override string ToString()
         {
             return _XF.ToString("0.000") + "," + _YF.ToString("0.000") + "," + _X + "," + _Y + "," +
-                   _CameraViewX + "," + _CameraViewY + "," +
-                   _Camera1X + "," + _Camera1Y + "," + _Camera2X + "," + _Camera2Y + "," +
-                   _MarisaHP + "," + _AliceHP + "," + _Character + "," + _CharacterWeapon + "," + _CharacterSprite + "," +
-                   _BroomAmmo + "," + _BroomFlag + "," + _CirnoAmmo + "," + _CirnoFlag + "," +
-                   _DollAmmo + "," + _DollFlag + "," + _EirinAmmo + "," + _EirinFlag + "," +
-                   _ReimuAmmo + "," + _ReimuFlag + "," + _ReisenAmmo + "," + _ReisenFlag + "," +
-                   _RemiliaAmmo + "," + _RemiliaFlag + "," + _SakuyaAmmo + "," + _SakuyaFlag + "," +
-                   _YoumuAmmo + "," + _YoumuFlag + "," + _YuyukoAmmo + "," + _YuyukoFlag + "," +
-                   _MenuCursor + "," + _Tanks + "," + _Lives;
+                    _CameraViewX + "," + _CameraViewY + "," +
+                    _Camera1X + "," + _Camera1Y + "," + _Camera2X + "," + _Camera2Y + "," +
+                    _MarisaHP + "," + _AliceHP + "," + _Character + "," + _CharacterWeapon + "," + _CharacterSprite + "," +
+                    _BroomAmmo + "," + _BroomFlag + "," + _CirnoAmmo + "," + _CirnoFlag + "," +
+                    _DollAmmo + "," + _DollFlag + "," + _EirinAmmo + "," + _EirinFlag + "," +
+                    _ReimuAmmo + "," + _ReimuFlag + "," + _ReisenAmmo + "," + _ReisenFlag + "," +
+                    _RemiliaAmmo + "," + _RemiliaFlag + "," + _SakuyaAmmo + "," + _SakuyaFlag + "," +
+                    _YoumuAmmo + "," + _YoumuFlag + "," + _YuyukoAmmo + "," + _YuyukoFlag + "," +
+                    _MenuCursor + "," + _Tanks + "," + _Lives;
         }
     }
 }

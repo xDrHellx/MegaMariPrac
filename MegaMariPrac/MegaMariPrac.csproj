@@ -64,19 +64,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutBox.cs">
+    <Compile Include="About\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AboutBox.Designer.cs">
+    <Compile Include="About\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="HotkeyDialog.cs">
+    <Compile Include="Hotkeys\HotkeyDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HotkeyDialog.Designer.cs">
+    <Compile Include="Hotkeys\HotkeyDialog.Designer.cs">
       <DependentUpon>HotkeyDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="KeyboardKeys.cs" />
+    <Compile Include="Hotkeys\KeyboardKeys.cs" />
+    <Compile Include="SaveStates\SaveState.cs" />
+    <Compile Include="SaveStates\SaveStateName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaveStates\SaveStateName.Designer.cs">
+      <DependentUpon>SaveStateName.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,17 +93,10 @@
     <Compile Include="ProcessMemory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SaveState.cs" />
-    <Compile Include="SaveStateName.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SaveStateName.Designer.cs">
-      <DependentUpon>SaveStateName.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="AboutBox.resx">
+    <EmbeddedResource Include="About\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HotkeyDialog.resx">
+    <EmbeddedResource Include="Hotkeys\HotkeyDialog.resx">
       <DependentUpon>HotkeyDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
@@ -112,7 +112,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="SaveStateName.resx">
+    <EmbeddedResource Include="SaveStates\SaveStateName.resx">
       <DependentUpon>SaveStateName.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">

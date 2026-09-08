@@ -1,4 +1,4 @@
-﻿namespace MegaMariPrac
+﻿namespace MegaMariPrac.About
 {
     partial class AboutBox
     {

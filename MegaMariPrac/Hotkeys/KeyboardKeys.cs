@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MegaMariPrac
+namespace MegaMariPrac.Hotkeys
 {
     internal class KeyboardKeys
     {

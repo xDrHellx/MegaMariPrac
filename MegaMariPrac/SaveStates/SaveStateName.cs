@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace MegaMariPrac
+namespace MegaMariPrac.SaveStates
 {
     public partial class SaveStateName : Form
     {

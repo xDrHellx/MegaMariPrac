@@ -7,6 +7,10 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
+using MegaMariPrac.About;
+using MegaMariPrac.Hotkeys;
+using MegaMariPrac.SaveStates;
+
 namespace MegaMariPrac
 {
     public partial class MainForm : Form

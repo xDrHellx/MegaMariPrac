@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace MegaMariPrac
+namespace MegaMariPrac.Hotkeys
 {
     public partial class HotkeyDialog : Form
     {

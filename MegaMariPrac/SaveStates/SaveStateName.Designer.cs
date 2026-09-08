@@ -1,4 +1,4 @@
-﻿namespace MegaMariPrac
+﻿namespace MegaMariPrac.SaveStates
 {
     partial class SaveStateName
     {
