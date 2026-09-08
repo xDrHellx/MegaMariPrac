@@ -17,8 +17,10 @@ namespace MegaMariPrac.Utils
         /// <param name="control">Control instance if the element is to be attached to it directly</param>
         /// <param name="textAlignment">Text alignment, by default "MiddleLeft" (see System.Drawing.ContentAlignment for possible values)</param>
         /// <returns><c>Label</c>Instance</returns>
-        public static Label CreateLabel(string name, string text, Point position, Size size, Font font, bool autoSize = true, Control control = null, string textAlignment = "MiddleLeft") {
-            Label lbl = new Label() {
+        public static Label CreateLabel(string name, string text, Point position, Size size, Font font, bool autoSize = true, Control control = null, string textAlignment = "MiddleLeft")
+        {
+            Label lbl = new Label()
+            {
                 Name = name,
                 Text = text,
                 Location = position,
@@ -44,8 +46,10 @@ namespace MegaMariPrac.Utils
         /// <param name="textAlignment">Text alignment, by default "MiddleLeft" (see System.Drawing.ContentAlignment for possible values)</param>
         /// <param name="enabled">True if it should be enabled (True by default)</param>
         /// <returns><c>Button</c>Instance</returns>
-        public static Button CreateButton(string name, string text, Point position, Size size, Font font, bool autoSize = true, Control control = null, string textAlignment = "MiddleLeft", bool enabled = true) {
-            Button btn = new Button() {
+        public static Button CreateButton(string name, string text, Point position, Size size, Font font, bool autoSize = true, Control control = null, string textAlignment = "MiddleLeft", bool enabled = true)
+        {
+            Button btn = new Button()
+            {
                 Name = name,
                 Text = text,
                 Location = position,
@@ -60,6 +64,55 @@ namespace MegaMariPrac.Utils
             return btn;
         }
 
+        /// <summary>Simplified method for creating a GroupBox</summary>
+        /// <param name="name">Field name</param>
+        /// <param name="text">Field text</param>
+        /// <param name="position">Position</param>
+        /// <param name="size">Size</param>
+        /// <param name="font">Font</params>
+        /// <param name="control">Control instance if the element is to be attached to it directly</param>
+        /// <returns><c>GroupBox</c>Instance</returns>
+        public static GroupBox CreateGroupBox(string name, string text, Point position, Size size, Font font, Control control = null)
+        {
+            GroupBox checkGroupBox = new GroupBox()
+            {
+                Name = name,
+                Text = text,
+                Location = position,
+                Size = size,
+                Font = font
+            };
+
+            // If a Control instance is passed, add the generated element to it
+            control?.Controls.Add(checkGroupBox);
+            return checkGroupBox;
+        }
+
+        /// <summary>Simplified method for creating a PictureBox</summary>
+        /// <param name="name">PictureBox name</param>
+        /// <param name="image">PictureBox image</param>
+        /// <param name="position">Position</param>
+        /// <param name="size">Size</param>
+        /// <param name="control"></param>
+        /// <param name="sizeMode">SizeMode, by default "AutoSize" (see System.Windows.Forms.PictureBoxSizeMode for possible values)</param>
+        /// <param name="enabled">True if it should be enabled (True by default)</param>
+        /// <returns><c>PictureBox</c>Instance</returns>
+        public static PictureBox CreatePictureBox(string name, Image image, Point position, Size size, Control control = null, string sizeMode = "AutoSize", bool enabled = true)
+        {
+            PictureBox pictureBox = new PictureBox()
+            {
+                Name = name,
+                Image = image,
+                Location = position,
+                Size = size,
+                SizeMode = GetSizeMode(sizeMode),
+                Enabled = enabled
+            };
+
+            control?.Controls.Add(pictureBox);
+            return pictureBox;
+        }
+
         /// <summary>Simplified method for creating a StatusStrip</summary>
         /// <param name="name">Name</param>
         /// <param name="text">Text</param>
@@ -68,8 +121,10 @@ namespace MegaMariPrac.Utils
         /// <param name="sizingGrip">SizingGrip (False by default)</params>
         /// <param name="control">Control instance if the element is to be attached to it directly</param>
         /// <returns><c>StatusStrip</c>Instance</returns>
-        public static StatusStrip CreateToolStatusStrip(string name, string text, Point position, Size size, bool sizingGrip = false, Control control = null) {
-            StatusStrip strip = new StatusStrip() {
+        public static StatusStrip CreateToolStatusStrip(string name, string text, Point position, Size size, bool sizingGrip = false, Control control = null)
+        {
+            StatusStrip strip = new StatusStrip()
+            {
                 Name = name,
                 Text = text,
                 Location = position,
@@ -87,8 +142,10 @@ namespace MegaMariPrac.Utils
         /// <param name="text">Text</param>
         /// <param name="toolTipText">Text on hover / tooltip</param>
         /// <returns><c>ToolStripStatusLabel</c>Instance</returns>
-        public static ToolStripStatusLabel CreateToolStripStatusLabel(string name, string text, Size size, string toolTipText = "") {
-            return new ToolStripStatusLabel() {
+        public static ToolStripStatusLabel CreateToolStripStatusLabel(string name, string text, Size size, string toolTipText = "")
+        {
+            return new ToolStripStatusLabel()
+            {
                 Name = name,
                 Text = text,
                 Size = size,
@@ -104,8 +161,10 @@ namespace MegaMariPrac.Utils
         /// <summary>Get the corresponding text alignment based on a string</summary>
         /// <param name="value">Text alignment string</param>
         /// <returns><c>System.Drawing.ContentAlignment</c>Text alignment object</returns>
-        private static ContentAlignment GetTextAlignment(string value) {
-            switch (value) {
+        private static ContentAlignment GetTextAlignment(string value)
+        {
+            switch (value)
+            {
                 case "BottomCenter":    return ContentAlignment.BottomCenter;
                 case "BottomLeft":      return ContentAlignment.BottomLeft;
                 case "BottomRight":     return ContentAlignment.BottomRight;
@@ -116,6 +175,26 @@ namespace MegaMariPrac.Utils
                 case "TopRight":        return ContentAlignment.TopRight;
                 default:                return ContentAlignment.MiddleCenter;
             };
+        }
+
+        /// <summary>Get the corresponding PictureBoxSizeMode based on a string</summary>
+        /// <param name="value">SizeMode string</param>
+        /// <returns><c>System.Windows.Forms.PictureBoxSizeMode</c>SizeMode object</returns>
+        private static PictureBoxSizeMode GetSizeMode(string value)
+        {
+            switch (value)
+            {
+                case "CenterImage":     return PictureBoxSizeMode.CenterImage;
+                case "Normal":          return PictureBoxSizeMode.Normal;
+                case "StretchImage":    return PictureBoxSizeMode.StretchImage;
+                case "Zoom":            return PictureBoxSizeMode.Zoom;
+                default:                return PictureBoxSizeMode.AutoSize;
+            };
+        }
+
+        public static Bitmap GetResourceImage(string name)
+        {
+            return name != "" ? (Bitmap)global::MegaMariPrac.Properties.Resources.ResourceManager.GetObject(name) : null;
         }
 
         #endregion
