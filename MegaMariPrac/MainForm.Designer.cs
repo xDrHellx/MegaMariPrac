@@ -45,7 +45,11 @@ namespace MegaMariPrac
             this.labelStatus.BackColor = this.labelStatus.ForeColor = SystemColors.Control;
 
 
-            this.groupCoordinates = new GroupBox();
+            this.groupCoordinates = WinFormHelpers.CreateGroupBox("groupCoordinates", "Coordinates/Values", new Point(199, 27), new Size(241, 93), grpFont, this);
+            this.groupCoordinates.Anchor = topRightAnchor;
+            this.groupCoordinates.TabIndex = 17;
+            this.groupCoordinates.TabStop = false;
+
 
 
 
@@ -79,18 +83,17 @@ namespace MegaMariPrac
 
 
 
-            font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2 = WinFormHelpers.CreateLabel("label2", "Stored:", new Point(7, 4), new Size(41, 13), font, control: groupCoordinates);
+            this.label2 = WinFormHelpers.CreateLabel("label2", "Stored:", new Point(7, 4), new Size(41, 13), grpFont, control: groupCoordinates);
             this.label2.TabIndex = 10;
 
-            this.label1 = WinFormHelpers.CreateLabel("label1", "Coord:", new Point(7, 24), new Size(38, 13), font, control: groupCoordinates);
+            this.label1 = WinFormHelpers.CreateLabel("label1", "Coord:", new Point(7, 24), new Size(38, 13), grpFont, control: groupCoordinates);
             this.label1.TabIndex = 7;
 
-            this.labelY = WinFormHelpers.CreateLabel("labelY", "Y: 0", new Point(142, 25), new Size(30, 13), font, control: groupCoordinates);
+            this.labelY = WinFormHelpers.CreateLabel("labelY", "Y: 0", new Point(142, 25), new Size(30, 13), grpFont, control: groupCoordinates);
             this.labelY.ForeColor = Color.Red;
             this.labelY.TabIndex = 6;
 
-            this.labelX = WinFormHelpers.CreateLabel("labelX", "X: 0", new Point(50, 25), new Size(30, 13), font, control: groupCoordinates);
+            this.labelX = WinFormHelpers.CreateLabel("labelX", "X: 0", new Point(50, 25), new Size(30, 13), grpFont, control: groupCoordinates);
             this.labelX.ForeColor = Color.Blue;
             this.labelX.TabIndex = 5;
 
@@ -98,7 +101,12 @@ namespace MegaMariPrac
 
 
 
-            this.groupSaves = new GroupBox();
+            this.groupSaves = WinFormHelpers.CreateGroupBox("groupSaves", "Save states", new Point(199, 126), new Size(241, 76), grpFont, this);
+            this.groupSaves.Anchor = topRightAnchor;
+            this.groupSaves.Font = grpFont;
+            this.groupSaves.TabIndex = 35;
+            this.groupSaves.TabStop = false;
+            this.groupSaves.Controls.Add(this.comboSaves);
 
 
             this.buttonDelete = WinFormHelpers.CreateButton("buttonDelete", "Delete", new Point(123, 21), new Size(112, 19), btnFont, control: groupSaves, enabled: false);
@@ -134,13 +142,16 @@ namespace MegaMariPrac
 
 
 
+            this.groupGeneral = WinFormHelpers.CreateGroupBox("groupGeneral", "General", new Point(12, 27), new Size(177, 160), grpFont, this);
+            this.groupGeneral.TabIndex = 41;
+            this.groupGeneral.TabStop = false;
 
 
-
-
-
-            this.groupGeneral = new GroupBox();
-            this.tankBox4 = new PictureBox();
+            this.tankBox4 = WinFormHelpers.CreatePictureBox("tankBox4", global::MegaMariPrac.Properties.Resources.tank_off, new Point(144, 222), new Size(27, 31), groupGeneral, enabled: false);
+            this.tankBox4.InitialImage = null;
+            this.tankBox4.TabIndex = 52;
+            this.tankBox4.TabStop = false;
+            this.tankBox4.MouseDown += new MouseEventHandler(this.tankBox_Click);
 
             
             this.buttonCheckpoint = WinFormHelpers.CreateButton("buttonCheckPoint", "Checkpoint", new Point(86, 192), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
@@ -148,11 +159,31 @@ namespace MegaMariPrac
             this.buttonCheckpoint.UseVisualStyleBackColor = true;
             this.buttonCheckpoint.Click += new System.EventHandler(this.buttonCheckpoint_Click);
 
-            this.tankBox3 = new PictureBox();
+            this.tankBox3 = WinFormHelpers.CreatePictureBox("tankBox3", global::MegaMariPrac.Properties.Resources.tank_off, new Point(98, 222), new Size(27, 31), groupGeneral, enabled: false);
+            this.tankBox3.InitialImage = null;
+            this.tankBox3.TabIndex = 51;
+            this.tankBox3.TabStop = false;
+            this.tankBox3.MouseDown += new MouseEventHandler(this.tankBox_Click);
+
             this.checkFreezeAll = new CheckBox();
-            this.tankBox2 = new PictureBox();
+
+
+            this.tankBox2 = WinFormHelpers.CreatePictureBox("tankBox2", global::MegaMariPrac.Properties.Resources.tank_off, new Point(52, 222), new Size(27, 31), groupGeneral, enabled: false);
+            this.tankBox2.InitialImage = null;
+            this.tankBox2.TabIndex = 50;
+            this.tankBox2.TabStop = false;
+            this.tankBox2.MouseDown += new MouseEventHandler(this.tankBox_Click);
+
             this.checkIframes = new CheckBox();
-            this.tankBox1 = new PictureBox();
+
+
+            this.tankBox1 = WinFormHelpers.CreatePictureBox("tankBox1", global::MegaMariPrac.Properties.Resources.tank_off, new Point(6, 222), new Size(27, 31), groupGeneral, enabled: false);
+            this.tankBox1.InitialImage = null;
+            this.tankBox1.TabIndex = 49;
+            this.tankBox1.TabStop = false;
+            this.tankBox1.MouseDown += new MouseEventHandler(this.tankBox_Click);
+
+
             this.weaponCheckDoll = new CheckBox();
             this.weaponCheckRemilia = new CheckBox();
 
@@ -188,17 +219,28 @@ namespace MegaMariPrac
             this.weaponCheckReimu = new CheckBox();
             this.checkLives = new CheckBox();
             this.weaponCheckBroom = new CheckBox();
-            this.weaponBoxEirin = new PictureBox();
-            this.weaponBoxSakuya = new PictureBox();
-            this.weaponBoxReisen = new PictureBox();
-            this.weaponBoxDoll = new PictureBox();
-            this.weaponBoxRemilia = new PictureBox();
-            this.weaponBoxYuyuko = new PictureBox();
-            this.weaponBoxCirno = new PictureBox();
-            this.weaponBoxYoumu = new PictureBox();
-            this.weaponBoxBroom = new PictureBox();
-            this.weaponBoxReimu = new PictureBox();
-            this.groupWarp = new GroupBox();
+
+            // Set params & click events for each weapon PictureBox
+            SetWeaponBox(this.weaponBoxEirin, "eirin", new Point(42, 186), 10);
+            SetWeaponBox(this.weaponBoxSakuya, "sakuya", new Point(42, 150), 9);
+            SetWeaponBox(this.weaponBoxReisen, "reisen", new Point(42, 114), 8);
+            SetWeaponBox(this.weaponBoxDoll, "doll", new Point(42, 42), 7);
+            SetWeaponBox(this.weaponBoxRemilia, "remilia", new Point(42, 78), 6);
+            SetWeaponBox(this.weaponBoxYuyuko, "yuyuko", new Point(6, 186), 4);
+            SetWeaponBox(this.weaponBoxCirno, "cirno", new Point(6, 150), 3);
+            SetWeaponBox(this.weaponBoxYoumu, "youmu", new Point(6, 114), 2);
+            SetWeaponBox(this.weaponBoxBroom, "broom", new Point(6, 42), 1);
+            SetWeaponBox(this.weaponBoxReimu, "reimu", new Point(6, 78), 0);
+
+            this.groupWarp = WinFormHelpers.CreateGroupBox("groupWarp", "Level warp", new Point(199, 208), new Size(241, 44), grpFont, this);
+            this.groupWarp.Anchor = topRightAnchor;
+            this.groupWarp.TabIndex = 43;
+            this.groupWarp.TabStop = false;
+            this.groupWarp.Controls.Add(this.checkEarlyBroom);
+            this.groupWarp.Controls.Add(this.comboWarp);
+
+
+
             this.checkEarlyBroom = new CheckBox();
 
 
@@ -255,39 +297,12 @@ namespace MegaMariPrac
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupCoordinates
-            // 
-            this.groupCoordinates.Anchor = topRightAnchor;
-            
-            
-            this.groupCoordinates.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupCoordinates.Location = new System.Drawing.Point(199, 27);
-            this.groupCoordinates.Name = "groupCoordinates";
-            this.groupCoordinates.Size = new System.Drawing.Size(241, 93);
-            this.groupCoordinates.TabIndex = 17;
-            this.groupCoordinates.TabStop = false;
-            this.groupCoordinates.Text = "Coordinates/Values";
-            // 
-            // groupSaves
-            // 
-            this.groupSaves.Anchor = topRightAnchor;
-            
-            this.groupSaves.Controls.Add(this.comboSaves);
-            
-            this.groupSaves.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupSaves.Location = new System.Drawing.Point(199, 126);
-            this.groupSaves.Name = "groupSaves";
-            this.groupSaves.Size = new System.Drawing.Size(241, 76);
-            this.groupSaves.TabIndex = 35;
-            this.groupSaves.TabStop = false;
-            this.groupSaves.Text = "Save states";
-            // 
             // comboSaves
             // 
             this.comboSaves.DisplayMember = "(none)";
             this.comboSaves.DropDownStyle = ComboBoxStyle.DropDownList;
             this.comboSaves.Enabled = false;
-            this.comboSaves.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboSaves.Font = grpFont;
             this.comboSaves.FormattingEnabled = true;
             this.comboSaves.Location = new System.Drawing.Point(6, 46);
             this.comboSaves.Name = "comboSaves";
@@ -297,68 +312,11 @@ namespace MegaMariPrac
             // 
             // groupGeneral
             // 
-            this.groupGeneral.Controls.Add(this.tankBox4);
-            
-            this.groupGeneral.Controls.Add(this.tankBox3);
             this.groupGeneral.Controls.Add(this.checkFreezeAll);
-            this.groupGeneral.Controls.Add(this.tankBox2);
             this.groupGeneral.Controls.Add(this.checkIframes);
-            this.groupGeneral.Controls.Add(this.tankBox1);
-            this.groupGeneral.Controls.Add(this.weaponCheckDoll);
-            this.groupGeneral.Controls.Add(this.weaponCheckRemilia);
-            
-            this.groupGeneral.Controls.Add(this.weaponCheckReisen);
-            this.groupGeneral.Controls.Add(this.weaponCheckSakuya);
-            
-            this.groupGeneral.Controls.Add(this.weaponCheckEirin);
-            this.groupGeneral.Controls.Add(this.weaponCheckYuyuko);
-            this.groupGeneral.Controls.Add(this.checkHealth);
-            this.groupGeneral.Controls.Add(this.weaponCheckCirno);
-            
-            this.groupGeneral.Controls.Add(this.weaponCheckYoumu);
-            this.groupGeneral.Controls.Add(this.weaponCheckReimu);
             this.groupGeneral.Controls.Add(this.checkLives);
-            this.groupGeneral.Controls.Add(this.weaponCheckBroom);
-            this.groupGeneral.Controls.Add(this.weaponBoxEirin);
-            this.groupGeneral.Controls.Add(this.weaponBoxSakuya);
-            this.groupGeneral.Controls.Add(this.weaponBoxReisen);
-            this.groupGeneral.Controls.Add(this.weaponBoxDoll);
-            this.groupGeneral.Controls.Add(this.weaponBoxRemilia);
-            this.groupGeneral.Controls.Add(this.weaponBoxYuyuko);
-            this.groupGeneral.Controls.Add(this.weaponBoxCirno);
-            this.groupGeneral.Controls.Add(this.weaponBoxYoumu);
-            this.groupGeneral.Controls.Add(this.weaponBoxBroom);
-            this.groupGeneral.Controls.Add(this.weaponBoxReimu);
-            this.groupGeneral.Location = new System.Drawing.Point(12, 27);
-            this.groupGeneral.Name = "groupGeneral";
-            this.groupGeneral.Size = new System.Drawing.Size(177, 260);
-            this.groupGeneral.TabIndex = 41;
-            this.groupGeneral.TabStop = false;
-            this.groupGeneral.Text = "General";
-            // 
-            // tankBox4
-            // 
-            this.tankBox4.Enabled = false;
-            this.tankBox4.Image = global::MegaMariPrac.Properties.Resources.tank_off;
-            this.tankBox4.InitialImage = null;
-            this.tankBox4.Location = new System.Drawing.Point(144, 222);
-            this.tankBox4.Name = "tankBox4";
-            this.tankBox4.Size = new System.Drawing.Size(27, 31);
-            this.tankBox4.TabIndex = 52;
-            this.tankBox4.TabStop = false;
-            this.tankBox4.MouseDown += new MouseEventHandler(this.tankBox_Click);
-            // 
-            // tankBox3
-            // 
-            this.tankBox3.Enabled = false;
-            this.tankBox3.Image = global::MegaMariPrac.Properties.Resources.tank_off;
-            this.tankBox3.InitialImage = null;
-            this.tankBox3.Location = new System.Drawing.Point(98, 222);
-            this.tankBox3.Name = "tankBox3";
-            this.tankBox3.Size = new System.Drawing.Size(27, 31);
-            this.tankBox3.TabIndex = 51;
-            this.tankBox3.TabStop = false;
-            this.tankBox3.MouseDown += new MouseEventHandler(this.tankBox_Click);
+
+
             // 
             // checkFreezeAll
             // 
@@ -373,18 +331,6 @@ namespace MegaMariPrac
             this.checkFreezeAll.UseVisualStyleBackColor = true;
             this.checkFreezeAll.CheckedChanged += new System.EventHandler(this.checkFreezeAll_CheckedChanged);
             // 
-            // tankBox2
-            // 
-            this.tankBox2.Enabled = false;
-            this.tankBox2.Image = global::MegaMariPrac.Properties.Resources.tank_off;
-            this.tankBox2.InitialImage = null;
-            this.tankBox2.Location = new System.Drawing.Point(52, 222);
-            this.tankBox2.Name = "tankBox2";
-            this.tankBox2.Size = new System.Drawing.Size(27, 31);
-            this.tankBox2.TabIndex = 50;
-            this.tankBox2.TabStop = false;
-            this.tankBox2.MouseDown += new MouseEventHandler(this.tankBox_Click);
-            // 
             // checkIframes
             // 
             this.checkIframes.AutoSize = true;
@@ -395,138 +341,6 @@ namespace MegaMariPrac
             this.checkIframes.TabIndex = 14;
             this.checkIframes.Text = "Infinite iframes";
             this.checkIframes.UseVisualStyleBackColor = true;
-            // 
-            // tankBox1
-            // 
-            this.tankBox1.Enabled = false;
-            this.tankBox1.Image = global::MegaMariPrac.Properties.Resources.tank_off;
-            this.tankBox1.InitialImage = null;
-            this.tankBox1.Location = new System.Drawing.Point(6, 222);
-            this.tankBox1.Name = "tankBox1";
-            this.tankBox1.Size = new System.Drawing.Size(27, 31);
-            this.tankBox1.TabIndex = 49;
-            this.tankBox1.TabStop = false;
-            this.tankBox1.MouseDown += new MouseEventHandler(this.tankBox_Click);
-            // 
-            // weaponCheckDoll
-            // 
-            this.weaponCheckDoll.AutoSize = true;
-            this.weaponCheckDoll.Enabled = false;
-            this.weaponCheckDoll.Location = new System.Drawing.Point(57, 58);
-            this.weaponCheckDoll.Name = "weaponCheckDoll";
-            this.weaponCheckDoll.Size = new System.Drawing.Size(15, 14);
-            this.weaponCheckDoll.TabIndex = 22;
-            this.weaponCheckDoll.TabStop = false;
-            this.weaponCheckDoll.UseVisualStyleBackColor = true;
-            // 
-            // weaponCheckRemilia
-            // 
-            this.weaponCheckRemilia.AutoSize = true;
-            this.weaponCheckRemilia.Enabled = false;
-            this.weaponCheckRemilia.Location = new System.Drawing.Point(57, 94);
-            this.weaponCheckRemilia.Name = "weaponCheckRemilia";
-            this.weaponCheckRemilia.Size = new System.Drawing.Size(15, 14);
-            this.weaponCheckRemilia.TabIndex = 21;
-            this.weaponCheckRemilia.UseVisualStyleBackColor = true;
-            // 
-            // weaponCheckReisen
-            // 
-            this.weaponCheckReisen.AutoSize = true;
-            this.weaponCheckReisen.Enabled = false;
-            this.weaponCheckReisen.Location = new System.Drawing.Point(57, 130);
-            this.weaponCheckReisen.Name = "weaponCheckReisen";
-            this.weaponCheckReisen.Size = new System.Drawing.Size(15, 14);
-            this.weaponCheckReisen.TabIndex = 20;
-            this.weaponCheckReisen.TabStop = false;
-            this.weaponCheckReisen.UseVisualStyleBackColor = true;
-            // 
-            // weaponCheckSakuya
-            // 
-            this.weaponCheckSakuya.AutoSize = true;
-            this.weaponCheckSakuya.Enabled = false;
-            this.weaponCheckSakuya.Location = new System.Drawing.Point(57, 166);
-            this.weaponCheckSakuya.Name = "weaponCheckSakuya";
-            this.weaponCheckSakuya.Size = new System.Drawing.Size(15, 14);
-            this.weaponCheckSakuya.TabIndex = 19;
-            this.weaponCheckSakuya.TabStop = false;
-            this.weaponCheckSakuya.UseVisualStyleBackColor = true;
-            // 
-            // weaponCheckEirin
-            // 
-            this.weaponCheckEirin.AutoSize = true;
-            this.weaponCheckEirin.Enabled = false;
-            this.weaponCheckEirin.Location = new System.Drawing.Point(57, 202);
-            this.weaponCheckEirin.Name = "weaponCheckEirin";
-            this.weaponCheckEirin.Size = new System.Drawing.Size(15, 14);
-            this.weaponCheckEirin.TabIndex = 18;
-            this.weaponCheckEirin.TabStop = false;
-            this.weaponCheckEirin.UseVisualStyleBackColor = true;
-            // 
-            // weaponCheckYuyuko
-            // 
-            this.weaponCheckYuyuko.AutoSize = true;
-            this.weaponCheckYuyuko.Enabled = false;
-            this.weaponCheckYuyuko.Location = new System.Drawing.Point(21, 202);
-            this.weaponCheckYuyuko.Name = "weaponCheckYuyuko";
-            this.weaponCheckYuyuko.Size = new System.Drawing.Size(15, 14);
-            this.weaponCheckYuyuko.TabIndex = 15;
-            this.weaponCheckYuyuko.TabStop = false;
-            this.weaponCheckYuyuko.UseVisualStyleBackColor = true;
-            // 
-            // checkHealth
-            // 
-            this.checkHealth.AutoSize = true;
-            this.checkHealth.Enabled = false;
-            this.checkHealth.Location = new System.Drawing.Point(83, 19);
-            this.checkHealth.Name = "checkHealth";
-            this.checkHealth.Size = new System.Drawing.Size(89, 17);
-            this.checkHealth.TabIndex = 5;
-            this.checkHealth.Text = "Infinite health";
-            this.checkHealth.UseVisualStyleBackColor = true;
-            // 
-            // weaponCheckCirno
-            // 
-            this.weaponCheckCirno.AutoSize = true;
-            this.weaponCheckCirno.Enabled = false;
-            this.weaponCheckCirno.Location = new System.Drawing.Point(21, 166);
-            this.weaponCheckCirno.Name = "weaponCheckCirno";
-            this.weaponCheckCirno.Size = new System.Drawing.Size(15, 14);
-            this.weaponCheckCirno.TabIndex = 14;
-            this.weaponCheckCirno.TabStop = false;
-            this.weaponCheckCirno.UseVisualStyleBackColor = true;
-            // 
-            // weaponCheckYoumu
-            // 
-            this.weaponCheckYoumu.AutoSize = true;
-            this.weaponCheckYoumu.Enabled = false;
-            this.weaponCheckYoumu.Location = new System.Drawing.Point(21, 130);
-            this.weaponCheckYoumu.Name = "weaponCheckYoumu";
-            this.weaponCheckYoumu.Size = new System.Drawing.Size(15, 14);
-            this.weaponCheckYoumu.TabIndex = 13;
-            this.weaponCheckYoumu.TabStop = false;
-            this.weaponCheckYoumu.UseVisualStyleBackColor = true;
-            // 
-            // weaponCheckReimu
-            // 
-            this.weaponCheckReimu.AutoSize = true;
-            this.weaponCheckReimu.Enabled = false;
-            this.weaponCheckReimu.Location = new System.Drawing.Point(21, 94);
-            this.weaponCheckReimu.Name = "weaponCheckReimu";
-            this.weaponCheckReimu.Size = new System.Drawing.Size(15, 14);
-            this.weaponCheckReimu.TabIndex = 12;
-            this.weaponCheckReimu.TabStop = false;
-            this.weaponCheckReimu.UseVisualStyleBackColor = true;
-            // 
-            // checkLives
-            // 
-            this.checkLives.AutoSize = true;
-            this.checkLives.Enabled = false;
-            this.checkLives.Location = new System.Drawing.Point(83, 39);
-            this.checkLives.Name = "checkLives";
-            this.checkLives.Size = new System.Drawing.Size(81, 17);
-            this.checkLives.TabIndex = 9;
-            this.checkLives.Text = "Infinite lives";
-            this.checkLives.UseVisualStyleBackColor = true;
             // 
             // weaponCheckBroom
             // 
@@ -540,130 +354,28 @@ namespace MegaMariPrac
             this.weaponCheckBroom.TabStop = false;
             this.weaponCheckBroom.UseVisualStyleBackColor = false;
             // 
-            // weaponBoxEirin
+            // checkHealth
             // 
-            this.weaponBoxEirin.Enabled = false;
-            this.weaponBoxEirin.Image = global::MegaMariPrac.Properties.Resources.eirin_off;
-            this.weaponBoxEirin.Location = new System.Drawing.Point(42, 186);
-            this.weaponBoxEirin.Name = "weaponBoxEirin";
-            this.weaponBoxEirin.Size = new System.Drawing.Size(30, 30);
-            this.weaponBoxEirin.TabIndex = 10;
-            this.weaponBoxEirin.TabStop = false;
-            this.weaponBoxEirin.MouseDown += new MouseEventHandler(this.weaponBox_Click);
+            this.checkHealth.AutoSize = true;
+            this.checkHealth.Enabled = false;
+            this.checkHealth.Location = new System.Drawing.Point(83, 19);
+            this.checkHealth.Name = "checkHealth";
+            this.checkHealth.Size = new System.Drawing.Size(89, 17);
+            this.checkHealth.TabIndex = 5;
+            this.checkHealth.Text = "Infinite health";
+            this.checkHealth.UseVisualStyleBackColor = true;
+
             // 
-            // weaponBoxSakuya
+            // checkLives
             // 
-            this.weaponBoxSakuya.Enabled = false;
-            this.weaponBoxSakuya.Image = global::MegaMariPrac.Properties.Resources.sakuya_off;
-            this.weaponBoxSakuya.Location = new System.Drawing.Point(42, 150);
-            this.weaponBoxSakuya.Name = "weaponBoxSakuya";
-            this.weaponBoxSakuya.Size = new System.Drawing.Size(30, 30);
-            this.weaponBoxSakuya.TabIndex = 9;
-            this.weaponBoxSakuya.TabStop = false;
-            this.weaponBoxSakuya.MouseDown += new MouseEventHandler(this.weaponBox_Click);
-            // 
-            // weaponBoxReisen
-            // 
-            this.weaponBoxReisen.Enabled = false;
-            this.weaponBoxReisen.Image = global::MegaMariPrac.Properties.Resources.reisen_off;
-            this.weaponBoxReisen.Location = new System.Drawing.Point(42, 114);
-            this.weaponBoxReisen.Name = "weaponBoxReisen";
-            this.weaponBoxReisen.Size = new System.Drawing.Size(30, 30);
-            this.weaponBoxReisen.TabIndex = 8;
-            this.weaponBoxReisen.TabStop = false;
-            this.weaponBoxReisen.MouseDown += new MouseEventHandler(this.weaponBox_Click);
-            // 
-            // weaponBoxDoll
-            // 
-            this.weaponBoxDoll.Enabled = false;
-            this.weaponBoxDoll.Image = global::MegaMariPrac.Properties.Resources.doll_off;
-            this.weaponBoxDoll.InitialImage = null;
-            this.weaponBoxDoll.Location = new System.Drawing.Point(42, 42);
-            this.weaponBoxDoll.Name = "weaponBoxDoll";
-            this.weaponBoxDoll.Size = new System.Drawing.Size(30, 30);
-            this.weaponBoxDoll.TabIndex = 7;
-            this.weaponBoxDoll.TabStop = false;
-            this.weaponBoxDoll.MouseDown += new MouseEventHandler(this.weaponBox_Click);
-            // 
-            // weaponBoxRemilia
-            // 
-            this.weaponBoxRemilia.Enabled = false;
-            this.weaponBoxRemilia.Image = global::MegaMariPrac.Properties.Resources.remi_off;
-            this.weaponBoxRemilia.Location = new System.Drawing.Point(42, 78);
-            this.weaponBoxRemilia.Name = "weaponBoxRemilia";
-            this.weaponBoxRemilia.Size = new System.Drawing.Size(30, 30);
-            this.weaponBoxRemilia.TabIndex = 6;
-            this.weaponBoxRemilia.TabStop = false;
-            this.weaponBoxRemilia.MouseDown += new MouseEventHandler(this.weaponBox_Click);
-            // 
-            // weaponBoxYuyuko
-            // 
-            this.weaponBoxYuyuko.Enabled = false;
-            this.weaponBoxYuyuko.Image = global::MegaMariPrac.Properties.Resources.yuyuko_off;
-            this.weaponBoxYuyuko.Location = new System.Drawing.Point(6, 186);
-            this.weaponBoxYuyuko.Name = "weaponBoxYuyuko";
-            this.weaponBoxYuyuko.Size = new System.Drawing.Size(30, 30);
-            this.weaponBoxYuyuko.TabIndex = 4;
-            this.weaponBoxYuyuko.TabStop = false;
-            this.weaponBoxYuyuko.MouseDown += new MouseEventHandler(this.weaponBox_Click);
-            // 
-            // weaponBoxCirno
-            // 
-            this.weaponBoxCirno.Enabled = false;
-            this.weaponBoxCirno.Image = global::MegaMariPrac.Properties.Resources.cirno_off;
-            this.weaponBoxCirno.Location = new System.Drawing.Point(6, 150);
-            this.weaponBoxCirno.Name = "weaponBoxCirno";
-            this.weaponBoxCirno.Size = new System.Drawing.Size(30, 30);
-            this.weaponBoxCirno.TabIndex = 3;
-            this.weaponBoxCirno.TabStop = false;
-            this.weaponBoxCirno.MouseDown += new MouseEventHandler(this.weaponBox_Click);
-            // 
-            // weaponBoxYoumu
-            // 
-            this.weaponBoxYoumu.Enabled = false;
-            this.weaponBoxYoumu.Image = global::MegaMariPrac.Properties.Resources.youmu_off;
-            this.weaponBoxYoumu.Location = new System.Drawing.Point(6, 114);
-            this.weaponBoxYoumu.Name = "weaponBoxYoumu";
-            this.weaponBoxYoumu.Size = new System.Drawing.Size(30, 30);
-            this.weaponBoxYoumu.TabIndex = 2;
-            this.weaponBoxYoumu.TabStop = false;
-            this.weaponBoxYoumu.MouseDown += new MouseEventHandler(this.weaponBox_Click);
-            // 
-            // weaponBoxBroom
-            // 
-            this.weaponBoxBroom.Enabled = false;
-            this.weaponBoxBroom.Image = global::MegaMariPrac.Properties.Resources.broom_off;
-            this.weaponBoxBroom.InitialImage = null;
-            this.weaponBoxBroom.Location = new System.Drawing.Point(6, 42);
-            this.weaponBoxBroom.Name = "weaponBoxBroom";
-            this.weaponBoxBroom.Size = new System.Drawing.Size(30, 30);
-            this.weaponBoxBroom.TabIndex = 1;
-            this.weaponBoxBroom.TabStop = false;
-            this.weaponBoxBroom.MouseDown += new MouseEventHandler(this.weaponBox_Click);
-            // 
-            // weaponBoxReimu
-            // 
-            this.weaponBoxReimu.Enabled = false;
-            this.weaponBoxReimu.Image = global::MegaMariPrac.Properties.Resources.reimu_off;
-            this.weaponBoxReimu.Location = new System.Drawing.Point(6, 78);
-            this.weaponBoxReimu.Name = "weaponBoxReimu";
-            this.weaponBoxReimu.Size = new System.Drawing.Size(30, 30);
-            this.weaponBoxReimu.TabIndex = 0;
-            this.weaponBoxReimu.TabStop = false;
-            this.weaponBoxReimu.MouseDown += new MouseEventHandler(this.weaponBox_Click);
-            // 
-            // groupWarp
-            // 
-            this.groupWarp.Anchor = topRightAnchor;
-            this.groupWarp.Controls.Add(this.checkEarlyBroom);
-            
-            this.groupWarp.Controls.Add(this.comboWarp);
-            this.groupWarp.Location = new System.Drawing.Point(199, 208);
-            this.groupWarp.Name = "groupWarp";
-            this.groupWarp.Size = new System.Drawing.Size(241, 44);
-            this.groupWarp.TabIndex = 43;
-            this.groupWarp.TabStop = false;
-            this.groupWarp.Text = "Level warp";
+            this.checkLives.AutoSize = true;
+            this.checkLives.Enabled = false;
+            this.checkLives.Location = new System.Drawing.Point(83, 39);
+            this.checkLives.Name = "checkLives";
+            this.checkLives.Size = new System.Drawing.Size(81, 17);
+            this.checkLives.TabIndex = 9;
+            this.checkLives.Text = "Infinite lives";
+            this.checkLives.UseVisualStyleBackColor = true;
             // 
             // checkEarlyBroom
             // 
@@ -754,13 +466,9 @@ namespace MegaMariPrac
             this.Controls.Add(this.labelBossHp);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.barBossHP);
-            this.Controls.Add(this.groupWarp);
-            this.Controls.Add(this.groupGeneral);
             this.Controls.Add(this.labelLastScreenTime);
             this.Controls.Add(this.labelScreenTime);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.groupSaves);
-            this.Controls.Add(this.groupCoordinates);
             this.Controls.Add(this.menuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
@@ -796,12 +504,38 @@ namespace MegaMariPrac
             this.PerformLayout();
         }
 
+        /// <summary>
+        ///     Set a WeaponBox (PictureBox) parameters.<br/>
+        ///     Also add the Click event to it.
+        /// </summary>
+        /// <param name="instance">PictureBox instance to populate</param>
+        /// <param name="character">Character the WeaponBox is for</param>
+        /// <param name="position">Position</param>
+        /// <param name="tabIndex">TabIndex</param>
+        void SetWeaponBox(PictureBox instance, string character, Point position, int tabIndex)
+        {
+            // Get the character's OFF image
+            character = character.ToLower();
+            Bitmap img = WinFormHelpers.GetResourceImage($"{character}_off");
+            if (img == null)
+            {
+                return;
+            }
+
+            string characterWithUppercase = char.ToUpper(character[0]) + character.Substring(1).ToLower();
+            instance = WinFormHelpers.CreatePictureBox($"weaponBox{characterWithUppercase}", img, position, new Size(30, 30), this, enabled: false);
+            instance.TabIndex = tabIndex;
+            instance.TabStop = false;
+            instance.MouseDown += new MouseEventHandler(this.weaponBox_Click);
+        }
+
         #endregion
 
         #region Properties
 
         AnchorStyles topRightAnchor = ((AnchorStyles.Top | AnchorStyles.Right));
-        Font btnFont = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));        
+        Font btnFont = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0))),
+            grpFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
         private ToolTip toolTip;
         private MenuStrip menuStrip;
         private ToolStripMenuItem hotkeysToolStripMenuItem,
