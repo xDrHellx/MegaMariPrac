@@ -1,15 +1,18 @@
-﻿namespace MegaMariPrac
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+using MegaMariPrac.Utils;
+
+namespace MegaMariPrac
 {
     partial class MainForm
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
+        #region Gen designer code
+
+        /// <summary>Required designer variable.</summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
+        /// <summary>Clean up any resources being used.</summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
@@ -20,79 +23,216 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #endregion
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
+        #region Init
+
+        /// <summary>Required method for Designer support - do not modify the contents of this method with the code editor.</summary>
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.labelStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.groupCoordinates = new System.Windows.Forms.GroupBox();
-            this.labelStoredY = new System.Windows.Forms.Label();
-            this.labelStoredX = new System.Windows.Forms.Label();
-            this.buttonLoad = new System.Windows.Forms.Button();
-            this.buttonStore = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.labelY = new System.Windows.Forms.Label();
-            this.labelX = new System.Windows.Forms.Label();
-            this.groupSaves = new System.Windows.Forms.GroupBox();
-            this.buttonDelete = new System.Windows.Forms.Button();
-            this.comboSaves = new System.Windows.Forms.ComboBox();
-            this.buttonSave = new System.Windows.Forms.Button();
-            this.labelScreenTime = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.labelLastScreenTime = new System.Windows.Forms.Label();
-            this.groupGeneral = new System.Windows.Forms.GroupBox();
-            this.tankBox4 = new System.Windows.Forms.PictureBox();
-            this.buttonCheckpoint = new System.Windows.Forms.Button();
-            this.tankBox3 = new System.Windows.Forms.PictureBox();
-            this.checkFreezeAll = new System.Windows.Forms.CheckBox();
-            this.tankBox2 = new System.Windows.Forms.PictureBox();
-            this.checkIframes = new System.Windows.Forms.CheckBox();
-            this.tankBox1 = new System.Windows.Forms.PictureBox();
-            this.weaponCheckDoll = new System.Windows.Forms.CheckBox();
-            this.weaponCheckRemilia = new System.Windows.Forms.CheckBox();
-            this.buttonWin = new System.Windows.Forms.Button();
-            this.weaponCheckReisen = new System.Windows.Forms.CheckBox();
-            this.weaponCheckSakuya = new System.Windows.Forms.CheckBox();
-            this.buttonGameOver = new System.Windows.Forms.Button();
-            this.weaponCheckEirin = new System.Windows.Forms.CheckBox();
-            this.weaponCheckYuyuko = new System.Windows.Forms.CheckBox();
-            this.checkHealth = new System.Windows.Forms.CheckBox();
-            this.weaponCheckCirno = new System.Windows.Forms.CheckBox();
-            this.buttonDie = new System.Windows.Forms.Button();
-            this.weaponCheckYoumu = new System.Windows.Forms.CheckBox();
-            this.weaponCheckReimu = new System.Windows.Forms.CheckBox();
-            this.checkLives = new System.Windows.Forms.CheckBox();
-            this.weaponCheckBroom = new System.Windows.Forms.CheckBox();
-            this.weaponBoxEirin = new System.Windows.Forms.PictureBox();
-            this.weaponBoxSakuya = new System.Windows.Forms.PictureBox();
-            this.weaponBoxReisen = new System.Windows.Forms.PictureBox();
-            this.weaponBoxDoll = new System.Windows.Forms.PictureBox();
-            this.weaponBoxRemilia = new System.Windows.Forms.PictureBox();
-            this.weaponBoxYuyuko = new System.Windows.Forms.PictureBox();
-            this.weaponBoxCirno = new System.Windows.Forms.PictureBox();
-            this.weaponBoxYoumu = new System.Windows.Forms.PictureBox();
-            this.weaponBoxBroom = new System.Windows.Forms.PictureBox();
-            this.weaponBoxReimu = new System.Windows.Forms.PictureBox();
-            this.groupWarp = new System.Windows.Forms.GroupBox();
-            this.checkEarlyBroom = new System.Windows.Forms.CheckBox();
-            this.buttonWarp = new System.Windows.Forms.Button();
-            this.comboWarp = new System.Windows.Forms.ComboBox();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.applicationFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpAboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.barBossHP = new System.Windows.Forms.ProgressBar();
-            this.label3 = new System.Windows.Forms.Label();
-            this.labelBossHp = new System.Windows.Forms.Label();
+
+
+
+
+            this.statusStrip = WinFormHelpers.CreateToolStatusStrip("statusStrip", "statusStrip1", new Point(0, 293), new Size(451, 22), control: this);
+            this.statusStrip.BackColor = SystemColors.ControlText;
+            this.statusStrip.Items.AddRange(new ToolStripItem[] {this.labelStatus});
+            this.statusStrip.TabIndex = 2;
+
+            this.labelStatus = WinFormHelpers.CreateToolStripStatusLabel("labelStatus", "labelStatus", new Size(64, 17));
+            this.labelStatus.BackColor = this.labelStatus.ForeColor = SystemColors.Control;
+
+
+            this.groupCoordinates = new GroupBox();
+
+
+
+
+            Font font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F);
+            this.labelStoredY = WinFormHelpers.CreateLabel("labelStoredY", "Y: 0", new Point(143, 44), new Size(26, 13), font, control: groupCoordinates);
+            this.labelStoredY.ForeColor = Color.Red;
+            this.labelStoredY.TabIndex = 28;
+
+            this.labelStoredX = WinFormHelpers.CreateLabel("labelStoredX", "X: 0", new Point(51, 44), new Size(26, 13), font, control: groupCoordinates);
+            this.labelStoredX.ForeColor = Color.Blue;
+            this.labelStoredX.TabIndex = 27;
+
+            this.buttonLoad = WinFormHelpers.CreateButton("buttonLoad", "Load", new Point(123, 66), new Size(112, 19), btnFont, control: groupCoordinates, enabled: false);
+            this.buttonLoad.BackColor = SystemColors.Control;
+            this.buttonLoad.TabIndex = 18;
+            this.buttonLoad.UseVisualStyleBackColor = true;
+            this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
+
+            this.buttonStore = WinFormHelpers.CreateButton("buttonStore", "Store", new Point(6, 66), new Size(112, 19), btnFont, control: groupCoordinates, enabled: false);
+            this.buttonStore.BackColor = SystemColors.Control;
+            this.buttonStore.TabIndex = 17;
+            this.buttonStore.UseVisualStyleBackColor = true;
+            this.buttonStore.Click += new System.EventHandler(this.buttonStore_Click);
+
+
+
+
+
+
+
+
+
+            font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2 = WinFormHelpers.CreateLabel("label2", "Stored:", new Point(7, 4), new Size(41, 13), font, control: groupCoordinates);
+            this.label2.TabIndex = 10;
+
+            this.label1 = WinFormHelpers.CreateLabel("label1", "Coord:", new Point(7, 24), new Size(38, 13), font, control: groupCoordinates);
+            this.label1.TabIndex = 7;
+
+            this.labelY = WinFormHelpers.CreateLabel("labelY", "Y: 0", new Point(142, 25), new Size(30, 13), font, control: groupCoordinates);
+            this.labelY.ForeColor = Color.Red;
+            this.labelY.TabIndex = 6;
+
+            this.labelX = WinFormHelpers.CreateLabel("labelX", "X: 0", new Point(50, 25), new Size(30, 13), font, control: groupCoordinates);
+            this.labelX.ForeColor = Color.Blue;
+            this.labelX.TabIndex = 5;
+
+
+
+
+
+            this.groupSaves = new GroupBox();
+
+
+            this.buttonDelete = WinFormHelpers.CreateButton("buttonDelete", "Delete", new Point(123, 21), new Size(112, 19), btnFont, control: groupSaves, enabled: false);
+            this.buttonDelete.BackColor = SystemColors.Control;
+            this.buttonDelete.TabIndex = 21;
+            this.buttonDelete.UseVisualStyleBackColor = true;
+            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
+
+
+            this.comboSaves = new ComboBox();
+
+
+            this.buttonSave = WinFormHelpers.CreateButton("buttonSave", "Save", new Point(6, 21), new Size(112, 19), btnFont, control: groupSaves, enabled: false);
+            this.buttonSave.BackColor = SystemColors.Control;
+            this.buttonSave.TabIndex = 20;
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+
+
+            font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelScreenTime = WinFormHelpers.CreateLabel("labelScreenTime", "00:00.000", new Point(298, 262), new Size(62, 15), font, control: groupCoordinates);
+            this.labelScreenTime.Anchor = topRightAnchor;
+            this.labelScreenTime.TabIndex = 39;
+
+            this.label6 = WinFormHelpers.CreateLabel("label6", "Screen timer:", new Point(216, 262), new Size(80, 15), font, control: groupCoordinates);
+            this.label6.Anchor = topRightAnchor;
+            this.label6.TabIndex = 38;
+
+            this.labelLastScreenTime = WinFormHelpers.CreateLabel("labelLastScreenTime", "00:00.000", new Point(366, 262), new Size(62, 15), font, control: groupCoordinates);
+            this.labelLastScreenTime.Anchor = topRightAnchor;
+            this.labelLastScreenTime.TabIndex = 40;
+
+
+
+
+
+
+
+
+
+            this.groupGeneral = new GroupBox();
+            this.tankBox4 = new PictureBox();
+
+            
+            this.buttonCheckpoint = WinFormHelpers.CreateButton("buttonCheckPoint", "Checkpoint", new Point(86, 192), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
+            this.buttonCheckpoint.TabIndex = 15;
+            this.buttonCheckpoint.UseVisualStyleBackColor = true;
+            this.buttonCheckpoint.Click += new System.EventHandler(this.buttonCheckpoint_Click);
+
+            this.tankBox3 = new PictureBox();
+            this.checkFreezeAll = new CheckBox();
+            this.tankBox2 = new PictureBox();
+            this.checkIframes = new CheckBox();
+            this.tankBox1 = new PictureBox();
+            this.weaponCheckDoll = new CheckBox();
+            this.weaponCheckRemilia = new CheckBox();
+
+
+            this.buttonWin = WinFormHelpers.CreateButton("buttonWin", "Win", new Point(86, 156), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
+            this.buttonWin.Enabled = false;
+            this.buttonWin.TabIndex = 13;
+            this.buttonWin.UseVisualStyleBackColor = true;
+            this.buttonWin.Click += new System.EventHandler(this.buttonWin_Click);
+
+            this.weaponCheckReisen = new CheckBox();
+            this.weaponCheckSakuya = new CheckBox();
+
+
+            this.buttonGameOver = WinFormHelpers.CreateButton("buttonGameOver", "Game over", new Point(86, 120), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
+            this.buttonGameOver.TabIndex = 8;
+            this.buttonGameOver.UseVisualStyleBackColor = true;
+            this.buttonGameOver.Click += new System.EventHandler(this.buttonGameOver_Click);
+
+
+            this.weaponCheckEirin = new CheckBox();
+            this.weaponCheckYuyuko = new CheckBox();
+            this.checkHealth = new CheckBox();
+            this.weaponCheckCirno = new CheckBox();
+
+
+            this.buttonDie = WinFormHelpers.CreateButton("buttonDie", "Die", new Point(86, 84), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
+            this.buttonDie.TabIndex = 6;
+            this.buttonDie.UseVisualStyleBackColor = true;
+            this.buttonDie.Click += new System.EventHandler(this.buttonDie_Click);
+
+            this.weaponCheckYoumu = new CheckBox();
+            this.weaponCheckReimu = new CheckBox();
+            this.checkLives = new CheckBox();
+            this.weaponCheckBroom = new CheckBox();
+            this.weaponBoxEirin = new PictureBox();
+            this.weaponBoxSakuya = new PictureBox();
+            this.weaponBoxReisen = new PictureBox();
+            this.weaponBoxDoll = new PictureBox();
+            this.weaponBoxRemilia = new PictureBox();
+            this.weaponBoxYuyuko = new PictureBox();
+            this.weaponBoxCirno = new PictureBox();
+            this.weaponBoxYoumu = new PictureBox();
+            this.weaponBoxBroom = new PictureBox();
+            this.weaponBoxReimu = new PictureBox();
+            this.groupWarp = new GroupBox();
+            this.checkEarlyBroom = new CheckBox();
+
+
+            this.buttonWarp = WinFormHelpers.CreateButton("buttonWarp", "Set level", new Point(174, 13), new Size(61, 23), btnFont, control: groupWarp, enabled: false);
+            this.buttonWarp.TabIndex = 15;
+            this.buttonWarp.UseVisualStyleBackColor = true;
+            this.buttonWarp.Click += new System.EventHandler(this.buttonWarp_Click);
+
+            this.comboWarp = new ComboBox();
+            this.toolTip = new ToolTip(this.components);
+            this.menuStrip = new MenuStrip();
+            this.hotkeysToolStripMenuItem = new ToolStripMenuItem();
+            this.applicationFolderToolStripMenuItem = new ToolStripMenuItem();
+            this.helpAboutToolStripMenuItem = new ToolStripMenuItem();
+            this.barBossHP = new ProgressBar();
+
+
+
+            this.label3 = WinFormHelpers.CreateLabel("label3", "Boss HP", new Point(218, 295), new Size(54, 15), font, control: groupCoordinates);
+            this.label3.Anchor = AnchorStyles.Bottom;
+            this.label3.BackColor = SystemColors.ControlText;
+            this.label3.ForeColor = SystemColors.Control;
+            this.label3.TabIndex = 47;
+
+            this.labelBossHp = WinFormHelpers.CreateLabel("labelBossHp", "280", new Point(421, 295), new Size(28, 15), font, control: groupCoordinates);
+            this.labelBossHp.Anchor = AnchorStyles.Bottom;
+            this.labelBossHp.BackColor = Color.Black;
+            this.labelBossHp.ForeColor = SystemColors.Control;
+            this.labelBossHp.TabIndex = 48;
+
+
+
+
+
             this.statusStrip.SuspendLayout();
             this.groupCoordinates.SuspendLayout();
             this.groupSaves.SuspendLayout();
@@ -115,37 +255,11 @@
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // statusStrip
-            // 
-            this.statusStrip.BackColor = System.Drawing.SystemColors.ControlText;
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.labelStatus});
-            this.statusStrip.Location = new System.Drawing.Point(0, 293);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(451, 22);
-            this.statusStrip.SizingGrip = false;
-            this.statusStrip.TabIndex = 2;
-            this.statusStrip.Text = "statusStrip1";
-            // 
-            // labelStatus
-            // 
-            this.labelStatus.BackColor = System.Drawing.SystemColors.Control;
-            this.labelStatus.ForeColor = System.Drawing.SystemColors.Control;
-            this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(64, 17);
-            this.labelStatus.Text = "labelStatus";
-            // 
             // groupCoordinates
             // 
-            this.groupCoordinates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupCoordinates.Controls.Add(this.labelStoredY);
-            this.groupCoordinates.Controls.Add(this.labelStoredX);
-            this.groupCoordinates.Controls.Add(this.buttonLoad);
-            this.groupCoordinates.Controls.Add(this.buttonStore);
-            this.groupCoordinates.Controls.Add(this.label2);
-            this.groupCoordinates.Controls.Add(this.label1);
-            this.groupCoordinates.Controls.Add(this.labelY);
-            this.groupCoordinates.Controls.Add(this.labelX);
+            this.groupCoordinates.Anchor = topRightAnchor;
+            
+            
             this.groupCoordinates.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupCoordinates.Location = new System.Drawing.Point(199, 27);
             this.groupCoordinates.Name = "groupCoordinates";
@@ -154,102 +268,12 @@
             this.groupCoordinates.TabStop = false;
             this.groupCoordinates.Text = "Coordinates/Values";
             // 
-            // labelStoredY
-            // 
-            this.labelStoredY.AutoSize = true;
-            this.labelStoredY.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F);
-            this.labelStoredY.ForeColor = System.Drawing.Color.Red;
-            this.labelStoredY.Location = new System.Drawing.Point(143, 44);
-            this.labelStoredY.Name = "labelStoredY";
-            this.labelStoredY.Size = new System.Drawing.Size(26, 13);
-            this.labelStoredY.TabIndex = 28;
-            this.labelStoredY.Text = "Y: 0";
-            // 
-            // labelStoredX
-            // 
-            this.labelStoredX.AutoSize = true;
-            this.labelStoredX.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.25F);
-            this.labelStoredX.ForeColor = System.Drawing.Color.Blue;
-            this.labelStoredX.Location = new System.Drawing.Point(51, 44);
-            this.labelStoredX.Name = "labelStoredX";
-            this.labelStoredX.Size = new System.Drawing.Size(26, 13);
-            this.labelStoredX.TabIndex = 27;
-            this.labelStoredX.Text = "X: 0";
-            // 
-            // buttonLoad
-            // 
-            this.buttonLoad.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonLoad.Enabled = false;
-            this.buttonLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonLoad.Location = new System.Drawing.Point(123, 66);
-            this.buttonLoad.Name = "buttonLoad";
-            this.buttonLoad.Size = new System.Drawing.Size(112, 19);
-            this.buttonLoad.TabIndex = 18;
-            this.buttonLoad.Text = "Load";
-            this.buttonLoad.UseVisualStyleBackColor = true;
-            this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
-            // 
-            // buttonStore
-            // 
-            this.buttonStore.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonStore.Enabled = false;
-            this.buttonStore.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonStore.Location = new System.Drawing.Point(6, 66);
-            this.buttonStore.Name = "buttonStore";
-            this.buttonStore.Size = new System.Drawing.Size(112, 19);
-            this.buttonStore.TabIndex = 17;
-            this.buttonStore.Text = "Store";
-            this.buttonStore.UseVisualStyleBackColor = true;
-            this.buttonStore.Click += new System.EventHandler(this.buttonStore_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(7, 44);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 13);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Stored:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(7, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Coord:";
-            // 
-            // labelY
-            // 
-            this.labelY.AutoSize = true;
-            this.labelY.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelY.ForeColor = System.Drawing.Color.Red;
-            this.labelY.Location = new System.Drawing.Point(142, 25);
-            this.labelY.Name = "labelY";
-            this.labelY.Size = new System.Drawing.Size(30, 13);
-            this.labelY.TabIndex = 6;
-            this.labelY.Text = "Y: 0";
-            // 
-            // labelX
-            // 
-            this.labelX.AutoSize = true;
-            this.labelX.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX.ForeColor = System.Drawing.Color.Blue;
-            this.labelX.Location = new System.Drawing.Point(50, 25);
-            this.labelX.Name = "labelX";
-            this.labelX.Size = new System.Drawing.Size(30, 13);
-            this.labelX.TabIndex = 5;
-            this.labelX.Text = "X: 0";
-            // 
             // groupSaves
             // 
-            this.groupSaves.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupSaves.Controls.Add(this.buttonDelete);
+            this.groupSaves.Anchor = topRightAnchor;
+            
             this.groupSaves.Controls.Add(this.comboSaves);
-            this.groupSaves.Controls.Add(this.buttonSave);
+            
             this.groupSaves.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupSaves.Location = new System.Drawing.Point(199, 126);
             this.groupSaves.Name = "groupSaves";
@@ -258,23 +282,10 @@
             this.groupSaves.TabStop = false;
             this.groupSaves.Text = "Save states";
             // 
-            // buttonDelete
-            // 
-            this.buttonDelete.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonDelete.Enabled = false;
-            this.buttonDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDelete.Location = new System.Drawing.Point(123, 21);
-            this.buttonDelete.Name = "buttonDelete";
-            this.buttonDelete.Size = new System.Drawing.Size(112, 19);
-            this.buttonDelete.TabIndex = 21;
-            this.buttonDelete.Text = "Delete";
-            this.buttonDelete.UseVisualStyleBackColor = true;
-            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
-            // 
             // comboSaves
             // 
             this.comboSaves.DisplayMember = "(none)";
-            this.comboSaves.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboSaves.DropDownStyle = ComboBoxStyle.DropDownList;
             this.comboSaves.Enabled = false;
             this.comboSaves.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboSaves.FormattingEnabled = true;
@@ -284,56 +295,10 @@
             this.comboSaves.TabIndex = 19;
             this.comboSaves.SelectedIndexChanged += new System.EventHandler(this.comboSaves_SelectionChangeCommitted);
             // 
-            // buttonSave
-            // 
-            this.buttonSave.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonSave.Enabled = false;
-            this.buttonSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSave.Location = new System.Drawing.Point(6, 21);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(112, 19);
-            this.buttonSave.TabIndex = 20;
-            this.buttonSave.Text = "Save";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
-            // labelScreenTime
-            // 
-            this.labelScreenTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelScreenTime.AutoSize = true;
-            this.labelScreenTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelScreenTime.Location = new System.Drawing.Point(298, 262);
-            this.labelScreenTime.Name = "labelScreenTime";
-            this.labelScreenTime.Size = new System.Drawing.Size(62, 15);
-            this.labelScreenTime.TabIndex = 39;
-            this.labelScreenTime.Text = "00:00.000";
-            // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(216, 262);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(80, 15);
-            this.label6.TabIndex = 38;
-            this.label6.Text = "Screen timer:";
-            // 
-            // labelLastScreenTime
-            // 
-            this.labelLastScreenTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelLastScreenTime.AutoSize = true;
-            this.labelLastScreenTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelLastScreenTime.Location = new System.Drawing.Point(366, 262);
-            this.labelLastScreenTime.Name = "labelLastScreenTime";
-            this.labelLastScreenTime.Size = new System.Drawing.Size(62, 15);
-            this.labelLastScreenTime.TabIndex = 40;
-            this.labelLastScreenTime.Text = "00:00.000";
-            // 
             // groupGeneral
             // 
             this.groupGeneral.Controls.Add(this.tankBox4);
-            this.groupGeneral.Controls.Add(this.buttonCheckpoint);
+            
             this.groupGeneral.Controls.Add(this.tankBox3);
             this.groupGeneral.Controls.Add(this.checkFreezeAll);
             this.groupGeneral.Controls.Add(this.tankBox2);
@@ -341,15 +306,15 @@
             this.groupGeneral.Controls.Add(this.tankBox1);
             this.groupGeneral.Controls.Add(this.weaponCheckDoll);
             this.groupGeneral.Controls.Add(this.weaponCheckRemilia);
-            this.groupGeneral.Controls.Add(this.buttonWin);
+            
             this.groupGeneral.Controls.Add(this.weaponCheckReisen);
             this.groupGeneral.Controls.Add(this.weaponCheckSakuya);
-            this.groupGeneral.Controls.Add(this.buttonGameOver);
+            
             this.groupGeneral.Controls.Add(this.weaponCheckEirin);
             this.groupGeneral.Controls.Add(this.weaponCheckYuyuko);
             this.groupGeneral.Controls.Add(this.checkHealth);
             this.groupGeneral.Controls.Add(this.weaponCheckCirno);
-            this.groupGeneral.Controls.Add(this.buttonDie);
+            
             this.groupGeneral.Controls.Add(this.weaponCheckYoumu);
             this.groupGeneral.Controls.Add(this.weaponCheckReimu);
             this.groupGeneral.Controls.Add(this.checkLives);
@@ -381,18 +346,7 @@
             this.tankBox4.Size = new System.Drawing.Size(27, 31);
             this.tankBox4.TabIndex = 52;
             this.tankBox4.TabStop = false;
-            this.tankBox4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tankBox_Click);
-            // 
-            // buttonCheckpoint
-            // 
-            this.buttonCheckpoint.Enabled = false;
-            this.buttonCheckpoint.Location = new System.Drawing.Point(86, 192);
-            this.buttonCheckpoint.Name = "buttonCheckpoint";
-            this.buttonCheckpoint.Size = new System.Drawing.Size(78, 24);
-            this.buttonCheckpoint.TabIndex = 15;
-            this.buttonCheckpoint.Text = "Checkpoint";
-            this.buttonCheckpoint.UseVisualStyleBackColor = true;
-            this.buttonCheckpoint.Click += new System.EventHandler(this.buttonCheckpoint_Click);
+            this.tankBox4.MouseDown += new MouseEventHandler(this.tankBox_Click);
             // 
             // tankBox3
             // 
@@ -404,7 +358,7 @@
             this.tankBox3.Size = new System.Drawing.Size(27, 31);
             this.tankBox3.TabIndex = 51;
             this.tankBox3.TabStop = false;
-            this.tankBox3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tankBox_Click);
+            this.tankBox3.MouseDown += new MouseEventHandler(this.tankBox_Click);
             // 
             // checkFreezeAll
             // 
@@ -429,7 +383,7 @@
             this.tankBox2.Size = new System.Drawing.Size(27, 31);
             this.tankBox2.TabIndex = 50;
             this.tankBox2.TabStop = false;
-            this.tankBox2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tankBox_Click);
+            this.tankBox2.MouseDown += new MouseEventHandler(this.tankBox_Click);
             // 
             // checkIframes
             // 
@@ -452,7 +406,7 @@
             this.tankBox1.Size = new System.Drawing.Size(27, 31);
             this.tankBox1.TabIndex = 49;
             this.tankBox1.TabStop = false;
-            this.tankBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tankBox_Click);
+            this.tankBox1.MouseDown += new MouseEventHandler(this.tankBox_Click);
             // 
             // weaponCheckDoll
             // 
@@ -475,17 +429,6 @@
             this.weaponCheckRemilia.TabIndex = 21;
             this.weaponCheckRemilia.UseVisualStyleBackColor = true;
             // 
-            // buttonWin
-            // 
-            this.buttonWin.Enabled = false;
-            this.buttonWin.Location = new System.Drawing.Point(86, 156);
-            this.buttonWin.Name = "buttonWin";
-            this.buttonWin.Size = new System.Drawing.Size(78, 24);
-            this.buttonWin.TabIndex = 13;
-            this.buttonWin.Text = "Win";
-            this.buttonWin.UseVisualStyleBackColor = true;
-            this.buttonWin.Click += new System.EventHandler(this.buttonWin_Click);
-            // 
             // weaponCheckReisen
             // 
             this.weaponCheckReisen.AutoSize = true;
@@ -507,17 +450,6 @@
             this.weaponCheckSakuya.TabIndex = 19;
             this.weaponCheckSakuya.TabStop = false;
             this.weaponCheckSakuya.UseVisualStyleBackColor = true;
-            // 
-            // buttonGameOver
-            // 
-            this.buttonGameOver.Enabled = false;
-            this.buttonGameOver.Location = new System.Drawing.Point(86, 120);
-            this.buttonGameOver.Name = "buttonGameOver";
-            this.buttonGameOver.Size = new System.Drawing.Size(78, 24);
-            this.buttonGameOver.TabIndex = 8;
-            this.buttonGameOver.Text = "Game over";
-            this.buttonGameOver.UseVisualStyleBackColor = true;
-            this.buttonGameOver.Click += new System.EventHandler(this.buttonGameOver_Click);
             // 
             // weaponCheckEirin
             // 
@@ -563,17 +495,6 @@
             this.weaponCheckCirno.TabStop = false;
             this.weaponCheckCirno.UseVisualStyleBackColor = true;
             // 
-            // buttonDie
-            // 
-            this.buttonDie.Enabled = false;
-            this.buttonDie.Location = new System.Drawing.Point(86, 84);
-            this.buttonDie.Name = "buttonDie";
-            this.buttonDie.Size = new System.Drawing.Size(78, 24);
-            this.buttonDie.TabIndex = 6;
-            this.buttonDie.Text = "Die";
-            this.buttonDie.UseVisualStyleBackColor = true;
-            this.buttonDie.Click += new System.EventHandler(this.buttonDie_Click);
-            // 
             // weaponCheckYoumu
             // 
             this.weaponCheckYoumu.AutoSize = true;
@@ -611,7 +532,7 @@
             // 
             this.weaponCheckBroom.AutoSize = true;
             this.weaponCheckBroom.Enabled = false;
-            this.weaponCheckBroom.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.weaponCheckBroom.ForeColor = SystemColors.ControlText;
             this.weaponCheckBroom.Location = new System.Drawing.Point(21, 58);
             this.weaponCheckBroom.Name = "weaponCheckBroom";
             this.weaponCheckBroom.Size = new System.Drawing.Size(15, 14);
@@ -628,7 +549,7 @@
             this.weaponBoxEirin.Size = new System.Drawing.Size(30, 30);
             this.weaponBoxEirin.TabIndex = 10;
             this.weaponBoxEirin.TabStop = false;
-            this.weaponBoxEirin.MouseDown += new System.Windows.Forms.MouseEventHandler(this.weaponBox_Click);
+            this.weaponBoxEirin.MouseDown += new MouseEventHandler(this.weaponBox_Click);
             // 
             // weaponBoxSakuya
             // 
@@ -639,7 +560,7 @@
             this.weaponBoxSakuya.Size = new System.Drawing.Size(30, 30);
             this.weaponBoxSakuya.TabIndex = 9;
             this.weaponBoxSakuya.TabStop = false;
-            this.weaponBoxSakuya.MouseDown += new System.Windows.Forms.MouseEventHandler(this.weaponBox_Click);
+            this.weaponBoxSakuya.MouseDown += new MouseEventHandler(this.weaponBox_Click);
             // 
             // weaponBoxReisen
             // 
@@ -650,7 +571,7 @@
             this.weaponBoxReisen.Size = new System.Drawing.Size(30, 30);
             this.weaponBoxReisen.TabIndex = 8;
             this.weaponBoxReisen.TabStop = false;
-            this.weaponBoxReisen.MouseDown += new System.Windows.Forms.MouseEventHandler(this.weaponBox_Click);
+            this.weaponBoxReisen.MouseDown += new MouseEventHandler(this.weaponBox_Click);
             // 
             // weaponBoxDoll
             // 
@@ -662,7 +583,7 @@
             this.weaponBoxDoll.Size = new System.Drawing.Size(30, 30);
             this.weaponBoxDoll.TabIndex = 7;
             this.weaponBoxDoll.TabStop = false;
-            this.weaponBoxDoll.MouseDown += new System.Windows.Forms.MouseEventHandler(this.weaponBox_Click);
+            this.weaponBoxDoll.MouseDown += new MouseEventHandler(this.weaponBox_Click);
             // 
             // weaponBoxRemilia
             // 
@@ -673,7 +594,7 @@
             this.weaponBoxRemilia.Size = new System.Drawing.Size(30, 30);
             this.weaponBoxRemilia.TabIndex = 6;
             this.weaponBoxRemilia.TabStop = false;
-            this.weaponBoxRemilia.MouseDown += new System.Windows.Forms.MouseEventHandler(this.weaponBox_Click);
+            this.weaponBoxRemilia.MouseDown += new MouseEventHandler(this.weaponBox_Click);
             // 
             // weaponBoxYuyuko
             // 
@@ -684,7 +605,7 @@
             this.weaponBoxYuyuko.Size = new System.Drawing.Size(30, 30);
             this.weaponBoxYuyuko.TabIndex = 4;
             this.weaponBoxYuyuko.TabStop = false;
-            this.weaponBoxYuyuko.MouseDown += new System.Windows.Forms.MouseEventHandler(this.weaponBox_Click);
+            this.weaponBoxYuyuko.MouseDown += new MouseEventHandler(this.weaponBox_Click);
             // 
             // weaponBoxCirno
             // 
@@ -695,7 +616,7 @@
             this.weaponBoxCirno.Size = new System.Drawing.Size(30, 30);
             this.weaponBoxCirno.TabIndex = 3;
             this.weaponBoxCirno.TabStop = false;
-            this.weaponBoxCirno.MouseDown += new System.Windows.Forms.MouseEventHandler(this.weaponBox_Click);
+            this.weaponBoxCirno.MouseDown += new MouseEventHandler(this.weaponBox_Click);
             // 
             // weaponBoxYoumu
             // 
@@ -706,7 +627,7 @@
             this.weaponBoxYoumu.Size = new System.Drawing.Size(30, 30);
             this.weaponBoxYoumu.TabIndex = 2;
             this.weaponBoxYoumu.TabStop = false;
-            this.weaponBoxYoumu.MouseDown += new System.Windows.Forms.MouseEventHandler(this.weaponBox_Click);
+            this.weaponBoxYoumu.MouseDown += new MouseEventHandler(this.weaponBox_Click);
             // 
             // weaponBoxBroom
             // 
@@ -718,7 +639,7 @@
             this.weaponBoxBroom.Size = new System.Drawing.Size(30, 30);
             this.weaponBoxBroom.TabIndex = 1;
             this.weaponBoxBroom.TabStop = false;
-            this.weaponBoxBroom.MouseDown += new System.Windows.Forms.MouseEventHandler(this.weaponBox_Click);
+            this.weaponBoxBroom.MouseDown += new MouseEventHandler(this.weaponBox_Click);
             // 
             // weaponBoxReimu
             // 
@@ -729,13 +650,13 @@
             this.weaponBoxReimu.Size = new System.Drawing.Size(30, 30);
             this.weaponBoxReimu.TabIndex = 0;
             this.weaponBoxReimu.TabStop = false;
-            this.weaponBoxReimu.MouseDown += new System.Windows.Forms.MouseEventHandler(this.weaponBox_Click);
+            this.weaponBoxReimu.MouseDown += new MouseEventHandler(this.weaponBox_Click);
             // 
             // groupWarp
             // 
-            this.groupWarp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupWarp.Anchor = topRightAnchor;
             this.groupWarp.Controls.Add(this.checkEarlyBroom);
-            this.groupWarp.Controls.Add(this.buttonWarp);
+            
             this.groupWarp.Controls.Add(this.comboWarp);
             this.groupWarp.Location = new System.Drawing.Point(199, 208);
             this.groupWarp.Name = "groupWarp";
@@ -756,20 +677,9 @@
             this.checkEarlyBroom.UseVisualStyleBackColor = true;
             this.checkEarlyBroom.CheckedChanged += new System.EventHandler(this.checkEarlyBroom_CheckedChanged);
             // 
-            // buttonWarp
-            // 
-            this.buttonWarp.Enabled = false;
-            this.buttonWarp.Location = new System.Drawing.Point(174, 13);
-            this.buttonWarp.Name = "buttonWarp";
-            this.buttonWarp.Size = new System.Drawing.Size(61, 23);
-            this.buttonWarp.TabIndex = 15;
-            this.buttonWarp.Text = "Set level";
-            this.buttonWarp.UseVisualStyleBackColor = true;
-            this.buttonWarp.Click += new System.EventHandler(this.buttonWarp_Click);
-            // 
             // comboWarp
             // 
-            this.comboWarp.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboWarp.DropDownStyle = ComboBoxStyle.DropDownList;
             this.comboWarp.Enabled = false;
             this.comboWarp.FormattingEnabled = true;
             this.comboWarp.Items.AddRange(new object[] {
@@ -794,7 +704,7 @@
             // 
             // menuStrip
             // 
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuStrip.Items.AddRange(new ToolStripItem[] {
             this.hotkeysToolStripMenuItem,
             this.applicationFolderToolStripMenuItem,
             this.helpAboutToolStripMenuItem});
@@ -827,45 +737,19 @@
             // 
             // barBossHP
             // 
-            this.barBossHP.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.barBossHP.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.barBossHP.Anchor = AnchorStyles.Bottom;
+            this.barBossHP.ForeColor = SystemColors.HotTrack;
             this.barBossHP.Location = new System.Drawing.Point(274, 296);
             this.barBossHP.Maximum = 280;
             this.barBossHP.Name = "barBossHP";
             this.barBossHP.Size = new System.Drawing.Size(144, 16);
-            this.barBossHP.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.barBossHP.Style = ProgressBarStyle.Continuous;
             this.barBossHP.TabIndex = 46;
-            // 
-            // label3
-            // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.SystemColors.ControlText;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.SystemColors.Control;
-            this.label3.Location = new System.Drawing.Point(218, 295);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(54, 15);
-            this.label3.TabIndex = 47;
-            this.label3.Text = "Boss HP";
-            // 
-            // labelBossHp
-            // 
-            this.labelBossHp.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.labelBossHp.AutoSize = true;
-            this.labelBossHp.BackColor = System.Drawing.Color.Black;
-            this.labelBossHp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelBossHp.ForeColor = System.Drawing.SystemColors.Control;
-            this.labelBossHp.Location = new System.Drawing.Point(421, 295);
-            this.labelBossHp.Name = "labelBossHp";
-            this.labelBossHp.Size = new System.Drawing.Size(28, 15);
-            this.labelBossHp.TabIndex = 48;
-            this.labelBossHp.Text = "280";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(451, 315);
             this.Controls.Add(this.labelBossHp);
             this.Controls.Add(this.label3);
@@ -877,7 +761,6 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupSaves);
             this.Controls.Add(this.groupCoordinates);
-            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
@@ -911,73 +794,79 @@
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
-        private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel labelStatus;
-        private System.Windows.Forms.GroupBox groupCoordinates;
-        private System.Windows.Forms.Label labelStoredY;
-        private System.Windows.Forms.Label labelStoredX;
-        private System.Windows.Forms.Button buttonLoad;
-        private System.Windows.Forms.Button buttonStore;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label labelY;
-        private System.Windows.Forms.Label labelX;
-        private System.Windows.Forms.GroupBox groupSaves;
-        private System.Windows.Forms.Button buttonDelete;
-        private System.Windows.Forms.ComboBox comboSaves;
-        private System.Windows.Forms.Button buttonSave;
-        private System.Windows.Forms.Label labelScreenTime;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label labelLastScreenTime;
-        private System.Windows.Forms.GroupBox groupGeneral;
-        private System.Windows.Forms.CheckBox checkFreezeAll;
-        private System.Windows.Forms.CheckBox weaponCheckDoll;
-        private System.Windows.Forms.CheckBox weaponCheckRemilia;
-        private System.Windows.Forms.CheckBox weaponCheckReisen;
-        private System.Windows.Forms.CheckBox weaponCheckSakuya;
-        private System.Windows.Forms.CheckBox weaponCheckEirin;
-        private System.Windows.Forms.CheckBox weaponCheckYuyuko;
-        private System.Windows.Forms.CheckBox weaponCheckCirno;
-        private System.Windows.Forms.CheckBox weaponCheckYoumu;
-        private System.Windows.Forms.CheckBox weaponCheckReimu;
-        private System.Windows.Forms.CheckBox weaponCheckBroom;
-        private System.Windows.Forms.PictureBox weaponBoxEirin;
-        private System.Windows.Forms.PictureBox weaponBoxSakuya;
-        private System.Windows.Forms.PictureBox weaponBoxReisen;
-        private System.Windows.Forms.PictureBox weaponBoxDoll;
-        private System.Windows.Forms.PictureBox weaponBoxRemilia;
-        private System.Windows.Forms.PictureBox weaponBoxYuyuko;
-        private System.Windows.Forms.PictureBox weaponBoxCirno;
-        private System.Windows.Forms.PictureBox weaponBoxYoumu;
-        private System.Windows.Forms.PictureBox weaponBoxBroom;
-        private System.Windows.Forms.PictureBox weaponBoxReimu;
-        private System.Windows.Forms.Button buttonWin;
-        private System.Windows.Forms.Button buttonGameOver;
-        private System.Windows.Forms.CheckBox checkHealth;
-        private System.Windows.Forms.Button buttonDie;
-        private System.Windows.Forms.CheckBox checkLives;
-        private System.Windows.Forms.GroupBox groupWarp;
-        private System.Windows.Forms.Button buttonWarp;
-        private System.Windows.Forms.ComboBox comboWarp;
-        private System.Windows.Forms.CheckBox checkEarlyBroom;
-        private System.Windows.Forms.ToolTip toolTip;
-        private System.Windows.Forms.MenuStrip menuStrip;
-        private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem applicationFolderToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpAboutToolStripMenuItem;
-        private System.Windows.Forms.CheckBox checkIframes;
-        private System.Windows.Forms.ProgressBar barBossHP;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label labelBossHp;
-        private System.Windows.Forms.Button buttonCheckpoint;
-        private System.Windows.Forms.PictureBox tankBox1;
-        private System.Windows.Forms.PictureBox tankBox2;
-        private System.Windows.Forms.PictureBox tankBox3;
-        private System.Windows.Forms.PictureBox tankBox4;
+
+        #region Properties
+
+        AnchorStyles topRightAnchor = ((AnchorStyles.Top | AnchorStyles.Right));
+        Font btnFont = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));        
+        private ToolTip toolTip;
+        private MenuStrip menuStrip;
+        private ToolStripMenuItem hotkeysToolStripMenuItem,
+            applicationFolderToolStripMenuItem,
+            helpAboutToolStripMenuItem;
+        private ProgressBar barBossHP;
+        private StatusStrip statusStrip;
+        private ToolStripStatusLabel labelStatus;
+        private GroupBox groupCoordinates,
+            groupSaves,
+            groupGeneral,
+            groupWarp;
+        private Label labelStoredY,
+            labelStoredX,
+            label2,
+            label1,
+            labelY,
+            labelX,
+            labelScreenTime,
+            label6,
+            labelLastScreenTime,
+            label3,
+            labelBossHp;
+        private Button buttonLoad,
+            buttonStore,
+            buttonDelete,
+            buttonSave,
+            buttonWin,
+            buttonGameOver,
+            buttonDie,
+            buttonWarp,
+            buttonCheckpoint;
+        private CheckBox checkFreezeAll,
+            weaponCheckDoll,
+            weaponCheckRemilia,
+            weaponCheckReisen,
+            weaponCheckSakuya,
+            weaponCheckEirin,
+            weaponCheckYuyuko,
+            weaponCheckCirno,
+            weaponCheckYoumu,
+            weaponCheckReimu,
+            weaponCheckBroom,
+            checkHealth,
+            checkLives,
+            checkEarlyBroom,
+            checkIframes;
+        private ComboBox comboSaves,
+            comboWarp;
+        private PictureBox weaponBoxEirin,
+            weaponBoxSakuya,
+            weaponBoxReisen,
+            weaponBoxDoll,
+            weaponBoxRemilia,
+            weaponBoxYuyuko,
+            weaponBoxCirno,
+            weaponBoxYoumu,
+            weaponBoxBroom,
+            weaponBoxReimu,
+            tankBox1,
+            tankBox2,
+            tankBox3,
+            tankBox4;
+
+        #endregion
     }
 }
 
