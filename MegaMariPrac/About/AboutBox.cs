@@ -4,7 +4,6 @@ using System.Windows.Forms;
 
 namespace MegaMariPrac.About
 {
-
     partial class AboutBox : Form
     {
         public AboutBox()

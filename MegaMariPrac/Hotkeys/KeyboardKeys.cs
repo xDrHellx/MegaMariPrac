@@ -4,8 +4,8 @@ namespace MegaMariPrac.Hotkeys
 {
     internal class KeyboardKeys
     {
-        public Dictionary<string, int> dictModifierKeys = new Dictionary<string, int>();
-        public Dictionary<string, int> dictKeys = new Dictionary<string, int>();
+        public Dictionary<string, int> dictModifierKeys = new Dictionary<string, int>(),
+            dictKeys = new Dictionary<string, int>();
 
         public KeyboardKeys()
         {

@@ -25,8 +25,8 @@ namespace MegaMariPrac
         public static int FirstProcessModuleMemorySize;
 
         //amount of bytes written/read
-        private int bytesWritten = 0;
-        private int bytesRead = 0;
+        private int bytesWritten = 0,
+            bytesRead = 0;
         #endregion
 
         public ProcessMemory()

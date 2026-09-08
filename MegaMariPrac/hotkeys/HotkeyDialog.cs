@@ -8,18 +8,17 @@ namespace MegaMariPrac.Hotkeys
 {
     public partial class HotkeyDialog : Form
     {
-        static string hotkeyVersion = "v1.0";
-        static string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        string configpath = appdata + @"\MegaMariPrac\";
-        string hotkeyfilename = "hotkey.cfg";
+        static string hotkeyVersion = "v1.0",
+            appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        string configpath = appdata + @"\MegaMariPrac\",
+            hotkeyfilename = "hotkey.cfg";
         KeyboardKeys keybKeys = new KeyboardKeys();
 
         public HotkeyDialog()
         {
             InitializeComponent();
             CenterToScreen();
-            MinimizeBox = false;
-            MaximizeBox = false;
+            MinimizeBox = MaximizeBox = false;
             FormBorderStyle = FormBorderStyle.FixedSingle;
 
             foreach (string key in keybKeys.dictModifierKeys.Keys)

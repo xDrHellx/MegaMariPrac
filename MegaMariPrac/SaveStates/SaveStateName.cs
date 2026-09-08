@@ -9,8 +9,7 @@ namespace MegaMariPrac.SaveStates
         {
             InitializeComponent();
             CenterToScreen();
-            MinimizeBox = false;
-            MaximizeBox = false;
+            MinimizeBox = MaximizeBox = false;
             FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
