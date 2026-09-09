@@ -422,69 +422,69 @@ namespace MegaMariPrac
         AnchorStyles topRightAnchor = ((AnchorStyles.Top | AnchorStyles.Right));
         Font btnFont = new Font("Microsoft Sans Serif", 6.75F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
             grpFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-        private ToolTip toolTip;
-        private MenuStrip menuStrip;
-        private ToolStripMenuItem hotkeysToolStripMenuItem,
-            applicationFolderToolStripMenuItem,
-            helpAboutToolStripMenuItem;
-        private ProgressBar barBossHP;
-        private StatusStrip statusStrip;
-        private ToolStripStatusLabel labelStatus;
-        private GroupBox groupCoordinates,
-            groupSaves,
-            groupGeneral,
-            groupWarp;
-        private Label labelStoredY,
-            labelStoredX,
-            label2,
-            label1,
-            labelY,
-            labelX,
-            labelScreenTime,
-            label6,
-            labelLastScreenTime,
-            label3,
-            labelBossHp;
-        private Button buttonLoad,
-            buttonStore,
-            buttonDelete,
-            buttonSave,
-            buttonWin,
-            buttonGameOver,
-            buttonDie,
-            buttonWarp,
-            buttonCheckpoint;
-        private CheckBox checkFreezeAll,
-            weaponCheckDoll,
-            weaponCheckRemilia,
-            weaponCheckReisen,
-            weaponCheckSakuya,
-            weaponCheckEirin,
-            weaponCheckYuyuko,
-            weaponCheckCirno,
-            weaponCheckYoumu,
-            weaponCheckReimu,
-            weaponCheckBroom,
-            checkHealth,
-            checkLives,
-            checkEarlyBroom,
-            checkIframes;
-        private ComboBox comboSaves,
-            comboWarp;
-        private PictureBox weaponBoxEirin,
-            weaponBoxSakuya,
-            weaponBoxReisen,
-            weaponBoxDoll,
-            weaponBoxRemilia,
-            weaponBoxYuyuko,
-            weaponBoxCirno,
-            weaponBoxYoumu,
-            weaponBoxBroom,
-            weaponBoxReimu,
-            tankBox1,
-            tankBox2,
-            tankBox3,
-            tankBox4;
+        private ToolTip toolTip = new ToolTip();
+        private MenuStrip menuStrip = new MenuStrip();
+        private ToolStripMenuItem hotkeysToolStripMenuItem = new ToolStripMenuItem(),
+            applicationFolderToolStripMenuItem = new ToolStripMenuItem(),
+            helpAboutToolStripMenuItem = new ToolStripMenuItem();
+        private ProgressBar barBossHP = new ProgressBar();
+        private StatusStrip statusStrip = new StatusStrip();
+        private ToolStripStatusLabel labelStatus = new ToolStripStatusLabel();
+        private GroupBox groupCoordinates = new GroupBox(),
+            groupSaves = new GroupBox(),
+            groupGeneral = new GroupBox(),
+            groupWarp = new GroupBox();
+        private Label labelStoredY = new Label(),
+            labelStoredX = new Label(),
+            label2 = new Label(),
+            label1 = new Label(),
+            labelY = new Label(),
+            labelX = new Label(),
+            labelScreenTime = new Label(),
+            label6 = new Label(),
+            labelLastScreenTime = new Label(),
+            label3 = new Label(),
+            labelBossHp = new Label();
+        private Button buttonLoad = new Button(),
+            buttonStore = new Button(),
+            buttonDelete = new Button(),
+            buttonSave = new Button(),
+            buttonWin = new Button(),
+            buttonGameOver = new Button(),
+            buttonDie = new Button(),
+            buttonWarp = new Button(),
+            buttonCheckpoint = new Button();
+        private CheckBox checkFreezeAll = new CheckBox(),
+            weaponCheckDoll = new CheckBox(),
+            weaponCheckRemilia = new CheckBox(),
+            weaponCheckReisen = new CheckBox(),
+            weaponCheckSakuya = new CheckBox(),
+            weaponCheckEirin = new CheckBox(),
+            weaponCheckYuyuko = new CheckBox(),
+            weaponCheckCirno = new CheckBox(),
+            weaponCheckYoumu = new CheckBox(),
+            weaponCheckReimu = new CheckBox(),
+            weaponCheckBroom = new CheckBox(),
+            checkHealth = new CheckBox(),
+            checkLives = new CheckBox(),
+            checkEarlyBroom = new CheckBox(),
+            checkIframes = new CheckBox();
+        private ComboBox comboSaves = new ComboBox(),
+            comboWarp = new ComboBox();
+        private PictureBox weaponBoxEirin = new PictureBox(),
+            weaponBoxSakuya = new PictureBox(),
+            weaponBoxReisen = new PictureBox(),
+            weaponBoxDoll = new PictureBox(),
+            weaponBoxRemilia = new PictureBox(),
+            weaponBoxYuyuko = new PictureBox(),
+            weaponBoxCirno = new PictureBox(),
+            weaponBoxYoumu = new PictureBox(),
+            weaponBoxBroom = new PictureBox(),
+            weaponBoxReimu = new PictureBox(),
+            tankBox1 = new PictureBox(),
+            tankBox2 = new PictureBox(),
+            tankBox3 = new PictureBox(),
+            tankBox4 = new PictureBox();
 
         #endregion
     }
