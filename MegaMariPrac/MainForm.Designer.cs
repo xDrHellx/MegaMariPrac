@@ -77,27 +77,8 @@ namespace MegaMariPrac
             this.toolTip = new ToolTip(this.components);
 
             // Status
-            this.statusStrip = WinFormHelpers.CreateToolStatusStrip("statusStrip", "statusStrip1", new Point(0, 293), new Size(451, 22), control: this);
-            this.statusStrip.BackColor = SystemColors.ControlText;
-            this.statusStrip.Items.AddRange(new ToolStripItem[] {this.labelStatus});
-            this.statusStrip.TabIndex = 2;
-
             this.labelStatus = WinFormHelpers.CreateToolStripStatusLabel("labelStatus", "labelStatus", new Size(64, 17));
             this.labelStatus.BackColor = this.labelStatus.ForeColor = SystemColors.Control;
-
-            // Timer section
-            Font font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.labelScreenTime = WinFormHelpers.CreateLabel("labelScreenTime", "00:00.000", new Point(298, 262), new Size(62, 15), font, control: this);
-            this.labelScreenTime.Anchor = topRightAnchor;
-            this.labelScreenTime.TabIndex = 39;
-
-            this.label6 = WinFormHelpers.CreateLabel("label6", "Screen timer:", new Point(216, 262), new Size(80, 15), font, control: this);
-            this.label6.Anchor = topRightAnchor;
-            this.label6.TabIndex = 38;
-
-            this.labelLastScreenTime = WinFormHelpers.CreateLabel("labelLastScreenTime", "00:00.000", new Point(366, 262), new Size(62, 15), font, control: this);
-            this.labelLastScreenTime.Anchor = topRightAnchor;
-            this.labelLastScreenTime.TabIndex = 40;
 
             // Boss HP
             this.barBossHP = WinFormHelpers.CreateProgressBar("barBossHP", new Point(274, 296), new Size(144, 16), 0, 280, this);
@@ -105,6 +86,7 @@ namespace MegaMariPrac
             this.barBossHP.Anchor = AnchorStyles.Bottom;
             this.barBossHP.ForeColor = SystemColors.HotTrack;
 
+            Font font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.label3 = WinFormHelpers.CreateLabel("label3", "Boss HP", new Point(218, 295), new Size(54, 15), font, control: this);
             this.label3.TabIndex = 47;
             this.label3.Anchor = AnchorStyles.Bottom;
@@ -116,6 +98,25 @@ namespace MegaMariPrac
             this.labelBossHp.Anchor = AnchorStyles.Bottom;
             this.labelBossHp.BackColor = Color.Black;
             this.labelBossHp.ForeColor = SystemColors.Control;
+
+            // Status bar (generate last to prevent it from hiding other elements)
+            this.statusStrip = WinFormHelpers.CreateToolStatusStrip("statusStrip", "statusStrip1", new Point(0, 293), new Size(451, 22), control: this);
+            this.statusStrip.BackColor = SystemColors.ControlText;
+            this.statusStrip.Items.AddRange(new ToolStripItem[] {this.labelStatus});
+            this.statusStrip.TabIndex = 2;
+
+            // Timer section
+            this.labelScreenTime = WinFormHelpers.CreateLabel("labelScreenTime", "00:00.000", new Point(298, 262), new Size(62, 15), font, control: this);
+            this.labelScreenTime.Anchor = topRightAnchor;
+            this.labelScreenTime.TabIndex = 39;
+
+            this.label6 = WinFormHelpers.CreateLabel("label6", "Screen timer:", new Point(216, 262), new Size(80, 15), font, control: this);
+            this.label6.Anchor = topRightAnchor;
+            this.label6.TabIndex = 38;
+
+            this.labelLastScreenTime = WinFormHelpers.CreateLabel("labelLastScreenTime", "00:00.000", new Point(366, 262), new Size(62, 15), font, control: this);
+            this.labelLastScreenTime.Anchor = topRightAnchor;
+            this.labelLastScreenTime.TabIndex = 40;
 
             // Layout & init
             this.statusStrip.SuspendLayout();
