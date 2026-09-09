@@ -113,6 +113,73 @@ namespace MegaMariPrac.Utils
             return pictureBox;
         }
 
+        /// <summary>Simplified method for creating a CheckBox</summary>
+        /// <param name="name">Field name</param>
+        /// <param name="text">Field text</param>
+        /// <param name="position">Position</param>
+        /// <param name="size">Size</param>m>
+        /// <param name="isCheckedByDefault">Indicate if the CheckBox has to be checked when initiated (False by default)</param>
+        /// <param name="checkboxOnRight">Indicate if the Checkbox has to be on the right of the text (False by default)</param>
+        /// <param name="control">Control instance if the element is to be attached to it directly</param>
+        /// <param name="enabled">True if it should be enabled (True by default)</param>
+        /// <returns><c>CheckBox</c>Instance</returns>
+        public static CheckBox CreateCheckBox(string name, string text, Point position, Size size, bool isCheckedByDefault = false, bool checkboxOnRight = false, Control control = null, bool enabled = true)
+        {
+            CheckBox checkBox = new CheckBox()
+            {
+                Name = name,
+                Text = text,
+                Checked = isCheckedByDefault,
+                RightToLeft = checkboxOnRight == true ? RightToLeft.Yes : RightToLeft.No,
+                Location = position,
+                Size = size,
+                Enabled = enabled
+            };
+
+            control?.Controls.Add(checkBox);
+            return checkBox;
+        }
+
+        /// <summary>Simplified method for creating a dropdown list</summary>
+        /// <param name="name">Dropdown name</param>
+        /// <param name="position">Position</param>
+        /// <param name="size">Size</param>m>
+        /// <param name="font">Font</params>
+        /// <param name="control">Control instance if the element is to be attached to it directly</param>
+        /// <param name="dropDownWidth">Dropdown Width (in pixels, if not specified will take use the element's width as reference)</param>
+        /// <param name="dropDownHeight">Dropdown Height (in pixels, if not specified will take use the element's height as reference)</param>
+        /// <param name="visibleOptions">Amount of options visible without needing to scroll (will take priority over dropDownHeight parameters if specified)</param>
+        /// <param name="enabled">True if it should be enabled (True by default)</param>
+        /// <returns><c>ComboBox</c>Instance</returns>
+        public static ComboBox CreateDropDownList(string name, Point position, Size size, Font font, Control control = null, int dropDownWidth = 0, int dropDownHeight = 0, int visibleOptions = 0, bool enabled = true)
+        {
+            ComboBox dropDownList = new ComboBox()
+            {
+                Name = name,
+                Location = position,
+                Size = size,
+                Font = font,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                // If DropDownWidth was specified, use it, otherwise use the element's width
+                DropDownWidth = dropDownWidth > 0 ? dropDownWidth : size.Width,
+                Enabled = enabled
+            };
+
+            /**
+             * If the number of options to show without needed to scroll is specified, use it
+             * Otherwise handle the DropDownHeight the same way as the DropDownWidth
+             */
+            if (visibleOptions > 0) {
+                dropDownList.DropDownHeight = (size.Height - 4) * visibleOptions;
+            } else {
+                dropDownList.DropDownHeight = dropDownHeight > 0 ? dropDownHeight : size.Height;
+            }
+
+            // If a Control instance is passed, add the generated element to it
+            control?.Controls.Add(dropDownList);
+            return dropDownList;
+        }
+
         /// <summary>Simplified method for creating a StatusStrip</summary>
         /// <param name="name">Name</param>
         /// <param name="text">Text</param>
@@ -129,8 +196,7 @@ namespace MegaMariPrac.Utils
                 Text = text,
                 Location = position,
                 Size = size,
-                SizingGrip = sizingGrip,
-                AutoSize = true
+                SizingGrip = sizingGrip
             };
 
             control?.Controls.Add(strip);
