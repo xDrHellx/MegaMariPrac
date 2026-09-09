@@ -220,42 +220,80 @@ namespace MegaMariPrac.Utils
             };
         }
 
+        /// <summary>Simplified method for creating a ProgressBar</summary>
+        /// <param name="name">Name</param>
+        /// <param name="position">Position</param>
+        /// <param name="size">Size</param>
+        /// <param name="min">Minimum value</param>
+        /// <param name="max">Maximum</param>
+        /// <param name="control">Control instance if the element is to be attached to it directly</param>
+        /// <param name="style">ProgressBarStyle, by default "Continuous"</param>
+        /// <returns></returns>
+        public static ProgressBar CreateProgressBar(string name, Point position, Size size, int min, int max, Control control = null, string style = "Continuous")
+        {
+            ProgressBar pb = new ProgressBar()
+            {
+                Name = name,
+                Location = position,
+                Size = size,
+                Minimum = min,
+                Maximum = max,
+                Style = GetProgressBarStyle(style)
+            };
+
+            control?.Controls.Add(pb);
+            return pb;
+        }
+
         #endregion
 
-        # region Misc
+        #region Misc
 
         /// <summary>Get the corresponding text alignment based on a string</summary>
         /// <param name="value">Text alignment string</param>
         /// <returns><c>System.Drawing.ContentAlignment</c>Text alignment object</returns>
         private static ContentAlignment GetTextAlignment(string value)
         {
-            switch (value)
+            switch (value.ToLower())
             {
-                case "BottomCenter":    return ContentAlignment.BottomCenter;
-                case "BottomLeft":      return ContentAlignment.BottomLeft;
-                case "BottomRight":     return ContentAlignment.BottomRight;
-                case "MiddleLeft":      return ContentAlignment.MiddleLeft;
-                case "MiddleRight":     return ContentAlignment.MiddleRight;
-                case "TopCenter":       return ContentAlignment.TopCenter;
-                case "TopLeft":         return ContentAlignment.TopLeft;
-                case "TopRight":        return ContentAlignment.TopRight;
+                case "bottomcenter":    return ContentAlignment.BottomCenter;
+                case "bottomleft":      return ContentAlignment.BottomLeft;
+                case "bottomright":     return ContentAlignment.BottomRight;
+                case "middleleft":      return ContentAlignment.MiddleLeft;
+                case "middleright":     return ContentAlignment.MiddleRight;
+                case "topcenter":       return ContentAlignment.TopCenter;
+                case "topleft":         return ContentAlignment.TopLeft;
+                case "topright":        return ContentAlignment.TopRight;
                 default:                return ContentAlignment.MiddleCenter;
             };
         }
 
         /// <summary>Get the corresponding PictureBoxSizeMode based on a string</summary>
-        /// <param name="value">SizeMode string</param>
+        /// <param name="value">string</param>
         /// <returns><c>System.Windows.Forms.PictureBoxSizeMode</c>SizeMode object</returns>
         private static PictureBoxSizeMode GetSizeMode(string value)
         {
-            switch (value)
+            switch (value.ToLower())
             {
-                case "CenterImage":     return PictureBoxSizeMode.CenterImage;
-                case "Normal":          return PictureBoxSizeMode.Normal;
-                case "StretchImage":    return PictureBoxSizeMode.StretchImage;
-                case "Zoom":            return PictureBoxSizeMode.Zoom;
+                case "centerImage":     return PictureBoxSizeMode.CenterImage;
+                case "normal":          return PictureBoxSizeMode.Normal;
+                case "stretchimage":    return PictureBoxSizeMode.StretchImage;
+                case "zoom":            return PictureBoxSizeMode.Zoom;
                 default:                return PictureBoxSizeMode.AutoSize;
             };
+        }
+
+        /// <summary>Get the corresponding ProgressBarStyle based on a string</summary>
+        /// <param name="value">string</param>
+        /// <returns><c>ProgressBarStyle</c>ProgressBarStyle object</returns>
+        private static ProgressBarStyle GetProgressBarStyle(string value)
+        {
+            switch (value.ToLower())
+            {
+                case "blocks":      return ProgressBarStyle.Blocks;
+                case "marquee":     return ProgressBarStyle.Marquee;
+                default:            return ProgressBarStyle.Continuous;
+            }
         }
 
         public static Bitmap GetResourceImage(string name)
