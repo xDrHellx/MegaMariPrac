@@ -11,7 +11,7 @@ namespace MegaMariPrac
         #region Gen designer code
 
         /// <summary>Required designer variable.</summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>Clean up any resources being used.</summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -26,14 +26,36 @@ namespace MegaMariPrac
 
         #endregion
 
-        #region Init
+        #region Main window
+
+        /// <summary>Set parameters & events for the main window</summary>
+        void SetMainWindow()
+        {
+            this.Name = "MainForm";
+            this.Text = "MegaMariPrac v0.91";
+            this.ClientSize = new Size(451, 315);
+            this.AutoScaleDimensions = new SizeF(6F, 13F);
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.MainMenuStrip = this.menuStrip;
+            this.Icon = ((Icon)(resources.GetObject("$this.Icon")));
+            this.Load += new System.EventHandler(this.MainForm_Load);
+
+            this.Controls.Add(this.barBossHP);
+            this.Controls.Add(this.menuStrip);
+        }
+
+        #endregion
+
+        #region WinForm gen
 
         /// <summary>Required method for Designer support - do not modify the contents of this method with the code editor.</summary>
         private void InitializeComponent()
         {
+            // Tooltip
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.toolTip = new ToolTip(this.components);
 
+            // Status
             this.statusStrip = WinFormHelpers.CreateToolStatusStrip("statusStrip", "statusStrip1", new Point(0, 293), new Size(451, 22), control: this);
             this.statusStrip.BackColor = SystemColors.ControlText;
             this.statusStrip.Items.AddRange(new ToolStripItem[] {this.labelStatus});
@@ -42,6 +64,7 @@ namespace MegaMariPrac
             this.labelStatus = WinFormHelpers.CreateToolStripStatusLabel("labelStatus", "labelStatus", new Size(64, 17));
             this.labelStatus.BackColor = this.labelStatus.ForeColor = SystemColors.Control;
 
+            // Coordinates group
             this.groupCoordinates = WinFormHelpers.CreateGroupBox("groupCoordinates", "Coordinates/Values", new Point(199, 27), new Size(241, 93), grpFont, this);
             this.groupCoordinates.Anchor = topRightAnchor;
             this.groupCoordinates.TabIndex = 17;
@@ -82,6 +105,7 @@ namespace MegaMariPrac
             this.labelX.ForeColor = Color.Blue;
             this.labelX.TabIndex = 5;
 
+            // Saves group
             this.groupSaves = WinFormHelpers.CreateGroupBox("groupSaves", "Save states", new Point(199, 126), new Size(241, 76), grpFont, this);
             this.groupSaves.Anchor = topRightAnchor;
             this.groupSaves.TabIndex = 35;
@@ -104,19 +128,21 @@ namespace MegaMariPrac
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
 
+            // Timer section
             font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.labelScreenTime = WinFormHelpers.CreateLabel("labelScreenTime", "00:00.000", new Point(298, 262), new Size(62, 15), font, control: groupCoordinates);
+            this.labelScreenTime = WinFormHelpers.CreateLabel("labelScreenTime", "00:00.000", new Point(298, 262), new Size(62, 15), font, control: this);
             this.labelScreenTime.Anchor = topRightAnchor;
             this.labelScreenTime.TabIndex = 39;
 
-            this.label6 = WinFormHelpers.CreateLabel("label6", "Screen timer:", new Point(216, 262), new Size(80, 15), font, control: groupCoordinates);
+            this.label6 = WinFormHelpers.CreateLabel("label6", "Screen timer:", new Point(216, 262), new Size(80, 15), font, control: this);
             this.label6.Anchor = topRightAnchor;
             this.label6.TabIndex = 38;
 
-            this.labelLastScreenTime = WinFormHelpers.CreateLabel("labelLastScreenTime", "00:00.000", new Point(366, 262), new Size(62, 15), font, control: groupCoordinates);
+            this.labelLastScreenTime = WinFormHelpers.CreateLabel("labelLastScreenTime", "00:00.000", new Point(366, 262), new Size(62, 15), font, control: this);
             this.labelLastScreenTime.Anchor = topRightAnchor;
             this.labelLastScreenTime.TabIndex = 40;
 
+            // General group
             this.groupGeneral = WinFormHelpers.CreateGroupBox("groupGeneral", "General", new Point(12, 27), new Size(177, 160), grpFont, this);
             this.groupGeneral.TabIndex = 41;
             this.groupGeneral.TabStop = false;
@@ -132,13 +158,21 @@ namespace MegaMariPrac
             this.buttonCheckpoint.UseVisualStyleBackColor = true;
             this.buttonCheckpoint.Click += new System.EventHandler(this.buttonCheckpoint_Click);
 
-            this.checkFreezeAll = WinFormHelpers.CreateCheckBox("checkFreezeAll", "Freeze all", new Point(6, 19), new Size(71, 17), enabled: false);
+            this.checkFreezeAll = WinFormHelpers.CreateCheckBox("checkFreezeAll", "Freeze all", new Point(6, 19), new Size(71, 17), control: groupGeneral, enabled: false);
             this.checkFreezeAll.TabIndex = 24;
             this.checkFreezeAll.TabStop = false;
             this.checkFreezeAll.UseVisualStyleBackColor = true;
             this.checkFreezeAll.CheckedChanged += new System.EventHandler(this.checkFreezeAll_CheckedChanged);
 
-            this.checkIframes = WinFormHelpers.CreateCheckBox("checkIframes", "Infinite iframes", new Point(83, 59), new Size(93, 17), enabled: false);
+            this.checkLives = WinFormHelpers.CreateCheckBox("checkLives", "Infinite lives", new Point(83, 39), new Size(81, 17), control: groupGeneral, enabled: false);
+            this.checkLives.TabIndex = 9;
+            this.checkLives.UseVisualStyleBackColor = true;
+
+            this.checkHealth = WinFormHelpers.CreateCheckBox("checkHealth", "Infinite health", new Point(83, 19), new Size(89, 17), control: groupGeneral, enabled: false);
+            this.checkHealth.TabIndex = 5;
+            this.checkHealth.UseVisualStyleBackColor = true;
+
+            this.checkIframes = WinFormHelpers.CreateCheckBox("checkIframes", "Infinite iframes", new Point(83, 59), new Size(93, 17), control: groupGeneral, enabled: false);
             this.checkIframes.TabIndex = 14;
             this.checkIframes.UseVisualStyleBackColor = true;
 
@@ -164,14 +198,6 @@ namespace MegaMariPrac
             this.buttonGameOver.UseVisualStyleBackColor = true;
             this.buttonGameOver.Click += new System.EventHandler(this.buttonGameOver_Click);
 
-            this.checkHealth = WinFormHelpers.CreateCheckBox("checkHealth", "Infinite health", new Point(83, 19), new Size(89, 17), enabled: false);
-            this.checkHealth.TabIndex = 5;
-            this.checkHealth.UseVisualStyleBackColor = true;
-
-            this.checkLives = WinFormHelpers.CreateCheckBox("checkLives", "Infinite lives", new Point(83, 39), new Size(81, 17), enabled: false);
-            this.checkLives.TabIndex = 9;
-            this.checkLives.UseVisualStyleBackColor = true;
-
             this.buttonDie = WinFormHelpers.CreateButton("buttonDie", "Die", new Point(86, 84), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
             this.buttonDie.TabIndex = 6;
             this.buttonDie.UseVisualStyleBackColor = true;
@@ -189,11 +215,11 @@ namespace MegaMariPrac
             SetWeaponBox(this.weaponBoxBroom, "broom", new Point(6, 42), 1);
             SetWeaponBox(this.weaponBoxReimu, "reimu", new Point(6, 78), 0);
 
+            // Warp group
             this.groupWarp = WinFormHelpers.CreateGroupBox("groupWarp", "Level warp", new Point(199, 208), new Size(241, 44), grpFont, this);
             this.groupWarp.Anchor = topRightAnchor;
             this.groupWarp.TabIndex = 43;
             this.groupWarp.TabStop = false;
-            this.groupWarp.Controls.Add(this.checkEarlyBroom);
 
             this.checkEarlyBroom = WinFormHelpers.CreateCheckBox("checkEarlyBroom", "Early broom", new Point(6, 18), new Size(81, 17), control: groupWarp, enabled: false);
             this.checkEarlyBroom.TabIndex = 16;
@@ -225,29 +251,69 @@ namespace MegaMariPrac
                 "Patchouli 6"
             });
 
-            this.toolTip = new ToolTip(this.components);
+            // Menu
             this.menuStrip = new MenuStrip();
-            this.hotkeysToolStripMenuItem = new ToolStripMenuItem();
-            this.applicationFolderToolStripMenuItem = new ToolStripMenuItem();
-            this.helpAboutToolStripMenuItem = new ToolStripMenuItem();
-            this.barBossHP = new ProgressBar();
+            this.menuStrip.Items.AddRange(new ToolStripItem[] {
+                this.hotkeysToolStripMenuItem,
+                this.applicationFolderToolStripMenuItem,
+                this.helpAboutToolStripMenuItem
+            });
+            this.menuStrip.Location = new Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new Size(451, 24);
+            this.menuStrip.TabIndex = 45;
+            this.menuStrip.Text = "menuStrip";
 
-            this.label3 = WinFormHelpers.CreateLabel("label3", "Boss HP", new Point(218, 295), new Size(54, 15), font, control: groupCoordinates);
+            // hotkeysToolStripMenuItem
+            this.hotkeysToolStripMenuItem = new ToolStripMenuItem();
+            this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
+            this.hotkeysToolStripMenuItem.Size = new Size(62, 20);
+            this.hotkeysToolStripMenuItem.Text = "Hotkeys";
+            this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
+
+            // applicationFolderToolStripMenuItem
+            this.applicationFolderToolStripMenuItem = new ToolStripMenuItem();
+            this.applicationFolderToolStripMenuItem.Name = "applicationFolderToolStripMenuItem";
+            this.applicationFolderToolStripMenuItem.Size = new Size(114, 20);
+            this.applicationFolderToolStripMenuItem.Text = "Application folder";
+            this.applicationFolderToolStripMenuItem.Click += new System.EventHandler(this.applicationFolderToolStripMenuItem_Click);
+
+            // helpAboutToolStripMenuItem
+            this.helpAboutToolStripMenuItem = new ToolStripMenuItem();
+            this.helpAboutToolStripMenuItem.Name = "helpAboutToolStripMenuItem";
+            this.helpAboutToolStripMenuItem.Size = new Size(82, 20);
+            this.helpAboutToolStripMenuItem.Text = "Help/About";
+            this.helpAboutToolStripMenuItem.Click += new System.EventHandler(this.helpAboutToolStripMenuItem_Click);
+
+            // Boss HP
+            this.barBossHP = new ProgressBar();
+            this.barBossHP.Anchor = AnchorStyles.Bottom;
+            this.barBossHP.ForeColor = SystemColors.HotTrack;
+            this.barBossHP.Location = new Point(274, 296);
+            this.barBossHP.Maximum = 280;
+            this.barBossHP.Name = "barBossHP";
+            this.barBossHP.Size = new Size(144, 16);
+            this.barBossHP.Style = ProgressBarStyle.Continuous;
+            this.barBossHP.TabIndex = 46;
+
+            this.label3 = WinFormHelpers.CreateLabel("label3", "Boss HP", new Point(218, 295), new Size(54, 15), font, control: this);
             this.label3.Anchor = AnchorStyles.Bottom;
             this.label3.BackColor = SystemColors.ControlText;
             this.label3.ForeColor = SystemColors.Control;
             this.label3.TabIndex = 47;
 
-            this.labelBossHp = WinFormHelpers.CreateLabel("labelBossHp", "280", new Point(421, 295), new Size(28, 15), font, control: groupCoordinates);
+            this.labelBossHp = WinFormHelpers.CreateLabel("labelBossHp", "280", new Point(421, 295), new Size(28, 15), font, control: this);
             this.labelBossHp.Anchor = AnchorStyles.Bottom;
             this.labelBossHp.BackColor = Color.Black;
             this.labelBossHp.ForeColor = SystemColors.Control;
             this.labelBossHp.TabIndex = 48;
 
+            // Layout & init
             this.statusStrip.SuspendLayout();
             this.groupCoordinates.SuspendLayout();
             this.groupSaves.SuspendLayout();
             this.groupGeneral.SuspendLayout();
+
             ((ISupportInitialize)(this.tankBox4)).BeginInit();
             ((ISupportInitialize)(this.tankBox3)).BeginInit();
             ((ISupportInitialize)(this.tankBox2)).BeginInit();
@@ -262,78 +328,11 @@ namespace MegaMariPrac
             ((ISupportInitialize)(this.weaponBoxYoumu)).BeginInit();
             ((ISupportInitialize)(this.weaponBoxBroom)).BeginInit();
             ((ISupportInitialize)(this.weaponBoxReimu)).BeginInit();
+
             this.groupWarp.SuspendLayout();
             this.menuStrip.SuspendLayout();
+
             this.SuspendLayout();
-            // 
-            // groupGeneral
-            // 
-            this.groupGeneral.Controls.Add(this.checkFreezeAll);
-            this.groupGeneral.Controls.Add(this.checkIframes);
-            this.groupGeneral.Controls.Add(this.checkLives);
-            //
-            // menuStrip
-            // 
-            this.menuStrip.Items.AddRange(new ToolStripItem[] {
-                this.hotkeysToolStripMenuItem,
-                this.applicationFolderToolStripMenuItem,
-                this.helpAboutToolStripMenuItem
-            });
-            this.menuStrip.Location = new Point(0, 0);
-            this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new Size(451, 24);
-            this.menuStrip.TabIndex = 45;
-            this.menuStrip.Text = "menuStrip";
-            // 
-            // hotkeysToolStripMenuItem
-            // 
-            this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.Size = new Size(62, 20);
-            this.hotkeysToolStripMenuItem.Text = "Hotkeys";
-            this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
-            // 
-            // applicationFolderToolStripMenuItem
-            // 
-            this.applicationFolderToolStripMenuItem.Name = "applicationFolderToolStripMenuItem";
-            this.applicationFolderToolStripMenuItem.Size = new Size(114, 20);
-            this.applicationFolderToolStripMenuItem.Text = "Application folder";
-            this.applicationFolderToolStripMenuItem.Click += new System.EventHandler(this.applicationFolderToolStripMenuItem_Click);
-            // 
-            // helpAboutToolStripMenuItem
-            // 
-            this.helpAboutToolStripMenuItem.Name = "helpAboutToolStripMenuItem";
-            this.helpAboutToolStripMenuItem.Size = new Size(82, 20);
-            this.helpAboutToolStripMenuItem.Text = "Help/About";
-            this.helpAboutToolStripMenuItem.Click += new System.EventHandler(this.helpAboutToolStripMenuItem_Click);
-            // 
-            // barBossHP
-            // 
-            this.barBossHP.Anchor = AnchorStyles.Bottom;
-            this.barBossHP.ForeColor = SystemColors.HotTrack;
-            this.barBossHP.Location = new Point(274, 296);
-            this.barBossHP.Maximum = 280;
-            this.barBossHP.Name = "barBossHP";
-            this.barBossHP.Size = new Size(144, 16);
-            this.barBossHP.Style = ProgressBarStyle.Continuous;
-            this.barBossHP.TabIndex = 46;
-            // 
-            // MainForm
-            // 
-            this.AutoScaleDimensions = new SizeF(6F, 13F);
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(451, 315);
-            this.Controls.Add(this.labelBossHp);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.barBossHP);
-            this.Controls.Add(this.labelLastScreenTime);
-            this.Controls.Add(this.labelScreenTime);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.menuStrip);
-            this.Icon = ((Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip;
-            this.Name = "MainForm";
-            this.Text = "MegaMariPrac v0.91";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.groupCoordinates.ResumeLayout(false);
@@ -341,6 +340,7 @@ namespace MegaMariPrac
             this.groupSaves.ResumeLayout(false);
             this.groupGeneral.ResumeLayout(false);
             this.groupGeneral.PerformLayout();
+
             ((ISupportInitialize)(this.tankBox4)).EndInit();
             ((ISupportInitialize)(this.tankBox3)).EndInit();
             ((ISupportInitialize)(this.tankBox2)).EndInit();
@@ -355,13 +355,19 @@ namespace MegaMariPrac
             ((ISupportInitialize)(this.weaponBoxYoumu)).EndInit();
             ((ISupportInitialize)(this.weaponBoxBroom)).EndInit();
             ((ISupportInitialize)(this.weaponBoxReimu)).EndInit();
+
             this.groupWarp.ResumeLayout(false);
             this.groupWarp.PerformLayout();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
+
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        #endregion
+
+        #region Setter methods
 
         /// <summary>
         ///     Set a TankBox's (PictureBox) parameters.<br/>
@@ -399,7 +405,7 @@ namespace MegaMariPrac
                 return;
             }
 
-            instance = WinFormHelpers.CreateCheckBox(name, "", position, new Size(15, 14), enabled: false);
+            instance = WinFormHelpers.CreateCheckBox(name, "", position, new Size(15, 14), control: groupGeneral, enabled: false);
             instance.TabIndex = 22;
             instance.TabStop = false;
             instance.UseVisualStyleBackColor = name == "weaponCheckBroom" ? false : true;
@@ -424,7 +430,7 @@ namespace MegaMariPrac
             }
 
             string characterWithUppercase = char.ToUpper(character[0]) + character.Substring(1).ToLower();
-            instance = WinFormHelpers.CreatePictureBox($"weaponBox{characterWithUppercase}", img, position, new Size(30, 30), this, enabled: false);
+            instance = WinFormHelpers.CreatePictureBox($"weaponBox{characterWithUppercase}", img, position, new Size(30, 30), groupGeneral, enabled: false);
             instance.TabIndex = tabIndex;
             instance.TabStop = false;
             instance.MouseDown += new MouseEventHandler(this.weaponBox_Click);
@@ -434,6 +440,8 @@ namespace MegaMariPrac
 
         #region Properties
 
+        
+        ComponentResourceManager resources = new ComponentResourceManager(typeof(MainForm));
         AnchorStyles topRightAnchor = ((AnchorStyles.Top | AnchorStyles.Right));
         Font btnFont = new Font("Microsoft Sans Serif", 6.75F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
             grpFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
