@@ -555,19 +555,19 @@ namespace MegaMariPrac
                 dictWeapon["Reimu"] = flagReimu; dictWeapon["Remilia"] = flagRemilia; dictWeapon["Youmu"] = flagYoumu; dictWeapon["Reisen"] = flagReisen;
                 dictWeapon["Cirno"] = flagCirno; dictWeapon["Sakuya"] = flagSakuya; dictWeapon["Yuyuko"] = flagYuyuko; dictWeapon["Eirin"] = flagEirin;
 
-                EnableIcon(flag: flagBroom, character: "broom", box: weaponBoxBroom, regularWeapon: false);
-                EnableIcon(flag: flagDoll, character: "doll", box: weaponBoxDoll, regularWeapon: false);
-                EnableIcon(flag: flagReimu, character: "reimu", box: weaponBoxReimu);
-                EnableIcon(flag: flagRemilia, character: "remilia", box: weaponBoxRemilia);
-                EnableIcon(flag: flagYoumu, character: "youmu", box: weaponBoxYoumu);
-                EnableIcon(flag: flagReisen, character: "reisen", box: weaponBoxReisen);
-                EnableIcon(flag: flagCirno, character: "cirno", box: weaponBoxCirno);
-                EnableIcon(flag: flagSakuya, character: "sakuya", box: weaponBoxSakuya);
-                EnableIcon(flag: flagYuyuko, character: "yuyuko", box: weaponBoxYuyuko);
-                EnableIcon(flag: flagEirin, character: "eirin", box: weaponBoxEirin);
+                EnableIcon(flagBroom, "broom", weaponBoxBroom, false);
+                EnableIcon(flagDoll, "doll", weaponBoxDoll, false);
+                EnableIcon(flagReimu, "reimu", weaponBoxReimu);
+                EnableIcon(flagRemilia, "remilia", weaponBoxRemilia);
+                EnableIcon(flagYoumu, "youmu", weaponBoxYoumu);
+                EnableIcon(flagReisen, "reisen", weaponBoxReisen);
+                EnableIcon(flagCirno, "cirno", weaponBoxCirno);
+                EnableIcon(flagSakuya, "sakuya", weaponBoxSakuya);
+                EnableIcon(flagYuyuko, "yuyuko", weaponBoxYuyuko);
+                EnableIcon(flagEirin, "eirin", weaponBoxEirin);
 
-                EnableIcon(flag: flagTank1, box: tankBox1, isTank: true); EnableIcon(flagTank2, box: tankBox2, isTank: true);
-                EnableIcon(flag: flagTank3, box: tankBox3, isTank: true); EnableIcon(flagTank4, box: tankBox4, isTank: true);
+                EnableIcon(flagTank1, box: tankBox1, isTank: true); EnableIcon(flagTank2, box: tankBox2, isTank: true);
+                EnableIcon(flagTank3, box: tankBox3, isTank: true); EnableIcon(flagTank4, box: tankBox4, isTank: true);
 
                 if (screenType == TITLE_SCREEN || screenType == STAGE_SELECT || screenType == STAGE_LOADING)
                 {
@@ -584,24 +584,19 @@ namespace MegaMariPrac
             {
                 if (!isTank)
                 {
+                    object test = null;
                     if (regularWeapon)
                     {
                         switch (flag)
                         {
                             case ON_NOBODY:
-                                object test = Properties.Resources.ResourceManager.GetObject(character + "_off");
-                                if (test is Image)
-                                    box.Image = (Image)Properties.Resources.ResourceManager.GetObject(character + "_off");
+                                test = (Image)Properties.Resources.ResourceManager.GetObject(character + "_off");
                                 break;
                             case ON_MARISA:
-                                test = Properties.Resources.ResourceManager.GetObject(character + "_on_marisa");
-                                if (test is Image)
-                                    box.Image = (Image)Properties.Resources.ResourceManager.GetObject(character + "_on_marisa");
+                                test = (Image)Properties.Resources.ResourceManager.GetObject(character + "_on_marisa");
                                 break;
                             case ON_ALICE:
-                                test = Properties.Resources.ResourceManager.GetObject(character + "_on_alice");
-                                if (test is Image)
-                                    box.Image = (Image)Properties.Resources.ResourceManager.GetObject(character + "_on_alice");
+                                test = (Image)Properties.Resources.ResourceManager.GetObject(character + "_on_alice");
                                 break;
                         }
                     }
@@ -610,16 +605,18 @@ namespace MegaMariPrac
                         switch (flag)
                         {
                             case SPECIAL_WEAPON_OFF:
-                                object test = Properties.Resources.ResourceManager.GetObject(character + "_off");
-                                if (test is Image)
-                                    box.Image = (Image)Properties.Resources.ResourceManager.GetObject(character + "_off");
+                                test = (Image)Properties.Resources.ResourceManager.GetObject(character + "_off");
                                 break;
                             case SPECIAL_WEAPON_ON:
-                                test = Properties.Resources.ResourceManager.GetObject(character + "_on");
-                                if (test is Image)
-                                    box.Image = (Image)Properties.Resources.ResourceManager.GetObject(character + "_on");
+                                test = (Image)Properties.Resources.ResourceManager.GetObject(character + "_on");
                                 break;
                         }
+                    }
+
+                    // If the resource img was retrieved, set it
+                    if (test is Image img)
+                    {
+                        box.Image = img;
                     }
                 }
                 else
@@ -669,7 +666,7 @@ namespace MegaMariPrac
                     }
                 }
                 //read all save state lines into memory
-                var lines = File.ReadAllLines(configpath + savestatesfilename).ToList();
+                List<string> lines = File.ReadAllLines(configpath + savestatesfilename).ToList();
                 lines.RemoveAt(lineNumber);
                 File.WriteAllLines(configpath + savestatesfilename, lines); //write the new lines to the file
                 UpdateComboSaveStates(true);
@@ -703,7 +700,7 @@ namespace MegaMariPrac
                             }
                         }
                         //read all save state lines into memory
-                        var lines = File.ReadAllLines(configpath + savestatesfilename).ToList();
+                        List<string> lines = File.ReadAllLines(configpath + savestatesfilename).ToList();
                         //insert the desired line at the number found - 1
                         StoreValues();
                         lines.Insert(lineNumber - 1, ssname.name + " | " + ss.ToString());
@@ -778,7 +775,7 @@ namespace MegaMariPrac
 
         private void weaponBox_Click(object sender, EventArgs e)
         {
-            var s = sender as PictureBox;
+            PictureBox s = (PictureBox)sender;
             switch (s.Name)
             {
                 case "weaponBoxBroom": SetWeapon(BROOM_FLAG_OFFSET, flagBroom, false); break;
@@ -796,7 +793,7 @@ namespace MegaMariPrac
 
         private void tankBox_Click(object sender, EventArgs e)
         {
-            var s = sender as PictureBox;
+            PictureBox s = (PictureBox)sender;
             switch (s.Name)
             {
                 case "tankBox1": SetTank(MENU_TANK_SLOT_1_OFFSET, tankBox1); break;
@@ -935,7 +932,7 @@ namespace MegaMariPrac
 
         #region actions
         private void StoreValues()
-        {   
+        {
             if (screenType == STAGE && state == PLAYING)
             {
                 byte[] xPos = pm.Read(FIRST_OFFSET, X_OFFSET); //read x speed value
@@ -1054,7 +1051,7 @@ namespace MegaMariPrac
                     print(ex.Message);
             }
         }
-        
+
         private void LoadNextStage()
         {
             try
