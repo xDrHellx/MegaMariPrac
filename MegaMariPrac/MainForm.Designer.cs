@@ -26,7 +26,7 @@ namespace MegaMariPrac
 
         #endregion
 
-        #region Main window
+        #region Main window & menu
 
         /// <summary>Set parameters & events for the main window</summary>
         void SetMainWindow()
@@ -39,9 +39,22 @@ namespace MegaMariPrac
             this.MainMenuStrip = this.menuStrip;
             this.Icon = ((Icon)(resources.GetObject("$this.Icon")));
             this.Load += new System.EventHandler(this.MainForm_Load);
+        }
 
-            this.Controls.Add(this.barBossHP);
-            this.Controls.Add(this.menuStrip);
+        /// <summary>Generate the window menu</summary>
+        void GenerateMenu()
+        {
+            this.menuStrip = WinFormHelpers.CreateMenuStrip("menuStrip", "menuStrip", this);
+            this.menuStrip.TabIndex = 45;
+
+            this.hotkeysToolStripMenuItem = WinFormHelpers.CreateToolStripMenuItem("hotkeysToolStripMenuItem", "Hotkeys", menuStrip: this.menuStrip);
+            this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
+
+            this.applicationFolderToolStripMenuItem = WinFormHelpers.CreateToolStripMenuItem("applicationFolderToolStripMenuItem", "Application folder", menuStrip: this.menuStrip);
+            this.applicationFolderToolStripMenuItem.Click += new System.EventHandler(this.applicationFolderToolStripMenuItem_Click);
+
+            this.helpAboutToolStripMenuItem = WinFormHelpers.CreateToolStripMenuItem("helpAboutToolStripMenuItem", "Help/About", menuStrip: this.menuStrip);
+            this.helpAboutToolStripMenuItem.Click += new System.EventHandler(this.helpAboutToolStripMenuItem_Click);
         }
 
         #endregion
@@ -51,6 +64,9 @@ namespace MegaMariPrac
         /// <summary>Required method for Designer support - do not modify the contents of this method with the code editor.</summary>
         private void InitializeComponent()
         {
+            SetMainWindow();
+            GenerateMenu();
+
             // Tooltip
             this.components = new System.ComponentModel.Container();
             this.toolTip = new ToolTip(this.components);
@@ -251,62 +267,23 @@ namespace MegaMariPrac
                 "Patchouli 6"
             });
 
-            // Menu
-            this.menuStrip = new MenuStrip();
-            this.menuStrip.Items.AddRange(new ToolStripItem[] {
-                this.hotkeysToolStripMenuItem,
-                this.applicationFolderToolStripMenuItem,
-                this.helpAboutToolStripMenuItem
-            });
-            this.menuStrip.Location = new Point(0, 0);
-            this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new Size(451, 24);
-            this.menuStrip.TabIndex = 45;
-            this.menuStrip.Text = "menuStrip";
-
-            // hotkeysToolStripMenuItem
-            this.hotkeysToolStripMenuItem = new ToolStripMenuItem();
-            this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.Size = new Size(62, 20);
-            this.hotkeysToolStripMenuItem.Text = "Hotkeys";
-            this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
-
-            // applicationFolderToolStripMenuItem
-            this.applicationFolderToolStripMenuItem = new ToolStripMenuItem();
-            this.applicationFolderToolStripMenuItem.Name = "applicationFolderToolStripMenuItem";
-            this.applicationFolderToolStripMenuItem.Size = new Size(114, 20);
-            this.applicationFolderToolStripMenuItem.Text = "Application folder";
-            this.applicationFolderToolStripMenuItem.Click += new System.EventHandler(this.applicationFolderToolStripMenuItem_Click);
-
-            // helpAboutToolStripMenuItem
-            this.helpAboutToolStripMenuItem = new ToolStripMenuItem();
-            this.helpAboutToolStripMenuItem.Name = "helpAboutToolStripMenuItem";
-            this.helpAboutToolStripMenuItem.Size = new Size(82, 20);
-            this.helpAboutToolStripMenuItem.Text = "Help/About";
-            this.helpAboutToolStripMenuItem.Click += new System.EventHandler(this.helpAboutToolStripMenuItem_Click);
-
             // Boss HP
-            this.barBossHP = new ProgressBar();
+            this.barBossHP = WinFormHelpers.CreateProgressBar("barBossHP", new Point(274, 296), new Size(144, 16), 0, 280, this);
+            this.barBossHP.TabIndex = 46;
             this.barBossHP.Anchor = AnchorStyles.Bottom;
             this.barBossHP.ForeColor = SystemColors.HotTrack;
-            this.barBossHP.Location = new Point(274, 296);
-            this.barBossHP.Maximum = 280;
-            this.barBossHP.Name = "barBossHP";
-            this.barBossHP.Size = new Size(144, 16);
-            this.barBossHP.Style = ProgressBarStyle.Continuous;
-            this.barBossHP.TabIndex = 46;
 
             this.label3 = WinFormHelpers.CreateLabel("label3", "Boss HP", new Point(218, 295), new Size(54, 15), font, control: this);
+            this.label3.TabIndex = 47;
             this.label3.Anchor = AnchorStyles.Bottom;
             this.label3.BackColor = SystemColors.ControlText;
             this.label3.ForeColor = SystemColors.Control;
-            this.label3.TabIndex = 47;
 
             this.labelBossHp = WinFormHelpers.CreateLabel("labelBossHp", "280", new Point(421, 295), new Size(28, 15), font, control: this);
+            this.labelBossHp.TabIndex = 48;
             this.labelBossHp.Anchor = AnchorStyles.Bottom;
             this.labelBossHp.BackColor = Color.Black;
             this.labelBossHp.ForeColor = SystemColors.Control;
-            this.labelBossHp.TabIndex = 48;
 
             // Layout & init
             this.statusStrip.SuspendLayout();
