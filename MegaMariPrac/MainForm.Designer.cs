@@ -59,13 +59,18 @@ namespace MegaMariPrac
 
         #endregion
 
-        #region WinForm gen
+        #region Init component
 
         /// <summary>Required method for Designer support - do not modify the contents of this method with the code editor.</summary>
         private void InitializeComponent()
         {
+            // Main window, menu & groups
             SetMainWindow();
             GenerateMenu();
+            GenerateCoordinatesGroup();
+            GenerateSavesGroup();
+            GenerateGeneralGroup();
+            GenerateWarpGroup();
 
             // Tooltip
             this.components = new System.ComponentModel.Container();
@@ -80,72 +85,8 @@ namespace MegaMariPrac
             this.labelStatus = WinFormHelpers.CreateToolStripStatusLabel("labelStatus", "labelStatus", new Size(64, 17));
             this.labelStatus.BackColor = this.labelStatus.ForeColor = SystemColors.Control;
 
-            // Coordinates group
-            this.groupCoordinates = WinFormHelpers.CreateGroupBox("groupCoordinates", "Coordinates/Values", new Point(199, 27), new Size(241, 93), grpFont, this);
-            this.groupCoordinates.Anchor = topRightAnchor;
-            this.groupCoordinates.TabIndex = 17;
-            this.groupCoordinates.TabStop = false;
-
-            Font font = new Font("Microsoft Sans Serif", 7.25F);
-            this.labelStoredY = WinFormHelpers.CreateLabel("labelStoredY", "Y: 0", new Point(143, 44), new Size(26, 13), font, control: groupCoordinates);
-            this.labelStoredY.ForeColor = Color.Red;
-            this.labelStoredY.TabIndex = 28;
-
-            this.labelStoredX = WinFormHelpers.CreateLabel("labelStoredX", "X: 0", new Point(51, 44), new Size(26, 13), font, control: groupCoordinates);
-            this.labelStoredX.ForeColor = Color.Blue;
-            this.labelStoredX.TabIndex = 27;
-
-            this.buttonLoad = WinFormHelpers.CreateButton("buttonLoad", "Load", new Point(123, 66), new Size(112, 19), btnFont, control: groupCoordinates, enabled: false);
-            this.buttonLoad.BackColor = SystemColors.Control;
-            this.buttonLoad.TabIndex = 18;
-            this.buttonLoad.UseVisualStyleBackColor = true;
-            this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
-
-            this.buttonStore = WinFormHelpers.CreateButton("buttonStore", "Store", new Point(6, 66), new Size(112, 19), btnFont, control: groupCoordinates, enabled: false);
-            this.buttonStore.BackColor = SystemColors.Control;
-            this.buttonStore.TabIndex = 17;
-            this.buttonStore.UseVisualStyleBackColor = true;
-            this.buttonStore.Click += new System.EventHandler(this.buttonStore_Click);
-
-            this.label2 = WinFormHelpers.CreateLabel("label2", "Stored:", new Point(7, 44), new Size(41, 13), grpFont, control: groupCoordinates);
-            this.label2.TabIndex = 10;
-
-            this.label1 = WinFormHelpers.CreateLabel("label1", "Coord:", new Point(7, 24), new Size(38, 13), grpFont, control: groupCoordinates);
-            this.label1.TabIndex = 7;
-
-            this.labelY = WinFormHelpers.CreateLabel("labelY", "Y: 0", new Point(142, 25), new Size(30, 13), grpFont, control: groupCoordinates);
-            this.labelY.ForeColor = Color.Red;
-            this.labelY.TabIndex = 6;
-
-            this.labelX = WinFormHelpers.CreateLabel("labelX", "X: 0", new Point(50, 25), new Size(30, 13), grpFont, control: groupCoordinates);
-            this.labelX.ForeColor = Color.Blue;
-            this.labelX.TabIndex = 5;
-
-            // Saves group
-            this.groupSaves = WinFormHelpers.CreateGroupBox("groupSaves", "Save states", new Point(199, 126), new Size(241, 76), grpFont, this);
-            this.groupSaves.Anchor = topRightAnchor;
-            this.groupSaves.TabIndex = 35;
-            this.groupSaves.TabStop = false;
-
-            this.buttonDelete = WinFormHelpers.CreateButton("buttonDelete", "Delete", new Point(123, 21), new Size(112, 19), btnFont, control: groupSaves, enabled: false);
-            this.buttonDelete.BackColor = SystemColors.Control;
-            this.buttonDelete.TabIndex = 21;
-            this.buttonDelete.UseVisualStyleBackColor = true;
-            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
-
-            this.comboSaves = WinFormHelpers.CreateDropDownList("comboSaves", new Point(6, 46), new Size(229, 21), grpFont, groupSaves, enabled: false);
-            this.comboSaves.TabIndex = 19;
-            this.comboSaves.FormattingEnabled = true;
-            this.comboSaves.SelectedIndexChanged += new System.EventHandler(this.comboSaves_SelectionChangeCommitted);
-
-            this.buttonSave = WinFormHelpers.CreateButton("buttonSave", "Save", new Point(6, 21), new Size(112, 19), btnFont, control: groupSaves, enabled: false);
-            this.buttonSave.BackColor = SystemColors.Control;
-            this.buttonSave.TabIndex = 20;
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-
             // Timer section
-            font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            Font font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.labelScreenTime = WinFormHelpers.CreateLabel("labelScreenTime", "00:00.000", new Point(298, 262), new Size(62, 15), font, control: this);
             this.labelScreenTime.Anchor = topRightAnchor;
             this.labelScreenTime.TabIndex = 39;
@@ -157,115 +98,6 @@ namespace MegaMariPrac
             this.labelLastScreenTime = WinFormHelpers.CreateLabel("labelLastScreenTime", "00:00.000", new Point(366, 262), new Size(62, 15), font, control: this);
             this.labelLastScreenTime.Anchor = topRightAnchor;
             this.labelLastScreenTime.TabIndex = 40;
-
-            // General group
-            this.groupGeneral = WinFormHelpers.CreateGroupBox("groupGeneral", "General", new Point(12, 27), new Size(177, 260), grpFont, this);
-            this.groupGeneral.TabIndex = 41;
-            this.groupGeneral.TabStop = false;
-
-            // Set params & click events for each tank PictureBox
-            SetTankBox(this.tankBox1, "tankBox1", new Point(6, 222), 49);
-            SetTankBox(this.tankBox2, "tankBox2", new Point(52, 222), 50);
-            SetTankBox(this.tankBox3, "tankBox3", new Point(98, 222), 51);
-            SetTankBox(this.tankBox4, "tankBox4", new Point(144, 222), 52);
-            
-            this.buttonCheckpoint = WinFormHelpers.CreateButton("buttonCheckPoint", "Checkpoint", new Point(86, 192), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
-            this.buttonCheckpoint.TabIndex = 15;
-            this.buttonCheckpoint.UseVisualStyleBackColor = true;
-            this.buttonCheckpoint.Click += new System.EventHandler(this.buttonCheckpoint_Click);
-
-            this.checkFreezeAll = WinFormHelpers.CreateCheckBox("checkFreezeAll", "Freeze all", new Point(6, 19), new Size(71, 17), control: groupGeneral, enabled: false);
-            this.checkFreezeAll.TabIndex = 24;
-            this.checkFreezeAll.TabStop = false;
-            this.checkFreezeAll.UseVisualStyleBackColor = true;
-            this.checkFreezeAll.CheckedChanged += new System.EventHandler(this.checkFreezeAll_CheckedChanged);
-
-            this.checkLives = WinFormHelpers.CreateCheckBox("checkLives", "Infinite lives", new Point(83, 39), new Size(81, 17), control: groupGeneral, enabled: false);
-            this.checkLives.TabIndex = 9;
-            this.checkLives.UseVisualStyleBackColor = true;
-
-            this.checkHealth = WinFormHelpers.CreateCheckBox("checkHealth", "Infinite health", new Point(83, 19), new Size(89, 17), control: groupGeneral, enabled: false);
-            this.checkHealth.TabIndex = 5;
-            this.checkHealth.UseVisualStyleBackColor = true;
-
-            this.checkIframes = WinFormHelpers.CreateCheckBox("checkIframes", "Infinite iframes", new Point(83, 59), new Size(93, 17), control: groupGeneral, enabled: false);
-            this.checkIframes.TabIndex = 14;
-            this.checkIframes.UseVisualStyleBackColor = true;
-
-            this.buttonWin = WinFormHelpers.CreateButton("buttonWin", "Win", new Point(86, 156), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
-            this.buttonWin.TabIndex = 13;
-            this.buttonWin.UseVisualStyleBackColor = true;
-            this.buttonWin.Click += new System.EventHandler(this.buttonWin_Click);
-
-            // Set params for each weapon CheckBox
-            SetWeaponCheckBox(this.weaponCheckDoll, "weaponCheckDoll",new Point(57, 58), 22);
-            SetWeaponCheckBox(this.weaponCheckRemilia, "weaponCheckRemilia",new Point(57, 94), 21);
-            SetWeaponCheckBox(this.weaponCheckReisen, "weaponCheckReisen",new Point(57, 130), 20);
-            SetWeaponCheckBox(this.weaponCheckSakuya, "weaponCheckSakuya",new Point(57, 166), 19);
-            SetWeaponCheckBox(this.weaponCheckEirin, "weaponCheckEirin",new Point(57, 202), 18);
-            SetWeaponCheckBox(this.weaponCheckYuyuko, "weaponCheckYuyuko",new Point(21, 202), 15);
-            SetWeaponCheckBox(this.weaponCheckCirno, "weaponCheckCirno",new Point(21, 166), 14);
-            SetWeaponCheckBox(this.weaponCheckYoumu, "weaponCheckYoumu",new Point(21, 130), 13);
-            SetWeaponCheckBox(this.weaponCheckReimu, "weaponCheckReimu",new Point(21, 94), 12);
-            SetWeaponCheckBox(this.weaponCheckBroom, "weaponCheckBroom",new Point(21, 58), 1);
-
-            this.buttonGameOver = WinFormHelpers.CreateButton("buttonGameOver", "Game over", new Point(86, 120), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
-            this.buttonGameOver.TabIndex = 8;
-            this.buttonGameOver.UseVisualStyleBackColor = true;
-            this.buttonGameOver.Click += new System.EventHandler(this.buttonGameOver_Click);
-
-            this.buttonDie = WinFormHelpers.CreateButton("buttonDie", "Die", new Point(86, 84), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
-            this.buttonDie.TabIndex = 6;
-            this.buttonDie.UseVisualStyleBackColor = true;
-            this.buttonDie.Click += new System.EventHandler(this.buttonDie_Click);
-
-            // Set params & click events for each weapon PictureBox
-            SetWeaponBox(this.weaponBoxEirin, "eirin", new Point(42, 186), 10);
-            SetWeaponBox(this.weaponBoxSakuya, "sakuya", new Point(42, 150), 9);
-            SetWeaponBox(this.weaponBoxReisen, "reisen", new Point(42, 114), 8);
-            SetWeaponBox(this.weaponBoxDoll, "doll", new Point(42, 42), 7);
-            SetWeaponBox(this.weaponBoxRemilia, "remilia", new Point(42, 78), 6);
-            SetWeaponBox(this.weaponBoxYuyuko, "yuyuko", new Point(6, 186), 4);
-            SetWeaponBox(this.weaponBoxCirno, "cirno", new Point(6, 150), 3);
-            SetWeaponBox(this.weaponBoxYoumu, "youmu", new Point(6, 114), 2);
-            SetWeaponBox(this.weaponBoxBroom, "broom", new Point(6, 42), 1);
-            SetWeaponBox(this.weaponBoxReimu, "reimu", new Point(6, 78), 0);
-
-            // Warp group
-            this.groupWarp = WinFormHelpers.CreateGroupBox("groupWarp", "Level warp", new Point(199, 208), new Size(241, 44), grpFont, this);
-            this.groupWarp.Anchor = topRightAnchor;
-            this.groupWarp.TabIndex = 43;
-            this.groupWarp.TabStop = false;
-
-            this.checkEarlyBroom = WinFormHelpers.CreateCheckBox("checkEarlyBroom", "Early broom", new Point(6, 18), new Size(81, 17), control: groupWarp, enabled: false);
-            this.checkEarlyBroom.TabIndex = 16;
-            this.checkEarlyBroom.UseVisualStyleBackColor = true;
-            this.checkEarlyBroom.CheckedChanged += new System.EventHandler(this.checkEarlyBroom_CheckedChanged);
-
-            this.buttonWarp = WinFormHelpers.CreateButton("buttonWarp", "Set level", new Point(174, 13), new Size(61, 23), btnFont, control: groupWarp, enabled: false);
-            this.buttonWarp.TabIndex = 15;
-            this.buttonWarp.UseVisualStyleBackColor = true;
-            this.buttonWarp.Click += new System.EventHandler(this.buttonWarp_Click);
-
-            this.comboWarp = WinFormHelpers.CreateDropDownList("comboWarp", new Point(90, 14), new Size(78, 21), grpFont, groupWarp, enabled: false);
-            this.comboWarp.TabIndex = 14;
-            this.comboWarp.FormattingEnabled = true;
-            this.comboWarp.Items.AddRange(new object[] {
-                "Cirno",
-                "Eirin",
-                "Yuyuko",
-                "Reisen",
-                "Reimu",
-                "Remilia",
-                "Sakuya",
-                "Youmu",
-                "Patchouli 1",
-                "Patchouli 2",
-                "Patchouli 3",
-                "Patchouli 4",
-                "Patchouli 5",
-                "Patchouli 6"
-            });
 
             // Boss HP
             this.barBossHP = WinFormHelpers.CreateProgressBar("barBossHP", new Point(274, 296), new Size(144, 16), 0, 280, this);
@@ -340,6 +172,191 @@ namespace MegaMariPrac
 
             this.ResumeLayout(false);
             this.PerformLayout();
+        }
+
+        #endregion
+
+        #region Groups
+
+        void GenerateCoordinatesGroup()
+        {
+            this.groupCoordinates = WinFormHelpers.CreateGroupBox("groupCoordinates", "Coordinates/Values", new Point(199, 27), new Size(241, 93), grpFont, this);
+            this.groupCoordinates.Anchor = topRightAnchor;
+            this.groupCoordinates.TabIndex = 17;
+            this.groupCoordinates.TabStop = false;
+
+            Font font = new Font("Microsoft Sans Serif", 7.25F);
+            this.labelStoredY = WinFormHelpers.CreateLabel("labelStoredY", "Y: 0", new Point(143, 44), new Size(26, 13), font, control: groupCoordinates);
+            this.labelStoredY.ForeColor = Color.Red;
+            this.labelStoredY.TabIndex = 28;
+
+            this.labelStoredX = WinFormHelpers.CreateLabel("labelStoredX", "X: 0", new Point(51, 44), new Size(26, 13), font, control: groupCoordinates);
+            this.labelStoredX.ForeColor = Color.Blue;
+            this.labelStoredX.TabIndex = 27;
+
+            this.buttonLoad = WinFormHelpers.CreateButton("buttonLoad", "Load", new Point(123, 66), new Size(112, 19), btnFont, control: groupCoordinates, enabled: false);
+            this.buttonLoad.BackColor = SystemColors.Control;
+            this.buttonLoad.TabIndex = 18;
+            this.buttonLoad.UseVisualStyleBackColor = true;
+            this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
+
+            this.buttonStore = WinFormHelpers.CreateButton("buttonStore", "Store", new Point(6, 66), new Size(112, 19), btnFont, control: groupCoordinates, enabled: false);
+            this.buttonStore.BackColor = SystemColors.Control;
+            this.buttonStore.TabIndex = 17;
+            this.buttonStore.UseVisualStyleBackColor = true;
+            this.buttonStore.Click += new System.EventHandler(this.buttonStore_Click);
+
+            this.label2 = WinFormHelpers.CreateLabel("label2", "Stored:", new Point(7, 44), new Size(41, 13), grpFont, control: groupCoordinates);
+            this.label2.TabIndex = 10;
+
+            this.label1 = WinFormHelpers.CreateLabel("label1", "Coord:", new Point(7, 24), new Size(38, 13), grpFont, control: groupCoordinates);
+            this.label1.TabIndex = 7;
+
+            this.labelY = WinFormHelpers.CreateLabel("labelY", "Y: 0", new Point(142, 25), new Size(30, 13), grpFont, control: groupCoordinates);
+            this.labelY.ForeColor = Color.Red;
+            this.labelY.TabIndex = 6;
+
+            this.labelX = WinFormHelpers.CreateLabel("labelX", "X: 0", new Point(50, 25), new Size(30, 13), grpFont, control: groupCoordinates);
+            this.labelX.ForeColor = Color.Blue;
+            this.labelX.TabIndex = 5;
+        }
+
+        void GenerateSavesGroup()
+        {
+            this.groupSaves = WinFormHelpers.CreateGroupBox("groupSaves", "Save states", new Point(199, 126), new Size(241, 76), grpFont, this);
+            this.groupSaves.Anchor = topRightAnchor;
+            this.groupSaves.TabIndex = 35;
+            this.groupSaves.TabStop = false;
+
+            this.buttonDelete = WinFormHelpers.CreateButton("buttonDelete", "Delete", new Point(123, 21), new Size(112, 19), btnFont, control: groupSaves, enabled: false);
+            this.buttonDelete.BackColor = SystemColors.Control;
+            this.buttonDelete.TabIndex = 21;
+            this.buttonDelete.UseVisualStyleBackColor = true;
+            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
+
+            this.comboSaves = WinFormHelpers.CreateDropDownList("comboSaves", new Point(6, 46), new Size(229, 21), grpFont, groupSaves, enabled: false);
+            this.comboSaves.TabIndex = 19;
+            this.comboSaves.FormattingEnabled = true;
+            this.comboSaves.SelectedIndexChanged += new System.EventHandler(this.comboSaves_SelectionChangeCommitted);
+
+            this.buttonSave = WinFormHelpers.CreateButton("buttonSave", "Save", new Point(6, 21), new Size(112, 19), btnFont, control: groupSaves, enabled: false);
+            this.buttonSave.BackColor = SystemColors.Control;
+            this.buttonSave.TabIndex = 20;
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+        }
+
+        void GenerateGeneralGroup()
+        {
+            this.groupGeneral = WinFormHelpers.CreateGroupBox("groupGeneral", "General", new Point(12, 27), new Size(177, 260), grpFont, this);
+            this.groupGeneral.TabIndex = 41;
+            this.groupGeneral.TabStop = false;
+
+            // Set params & click events for each tank PictureBox
+            SetTankBox(this.tankBox1, "tankBox1", new Point(6, 222), 49);
+            SetTankBox(this.tankBox2, "tankBox2", new Point(52, 222), 50);
+            SetTankBox(this.tankBox3, "tankBox3", new Point(98, 222), 51);
+            SetTankBox(this.tankBox4, "tankBox4", new Point(144, 222), 52);
+            
+            this.buttonCheckpoint = WinFormHelpers.CreateButton("buttonCheckPoint", "Checkpoint", new Point(86, 192), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
+            this.buttonCheckpoint.TabIndex = 15;
+            this.buttonCheckpoint.UseVisualStyleBackColor = true;
+            this.buttonCheckpoint.Click += new System.EventHandler(this.buttonCheckpoint_Click);
+
+            this.checkFreezeAll = WinFormHelpers.CreateCheckBox("checkFreezeAll", "Freeze all", new Point(6, 19), new Size(71, 17), control: groupGeneral, enabled: false);
+            this.checkFreezeAll.TabIndex = 24;
+            this.checkFreezeAll.TabStop = false;
+            this.checkFreezeAll.UseVisualStyleBackColor = true;
+            this.checkFreezeAll.CheckedChanged += new System.EventHandler(this.checkFreezeAll_CheckedChanged);
+
+            this.checkLives = WinFormHelpers.CreateCheckBox("checkLives", "Infinite lives", new Point(83, 39), new Size(81, 17), control: groupGeneral, enabled: false);
+            this.checkLives.TabIndex = 9;
+            this.checkLives.UseVisualStyleBackColor = true;
+
+            this.checkHealth = WinFormHelpers.CreateCheckBox("checkHealth", "Infinite health", new Point(83, 19), new Size(89, 17), control: groupGeneral, enabled: false);
+            this.checkHealth.TabIndex = 5;
+            this.checkHealth.UseVisualStyleBackColor = true;
+
+            this.checkIframes = WinFormHelpers.CreateCheckBox("checkIframes", "Infinite iframes", new Point(83, 59), new Size(93, 17), control: groupGeneral, enabled: false);
+            this.checkIframes.TabIndex = 14;
+            this.checkIframes.UseVisualStyleBackColor = true;
+
+            this.buttonWin = WinFormHelpers.CreateButton("buttonWin", "Win", new Point(86, 156), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
+            this.buttonWin.TabIndex = 13;
+            this.buttonWin.UseVisualStyleBackColor = true;
+            this.buttonWin.Click += new System.EventHandler(this.buttonWin_Click);
+
+            // Set params for each weapon CheckBox
+            SetWeaponCheckBox(this.weaponCheckDoll, "weaponCheckDoll",new Point(57, 58), 22);
+            SetWeaponCheckBox(this.weaponCheckRemilia, "weaponCheckRemilia",new Point(57, 94), 21);
+            SetWeaponCheckBox(this.weaponCheckReisen, "weaponCheckReisen",new Point(57, 130), 20);
+            SetWeaponCheckBox(this.weaponCheckSakuya, "weaponCheckSakuya",new Point(57, 166), 19);
+            SetWeaponCheckBox(this.weaponCheckEirin, "weaponCheckEirin",new Point(57, 202), 18);
+            SetWeaponCheckBox(this.weaponCheckYuyuko, "weaponCheckYuyuko",new Point(21, 202), 15);
+            SetWeaponCheckBox(this.weaponCheckCirno, "weaponCheckCirno",new Point(21, 166), 14);
+            SetWeaponCheckBox(this.weaponCheckYoumu, "weaponCheckYoumu",new Point(21, 130), 13);
+            SetWeaponCheckBox(this.weaponCheckReimu, "weaponCheckReimu",new Point(21, 94), 12);
+            SetWeaponCheckBox(this.weaponCheckBroom, "weaponCheckBroom",new Point(21, 58), 1);
+
+            this.buttonGameOver = WinFormHelpers.CreateButton("buttonGameOver", "Game over", new Point(86, 120), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
+            this.buttonGameOver.TabIndex = 8;
+            this.buttonGameOver.UseVisualStyleBackColor = true;
+            this.buttonGameOver.Click += new System.EventHandler(this.buttonGameOver_Click);
+
+            this.buttonDie = WinFormHelpers.CreateButton("buttonDie", "Die", new Point(86, 84), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
+            this.buttonDie.TabIndex = 6;
+            this.buttonDie.UseVisualStyleBackColor = true;
+            this.buttonDie.Click += new System.EventHandler(this.buttonDie_Click);
+
+            // Set params & click events for each weapon PictureBox
+            SetWeaponBox(this.weaponBoxEirin, "eirin", new Point(42, 186), 10);
+            SetWeaponBox(this.weaponBoxSakuya, "sakuya", new Point(42, 150), 9);
+            SetWeaponBox(this.weaponBoxReisen, "reisen", new Point(42, 114), 8);
+            SetWeaponBox(this.weaponBoxDoll, "doll", new Point(42, 42), 7);
+            SetWeaponBox(this.weaponBoxRemilia, "remilia", new Point(42, 78), 6);
+            SetWeaponBox(this.weaponBoxYuyuko, "yuyuko", new Point(6, 186), 4);
+            SetWeaponBox(this.weaponBoxCirno, "cirno", new Point(6, 150), 3);
+            SetWeaponBox(this.weaponBoxYoumu, "youmu", new Point(6, 114), 2);
+            SetWeaponBox(this.weaponBoxBroom, "broom", new Point(6, 42), 1);
+            SetWeaponBox(this.weaponBoxReimu, "reimu", new Point(6, 78), 0);
+        }
+
+        void GenerateWarpGroup()
+        {
+            this.groupWarp = WinFormHelpers.CreateGroupBox("groupWarp", "Level warp", new Point(199, 208), new Size(241, 44), grpFont, this);
+            this.groupWarp.Anchor = topRightAnchor;
+            this.groupWarp.TabIndex = 43;
+            this.groupWarp.TabStop = false;
+
+            this.checkEarlyBroom = WinFormHelpers.CreateCheckBox("checkEarlyBroom", "Early broom", new Point(6, 18), new Size(81, 17), control: groupWarp, enabled: false);
+            this.checkEarlyBroom.TabIndex = 16;
+            this.checkEarlyBroom.UseVisualStyleBackColor = true;
+            this.checkEarlyBroom.CheckedChanged += new System.EventHandler(this.checkEarlyBroom_CheckedChanged);
+
+            this.buttonWarp = WinFormHelpers.CreateButton("buttonWarp", "Set level", new Point(174, 13), new Size(61, 23), btnFont, control: groupWarp, enabled: false);
+            this.buttonWarp.TabIndex = 15;
+            this.buttonWarp.UseVisualStyleBackColor = true;
+            this.buttonWarp.Click += new System.EventHandler(this.buttonWarp_Click);
+
+            this.comboWarp = WinFormHelpers.CreateDropDownList("comboWarp", new Point(90, 14), new Size(78, 21), grpFont, groupWarp, enabled: false);
+            this.comboWarp.TabIndex = 14;
+            this.comboWarp.FormattingEnabled = true;
+            this.comboWarp.Items.AddRange(new object[] {
+                "Cirno",
+                "Eirin",
+                "Yuyuko",
+                "Reisen",
+                "Reimu",
+                "Remilia",
+                "Sakuya",
+                "Youmu",
+                "Patchouli 1",
+                "Patchouli 2",
+                "Patchouli 3",
+                "Patchouli 4",
+                "Patchouli 5",
+                "Patchouli 6"
+            });
         }
 
         #endregion
