@@ -107,7 +107,7 @@ namespace MegaMariPrac
             this.buttonStore.UseVisualStyleBackColor = true;
             this.buttonStore.Click += new System.EventHandler(this.buttonStore_Click);
 
-            this.label2 = WinFormHelpers.CreateLabel("label2", "Stored:", new Point(7, 4), new Size(41, 13), grpFont, control: groupCoordinates);
+            this.label2 = WinFormHelpers.CreateLabel("label2", "Stored:", new Point(7, 44), new Size(41, 13), grpFont, control: groupCoordinates);
             this.label2.TabIndex = 10;
 
             this.label1 = WinFormHelpers.CreateLabel("label1", "Coord:", new Point(7, 24), new Size(38, 13), grpFont, control: groupCoordinates);
@@ -159,7 +159,7 @@ namespace MegaMariPrac
             this.labelLastScreenTime.TabIndex = 40;
 
             // General group
-            this.groupGeneral = WinFormHelpers.CreateGroupBox("groupGeneral", "General", new Point(12, 27), new Size(177, 160), grpFont, this);
+            this.groupGeneral = WinFormHelpers.CreateGroupBox("groupGeneral", "General", new Point(12, 27), new Size(177, 260), grpFont, this);
             this.groupGeneral.TabIndex = 41;
             this.groupGeneral.TabStop = false;
 
