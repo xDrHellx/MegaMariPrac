@@ -180,6 +180,45 @@ namespace MegaMariPrac.Utils
             return dropDownList;
         }
 
+        /// <summary>Simplified method for creating a MenuStrip</summary>
+        /// <param name="name">Name</param>
+        /// <param name="text">Text</param>
+        /// <param name="control">Control instance if the element is to be attached to it directly</param>
+        /// <returns><c>MenuStrip</c>Instance</returns>
+        public static MenuStrip CreateMenuStrip(string name, string text, Control control = null) 
+        {
+            MenuStrip menu = new MenuStrip() {
+                Name = name,
+                Text = text,
+                TabIndex = 1,
+                AutoSize = false,
+                ShowItemToolTips = true
+            };
+
+            control?.Controls.Add(menu);
+            return menu;
+        }
+
+        /// <summary>Simplified method for creating a ToolStripMenuItem</summary>
+        /// <param name="name">Name</param>
+        /// <param name="text">Text</param>
+        /// <param name="toolTipText">Text on hover / tooltip</param>
+        /// <param name="menuStrip">MenuStrip instance if the element is to be attached to it directly</param>
+        /// <param name="ToolStripMenuItem">ToolStripMenuItem instance if the element is to be attached to it directly</param>
+        /// <returns><c>ToolStripMenuItem</c>Instance</returns>
+        public static ToolStripMenuItem CreateToolStripMenuItem(string name, string text, string toolTipText = "", MenuStrip menuStrip = null, ToolStripMenuItem menuItem = null)
+        {
+            ToolStripMenuItem item = new ToolStripMenuItem() {
+                Name = name,
+                Text = text,
+                ToolTipText = toolTipText
+            };
+
+            menuStrip?.Items.Add(item);
+            menuItem?.DropDownItems.Add(item);
+            return item;
+        }
+
         /// <summary>Simplified method for creating a StatusStrip</summary>
         /// <param name="name">Name</param>
         /// <param name="text">Text</param>
