@@ -147,55 +147,17 @@ namespace MegaMariPrac
             this.buttonWin.UseVisualStyleBackColor = true;
             this.buttonWin.Click += new System.EventHandler(this.buttonWin_Click);
 
-            this.weaponCheckDoll = WinFormHelpers.CreateCheckBox("weaponCheckDoll", "", new Point(57, 58), new Size(15, 14), enabled: false);
-            this.weaponCheckDoll.TabIndex = 22;
-            this.weaponCheckDoll.TabStop = false;
-            this.weaponCheckDoll.UseVisualStyleBackColor = true;
-
-            this.weaponCheckRemilia = WinFormHelpers.CreateCheckBox("weaponCheckRemilia", "", new Point(57, 94), new Size(15, 14), enabled: false);
-            this.weaponCheckRemilia.TabIndex = 21;
-            this.weaponCheckRemilia.TabStop = false;
-            this.weaponCheckRemilia.UseVisualStyleBackColor = true;
-
-            this.weaponCheckReisen = WinFormHelpers.CreateCheckBox("weaponCheckReisen", "", new Point(57, 130), new Size(15, 14), enabled: false);
-            this.weaponCheckReisen.TabIndex = 20;
-            this.weaponCheckReisen.TabStop = false;
-            this.weaponCheckReisen.UseVisualStyleBackColor = true;
-
-            this.weaponCheckSakuya = WinFormHelpers.CreateCheckBox("weaponCheckSakuya", "", new Point(57, 166), new Size(15, 14), enabled: false);
-            this.weaponCheckSakuya.TabIndex = 19;
-            this.weaponCheckSakuya.TabStop = false;
-            this.weaponCheckSakuya.UseVisualStyleBackColor = true;
-
-            this.weaponCheckEirin = WinFormHelpers.CreateCheckBox("weaponCheckEirin", "", new Point(57, 202), new Size(15, 14), enabled: false);
-            this.weaponCheckEirin.TabIndex = 18;
-            this.weaponCheckEirin.TabStop = false;
-            this.weaponCheckEirin.UseVisualStyleBackColor = true;
-
-            this.weaponCheckYuyuko = WinFormHelpers.CreateCheckBox("weaponCheckYuyuko", "", new Point(21, 202), new Size(15, 14), enabled: false);
-            this.weaponCheckYuyuko.TabIndex = 15;
-            this.weaponCheckYuyuko.TabStop = false;
-            this.weaponCheckYuyuko.UseVisualStyleBackColor = true;
-
-            this.weaponCheckCirno = WinFormHelpers.CreateCheckBox("weaponCheckCirno", "", new Point(21, 166), new Size(15, 14), enabled: false);
-            this.weaponCheckCirno.TabIndex = 14;
-            this.weaponCheckCirno.TabStop = false;
-            this.weaponCheckCirno.UseVisualStyleBackColor = true;
-
-            this.weaponCheckYoumu = WinFormHelpers.CreateCheckBox("weaponCheckYoumu", "", new Point(21, 130), new Size(15, 14), enabled: false);
-            this.weaponCheckYoumu.TabIndex = 13;
-            this.weaponCheckYoumu.TabStop = false;
-            this.weaponCheckYoumu.UseVisualStyleBackColor = true;
-
-            this.weaponCheckReimu = WinFormHelpers.CreateCheckBox("weaponCheckReimu", "", new Point(21, 94), new Size(15, 14), enabled: false);
-            this.weaponCheckReimu.TabIndex = 12;
-            this.weaponCheckReimu.TabStop = false;
-            this.weaponCheckReimu.UseVisualStyleBackColor = true;
-
-            this.weaponCheckBroom = WinFormHelpers.CreateCheckBox("weaponCheckBroom", "", new Point(21, 58), new Size(15, 14), enabled: false);
-            this.weaponCheckBroom.TabIndex = 1;
-            this.weaponCheckBroom.TabStop = false;
-            this.weaponCheckBroom.UseVisualStyleBackColor = false;
+            // Set params for each weapon CheckBox
+            SetWeaponCheckBox(this.weaponCheckDoll, "weaponCheckDoll",new Point(57, 58), 22);
+            SetWeaponCheckBox(this.weaponCheckRemilia, "weaponCheckRemilia",new Point(57, 94), 21);
+            SetWeaponCheckBox(this.weaponCheckReisen, "weaponCheckReisen",new Point(57, 130), 20);
+            SetWeaponCheckBox(this.weaponCheckSakuya, "weaponCheckSakuya",new Point(57, 166), 19);
+            SetWeaponCheckBox(this.weaponCheckEirin, "weaponCheckEirin",new Point(57, 202), 18);
+            SetWeaponCheckBox(this.weaponCheckYuyuko, "weaponCheckYuyuko",new Point(21, 202), 15);
+            SetWeaponCheckBox(this.weaponCheckCirno, "weaponCheckCirno",new Point(21, 166), 14);
+            SetWeaponCheckBox(this.weaponCheckYoumu, "weaponCheckYoumu",new Point(21, 130), 13);
+            SetWeaponCheckBox(this.weaponCheckReimu, "weaponCheckReimu",new Point(21, 94), 12);
+            SetWeaponCheckBox(this.weaponCheckBroom, "weaponCheckBroom",new Point(21, 58), 1);
 
             this.buttonGameOver = WinFormHelpers.CreateButton("buttonGameOver", "Game over", new Point(86, 120), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
             this.buttonGameOver.TabIndex = 8;
@@ -423,6 +385,24 @@ namespace MegaMariPrac
             instance.TabIndex = tabIndex;
             instance.TabStop = false;
             instance.MouseDown += new MouseEventHandler(this.tankBox_Click);
+        }
+
+        /// <summary>Set a CheckBox's parameters</summary>
+        /// <param name="instance">Instance to populate</param>
+        /// <param name="character">Character the WeaponBox is for</param>
+        /// <param name="position">Position</param>
+        /// <param name="tabIndex">TabIndex</param>
+        void SetWeaponCheckBox(CheckBox instance, string name, Point position, int tabIndex)
+        {
+            if (instance == null || name.Length < 1)
+            {
+                return;
+            }
+
+            instance = WinFormHelpers.CreateCheckBox(name, "", position, new Size(15, 14), enabled: false);
+            instance.TabIndex = 22;
+            instance.TabStop = false;
+            instance.UseVisualStyleBackColor = name == "weaponCheckBroom" ? false : true;
         }
 
         /// <summary>
