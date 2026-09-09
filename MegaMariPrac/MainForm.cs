@@ -283,7 +283,7 @@ namespace MegaMariPrac
                             if (inStage)
                             {
                                 weaponBoxBroom.Image = Properties.Resources.broom_off; weaponBoxDoll.Image = Properties.Resources.doll_off;
-                                weaponBoxReimu.Image = Properties.Resources.reimu_off; weaponBoxRemilia.Image = Properties.Resources.remi_off;
+                                weaponBoxReimu.Image = Properties.Resources.reimu_off; weaponBoxRemilia.Image = Properties.Resources.remilia_off;
                                 weaponBoxYoumu.Image = Properties.Resources.youmu_off; weaponBoxReisen.Image = Properties.Resources.reisen_off;
                                 weaponBoxCirno.Image = Properties.Resources.cirno_off; weaponBoxSakuya.Image = Properties.Resources.sakuya_off;
                                 weaponBoxYuyuko.Image = Properties.Resources.yuyuko_off; weaponBoxEirin.Image = Properties.Resources.eirin_off;
@@ -332,7 +332,7 @@ namespace MegaMariPrac
                    modifier4 = new byte[1], modifier5 = new byte[1], modifier6 = new byte[1],
                    key1 = new byte[1], key2 = new byte[1], key3 = new byte[1],
                    key4 = new byte[1], key5 = new byte[1], key6 = new byte[1];
-           
+
             while (true)
             {
                 if (lstHotkeys[0] != 0) modifier1 = pm.ReadStatic(lstHotkeys[0], modifier1); else modifier1[0] = 128;
@@ -558,7 +558,7 @@ namespace MegaMariPrac
                 EnableIcon(flag: flagBroom, character: "broom", box: weaponBoxBroom, regularWeapon: false);
                 EnableIcon(flag: flagDoll, character: "doll", box: weaponBoxDoll, regularWeapon: false);
                 EnableIcon(flag: flagReimu, character: "reimu", box: weaponBoxReimu);
-                EnableIcon(flag: flagRemilia, character: "remi", box: weaponBoxRemilia);
+                EnableIcon(flag: flagRemilia, character: "remilia", box: weaponBoxRemilia);
                 EnableIcon(flag: flagYoumu, character: "youmu", box: weaponBoxYoumu);
                 EnableIcon(flag: flagReisen, character: "reisen", box: weaponBoxReisen);
                 EnableIcon(flag: flagCirno, character: "cirno", box: weaponBoxCirno);
