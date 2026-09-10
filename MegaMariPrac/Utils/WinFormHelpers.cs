@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -327,6 +328,24 @@ namespace MegaMariPrac.Utils
             return pb;
         }
 
+        /// <summary>Simplified method for creating a tooltip</summary>
+        /// <param name="autoPopDelay">Display duration (5000ms by default)</param>
+        /// <param name="initialDelay">Delay before showing (1000ms by default)</param>
+        /// <param name="reShotDelay">Time before shown again (500ms by default)</param>
+        /// <param name="showAlways">Always shows even if window isn't focused (True by default)</param>
+        /// <param name="container">Container instance if the tooltip is to be attached to it directly</param>
+        /// <returns><c>ToolTip<c/>Instance</returns>
+        public static ToolTip CreateToolTip(int autoPopDelay = 5000, int initialDelay = 500, int reShotDelay = 100, bool showAlways = true, Container container = null)
+        {
+            return new ToolTip(container)
+            {
+                AutoPopDelay = autoPopDelay,
+                InitialDelay = initialDelay,
+                ReshowDelay = reShotDelay,
+                ShowAlways = showAlways
+            };
+        }
+
         #endregion
 
         #region Misc
@@ -348,7 +367,6 @@ namespace MegaMariPrac.Utils
                 case "topright": return ContentAlignment.TopRight;
                 default: return ContentAlignment.MiddleCenter;
             }
-            ;
         }
 
         /// <summary>Get the corresponding PictureBoxSizeMode based on a string</summary>
@@ -364,7 +382,6 @@ namespace MegaMariPrac.Utils
                 case "zoom": return PictureBoxSizeMode.Zoom;
                 default: return PictureBoxSizeMode.AutoSize;
             }
-            ;
         }
 
         /// <summary>Get the corresponding ProgressBarStyle based on a string</summary>
