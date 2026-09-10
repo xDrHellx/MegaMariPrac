@@ -12,12 +12,12 @@ namespace MegaMariPrac.Utils
         /// <param name="text">Label text</param>
         /// <param name="position">Position</param>
         /// <param name="size">Size</param>
-        /// <param name="font">Font</params>
+        /// <param name="font">Font (By default null, inherit from parent)</params>
         /// <param name="autoSize"AutoSize (True by default)</params>
         /// <param name="control">Control instance if the element is to be attached to it directly</param>
         /// <param name="textAlignment">Text alignment, by default "MiddleLeft" (see System.Drawing.ContentAlignment for possible values)</param>
         /// <returns><c>Label</c>Instance</returns>
-        public static Label CreateLabel(string name, string text, Point position, Size size, Font font, bool autoSize = true, Control control = null, string textAlignment = "MiddleLeft")
+        public static Label CreateLabel(string name, string text, Point position, Size size, Font font = null, bool autoSize = true, Control control = null, string textAlignment = "MiddleLeft")
         {
             Label lbl = new Label()
             {
@@ -40,13 +40,13 @@ namespace MegaMariPrac.Utils
         /// <param name="text">Label text</param>
         /// <param name="position">Position</param>
         /// <param name="size">Size</param>
-        /// <param name="font">Font</params>
+        /// <param name="font">Font (By default null, inherit from parent)</params>
         /// <param name="autoSize"AutoSize (True by default)</params>
         /// <param name="control">Control instance if the element is to be attached to it directly</param>
         /// <param name="textAlignment">Text alignment, by default "MiddleLeft" (see System.Drawing.ContentAlignment for possible values)</param>
         /// <param name="enabled">True if it should be enabled (True by default)</param>
         /// <returns><c>Button</c>Instance</returns>
-        public static Button CreateButton(string name, string text, Point position, Size size, Font font, bool autoSize = true, Control control = null, string textAlignment = "MiddleLeft", bool enabled = true)
+        public static Button CreateButton(string name, string text, Point position, Size size, Font font = null, bool autoSize = true, Control control = null, string textAlignment = "MiddleLeft", bool enabled = true)
         {
             Button btn = new Button()
             {
@@ -69,10 +69,10 @@ namespace MegaMariPrac.Utils
         /// <param name="text">Field text</param>
         /// <param name="position">Position</param>
         /// <param name="size">Size</param>
-        /// <param name="font">Font</params>
+        /// <param name="font">Font (By default null, inherit from parent)</params>
         /// <param name="control">Control instance if the element is to be attached to it directly</param>
         /// <returns><c>GroupBox</c>Instance</returns>
-        public static GroupBox CreateGroupBox(string name, string text, Point position, Size size, Font font, Control control = null)
+        public static GroupBox CreateGroupBox(string name, string text, Point position, Size size, Font font = null, Control control = null)
         {
             GroupBox checkGroupBox = new GroupBox()
             {
@@ -140,20 +140,43 @@ namespace MegaMariPrac.Utils
             return checkBox;
         }
 
+        /// <summary>Simplified method for creating a TextBox</summary>
+        /// <param name="name">Dropdown name</param>
+        /// <param name="position">Position</param>
+        /// <param name="size">Size</param>m>
+        /// <param name="font">Font (by default null, inherit from parent)</params>
+        /// <param name="control">Control instance if the element is to be attached to it directly</param>
+        /// <param name="text">Pre-filled text (by default empty)</param>
+        /// <returns><c>TextBox</c>Instance</returns>
+        public static TextBox CreateTextBox(string name, Point position, Size size, Font font = null, Control control = null, string text = "")
+        {
+            TextBox tb = new TextBox()
+            {
+                Name = name,
+                Text = text,
+                Location = position,
+                Size = size,
+                Font = font
+            };
+
+            control?.Controls.Add(tb);
+            return tb;
+        }
+
         /// <summary>Simplified method for creating a dropdown list</summary>
         /// <param name="name">Dropdown name</param>
         /// <param name="position">Position</param>
         /// <param name="size">Size</param>m>
-        /// <param name="font">Font</params>
+        /// <param name="font">Font (by default null, inherit from parent)</params>
         /// <param name="control">Control instance if the element is to be attached to it directly</param>
         /// <param name="dropDownWidth">Dropdown Width (in pixels, if not specified will take use the element's width as reference)</param>
         /// <param name="dropDownHeight">Dropdown Height (in pixels, if not specified will take use the element's height as reference)</param>
         /// <param name="visibleOptions">Amount of options visible without needing to scroll (will take priority over dropDownHeight parameters if specified)</param>
         /// <param name="enabled">True if it should be enabled (True by default)</param>
         /// <returns><c>ComboBox</c>Instance</returns>
-        public static ComboBox CreateDropDownList(string name, Point position, Size size, Font font, Control control = null, int dropDownWidth = 0, int dropDownHeight = 0, int visibleOptions = 0, bool enabled = true)
+        public static ComboBox CreateDropDownList(string name, Point position, Size size, Font font = null, Control control = null, int dropDownWidth = 0, int dropDownHeight = 0, int visibleOptions = 0, bool enabled = true)
         {
-            ComboBox dropDownList = new ComboBox()
+            ComboBox dropDownList = new ComboBox
             {
                 Name = name,
                 Location = position,
@@ -162,18 +185,13 @@ namespace MegaMariPrac.Utils
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 // If DropDownWidth was specified, use it, otherwise use the element's width
                 DropDownWidth = dropDownWidth > 0 ? dropDownWidth : size.Width,
+                /**
+                 * If the number of options to show without needed to scroll is specified, use it
+                 * Otherwise handle the DropDownHeight the same way as the DropDownWidth
+                 */
+                DropDownHeight = visibleOptions > 0 ? ((size.Height - 4) * visibleOptions) : (dropDownHeight > 0 ? dropDownHeight : size.Height),
                 Enabled = enabled
             };
-
-            /**
-             * If the number of options to show without needed to scroll is specified, use it
-             * Otherwise handle the DropDownHeight the same way as the DropDownWidth
-             */
-            if (visibleOptions > 0) {
-                dropDownList.DropDownHeight = (size.Height - 4) * visibleOptions;
-            } else {
-                dropDownList.DropDownHeight = dropDownHeight > 0 ? dropDownHeight : size.Height;
-            }
 
             // If a Control instance is passed, add the generated element to it
             control?.Controls.Add(dropDownList);
@@ -185,9 +203,10 @@ namespace MegaMariPrac.Utils
         /// <param name="text">Text</param>
         /// <param name="control">Control instance if the element is to be attached to it directly</param>
         /// <returns><c>MenuStrip</c>Instance</returns>
-        public static MenuStrip CreateMenuStrip(string name, string text, Control control = null) 
+        public static MenuStrip CreateMenuStrip(string name, string text, Control control = null)
         {
-            MenuStrip menu = new MenuStrip() {
+            MenuStrip menu = new MenuStrip()
+            {
                 Name = name,
                 Text = text,
                 TabIndex = 1,
@@ -208,7 +227,8 @@ namespace MegaMariPrac.Utils
         /// <returns><c>ToolStripMenuItem</c>Instance</returns>
         public static ToolStripMenuItem CreateToolStripMenuItem(string name, string text, string toolTipText = "", MenuStrip menuStrip = null, ToolStripMenuItem menuItem = null)
         {
-            ToolStripMenuItem item = new ToolStripMenuItem() {
+            ToolStripMenuItem item = new ToolStripMenuItem()
+            {
                 Name = name,
                 Text = text,
                 ToolTipText = toolTipText
@@ -295,16 +315,17 @@ namespace MegaMariPrac.Utils
         {
             switch (value.ToLower())
             {
-                case "bottomcenter":    return ContentAlignment.BottomCenter;
-                case "bottomleft":      return ContentAlignment.BottomLeft;
-                case "bottomright":     return ContentAlignment.BottomRight;
-                case "middleleft":      return ContentAlignment.MiddleLeft;
-                case "middleright":     return ContentAlignment.MiddleRight;
-                case "topcenter":       return ContentAlignment.TopCenter;
-                case "topleft":         return ContentAlignment.TopLeft;
-                case "topright":        return ContentAlignment.TopRight;
-                default:                return ContentAlignment.MiddleCenter;
-            };
+                case "bottomcenter": return ContentAlignment.BottomCenter;
+                case "bottomleft": return ContentAlignment.BottomLeft;
+                case "bottomright": return ContentAlignment.BottomRight;
+                case "middleleft": return ContentAlignment.MiddleLeft;
+                case "middleright": return ContentAlignment.MiddleRight;
+                case "topcenter": return ContentAlignment.TopCenter;
+                case "topleft": return ContentAlignment.TopLeft;
+                case "topright": return ContentAlignment.TopRight;
+                default: return ContentAlignment.MiddleCenter;
+            }
+            ;
         }
 
         /// <summary>Get the corresponding PictureBoxSizeMode based on a string</summary>
@@ -314,12 +335,13 @@ namespace MegaMariPrac.Utils
         {
             switch (value.ToLower())
             {
-                case "centerImage":     return PictureBoxSizeMode.CenterImage;
-                case "normal":          return PictureBoxSizeMode.Normal;
-                case "stretchimage":    return PictureBoxSizeMode.StretchImage;
-                case "zoom":            return PictureBoxSizeMode.Zoom;
-                default:                return PictureBoxSizeMode.AutoSize;
-            };
+                case "centerImage": return PictureBoxSizeMode.CenterImage;
+                case "normal": return PictureBoxSizeMode.Normal;
+                case "stretchimage": return PictureBoxSizeMode.StretchImage;
+                case "zoom": return PictureBoxSizeMode.Zoom;
+                default: return PictureBoxSizeMode.AutoSize;
+            }
+            ;
         }
 
         /// <summary>Get the corresponding ProgressBarStyle based on a string</summary>
@@ -329,9 +351,9 @@ namespace MegaMariPrac.Utils
         {
             switch (value.ToLower())
             {
-                case "blocks":      return ProgressBarStyle.Blocks;
-                case "marquee":     return ProgressBarStyle.Marquee;
-                default:            return ProgressBarStyle.Continuous;
+                case "blocks": return ProgressBarStyle.Blocks;
+                case "marquee": return ProgressBarStyle.Marquee;
+                default: return ProgressBarStyle.Continuous;
             }
         }
 
