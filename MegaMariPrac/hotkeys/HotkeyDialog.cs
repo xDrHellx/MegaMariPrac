@@ -10,9 +10,9 @@ namespace MegaMariPrac.Hotkeys
     {
         static string hotkeyVersion = "v1.0",
             appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        string configpath = appdata + @"\MegaMariPrac\",
-            hotkeyfilename = "hotkey.cfg";
-        KeyboardKeys keybKeys = new KeyboardKeys();
+        string _configpath = appdata + @"\MegaMariPrac\",
+            _hotkeyfilename = "hotkey.cfg";
+        KeyboardKeys _keybKeys = new KeyboardKeys();
 
         public HotkeyDialog()
         {
@@ -21,7 +21,7 @@ namespace MegaMariPrac.Hotkeys
             MinimizeBox = MaximizeBox = false;
             FormBorderStyle = FormBorderStyle.FixedSingle;
 
-            foreach (string key in keybKeys.dictModifierKeys.Keys)
+            foreach (string key in _keybKeys.dictModifierKeys.Keys)
             {
                 comboModifier1.Items.Add(key);
                 comboModifier2.Items.Add(key);
@@ -31,7 +31,7 @@ namespace MegaMariPrac.Hotkeys
                 comboModifier6.Items.Add(key);
             }
 
-            foreach (string key in keybKeys.dictKeys.Keys)
+            foreach (string key in _keybKeys.dictKeys.Keys)
             {
                 comboHotkey1.Items.Add(key);
                 comboHotkey2.Items.Add(key);
@@ -44,7 +44,7 @@ namespace MegaMariPrac.Hotkeys
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            using (StreamWriter sw = File.CreateText(configpath + hotkeyfilename)) //saving hotkeys
+            using (StreamWriter sw = File.CreateText(_configpath + _hotkeyfilename)) //saving hotkeys
             {
                 sw.WriteLine(hotkeyVersion); //stores the value of the combobox inside the .cfg
                 //store combobox values by parsing all components inside the form in the TabIndex order
@@ -57,12 +57,12 @@ namespace MegaMariPrac.Hotkeys
 
         private void HotkeyDialog_Load(object sender, EventArgs e)
         {
-            if (!Directory.Exists(configpath))
-                Directory.CreateDirectory(configpath);
+            if (!Directory.Exists(_configpath))
+                Directory.CreateDirectory(_configpath);
 
-            if (File.Exists(configpath + hotkeyfilename)) //checks if config.cfg exists
+            if (File.Exists(_configpath + _hotkeyfilename)) //checks if config.cfg exists
             {
-                using (StreamReader sr = File.OpenText(configpath + hotkeyfilename))
+                using (StreamReader sr = File.OpenText(_configpath + _hotkeyfilename))
                 {
                     sr.ReadLine(); //skip line with version
                     //loads comboboxes with values by parsing all components inside the form in the TabIndex order
@@ -84,7 +84,7 @@ namespace MegaMariPrac.Hotkeys
             comboModifier4.SelectedItem.ToString() + comboHotkey4.SelectedItem.ToString(),
             comboModifier5.SelectedItem.ToString() + comboHotkey5.SelectedItem.ToString(),
             comboModifier6.SelectedItem.ToString() + comboHotkey6.SelectedItem.ToString()};
-            foreach (var x in a)
+            foreach (string x in a)
                 if (hs.Add(x))
                     i++;
             if (i < a.Length) //if not every hotkey combo is unique

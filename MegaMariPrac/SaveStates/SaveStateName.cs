@@ -15,14 +15,14 @@ namespace MegaMariPrac.SaveStates
 
         public string name
         {
-            get { return textName.Text; }
+            get { return _textName.Text; }
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            if (textName.Text.Length > 0)
+            if (_textName.Text.Length > 0)
             {
-                textName.Text = textName.Text.Replace("|", "");
+                _textName.Text = _textName.Text.Replace("|", "");
                 DialogResult = DialogResult.OK;
                 Close();
             }

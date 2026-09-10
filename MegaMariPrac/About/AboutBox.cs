@@ -11,11 +11,11 @@ namespace MegaMariPrac.About
             InitializeComponent();
             CenterToScreen();
             Text = String.Format("About {0}", AssemblyTitle);
-            labelProductName.Text = AssemblyProduct;
-            labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
-            labelCopyright.Text = AssemblyCopyright;
-            labelGameDev.Text = "Game made by Twilight Frontier";
-            textBoxDescription.Text = "Github repo: https://github.com/shadax1/MegaMariPrac" +
+            _labelProductName.Text = AssemblyProduct;
+            _labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
+            _labelCopyright.Text = AssemblyCopyright;
+            _labelGameDev.Text = "Game made by Twilight Frontier";
+            _textBoxDescription.Text = "Github repo: https://github.com/shadax1/MegaMariPrac" +
                                         "\r\n\r\nI added a lot of information about this game's memory addresses in the wiki if you're interested." +
                                         "\r\n\r\nFeel free to open an issue in case of issues/bugs or contact me via discord @shadax1." +
                                         "\r\n\r\nAlthough things should be self-explanatory, you can hover over certain elements of the window to have explanations about what they do.";
