@@ -234,7 +234,7 @@ namespace MegaMariPrac
             this.buttonDelete.UseVisualStyleBackColor = true;
             this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
 
-            this.comboSaves = WinFormHelpers.CreateDropDownList("comboSaves", new Point(6, 46), new Size(229, 21), grpFont, groupSaves, enabled: false);
+            this.comboSaves = WinFormHelpers.CreateDropDownList("comboSaves", new Point(6, 46), new Size(229, 21), grpFont, groupSaves, visibleOptions: 20, enabled: false);
             this.comboSaves.TabIndex = 19;
             this.comboSaves.FormattingEnabled = true;
             this.comboSaves.SelectedIndexChanged += new System.EventHandler(this.comboSaves_SelectionChangeCommitted);
@@ -338,7 +338,7 @@ namespace MegaMariPrac
             this.buttonWarp.UseVisualStyleBackColor = true;
             this.buttonWarp.Click += new System.EventHandler(this.buttonWarp_Click);
 
-            this.comboWarp = WinFormHelpers.CreateDropDownList("comboWarp", new Point(90, 14), new Size(78, 21), grpFont, groupWarp, enabled: false);
+            this.comboWarp = WinFormHelpers.CreateDropDownList("comboWarp", new Point(90, 14), new Size(78, 21), grpFont, groupWarp, visibleOptions: 14, enabled: false);
             this.comboWarp.TabIndex = 14;
             this.comboWarp.FormattingEnabled = true;
             this.comboWarp.Items.AddRange(new object[] {
