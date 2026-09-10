@@ -19,7 +19,7 @@ namespace MegaMariPrac.Utils
         /// <returns><c>Label</c>Instance</returns>
         public static Label CreateLabel(string name, string text, Point position, Size size, Font font = null, bool autoSize = true, Control control = null, string textAlignment = "MiddleLeft")
         {
-            Label lbl = new Label()
+            Label lbl = new Label
             {
                 Name = name,
                 Text = text,
@@ -48,7 +48,7 @@ namespace MegaMariPrac.Utils
         /// <returns><c>Button</c>Instance</returns>
         public static Button CreateButton(string name, string text, Point position, Size size, Font font = null, bool autoSize = true, Control control = null, string textAlignment = "MiddleLeft", bool enabled = true)
         {
-            Button btn = new Button()
+            Button btn = new Button
             {
                 Name = name,
                 Text = text,
@@ -74,7 +74,7 @@ namespace MegaMariPrac.Utils
         /// <returns><c>GroupBox</c>Instance</returns>
         public static GroupBox CreateGroupBox(string name, string text, Point position, Size size, Font font = null, Control control = null)
         {
-            GroupBox checkGroupBox = new GroupBox()
+            GroupBox checkGroupBox = new GroupBox
             {
                 Name = name,
                 Text = text,
@@ -99,7 +99,7 @@ namespace MegaMariPrac.Utils
         /// <returns><c>PictureBox</c>Instance</returns>
         public static PictureBox CreatePictureBox(string name, Image image, Point position, Size size, Control control = null, string sizeMode = "AutoSize", bool enabled = true)
         {
-            PictureBox pictureBox = new PictureBox()
+            PictureBox pictureBox = new PictureBox
             {
                 Name = name,
                 Image = image,
@@ -125,7 +125,7 @@ namespace MegaMariPrac.Utils
         /// <returns><c>CheckBox</c>Instance</returns>
         public static CheckBox CreateCheckBox(string name, string text, Point position, Size size, bool isCheckedByDefault = false, bool checkboxOnRight = false, Control control = null, bool enabled = true)
         {
-            CheckBox checkBox = new CheckBox()
+            CheckBox checkBox = new CheckBox
             {
                 Name = name,
                 Text = text,
@@ -150,7 +150,7 @@ namespace MegaMariPrac.Utils
         /// <returns><c>TextBox</c>Instance</returns>
         public static TextBox CreateTextBox(string name, Point position, Size size, Font font = null, Control control = null, string text = "")
         {
-            TextBox tb = new TextBox()
+            TextBox tb = new TextBox
             {
                 Name = name,
                 Text = text,
@@ -198,6 +198,29 @@ namespace MegaMariPrac.Utils
             return dropDownList;
         }
 
+        /// <summary>Simplified method for creating a TableLayoutPanel</summary>
+        /// <param name="name">Name</param>
+        /// <param name="position">Position</param>
+        /// <param name="size">Size</param>m>
+        /// <param name="control">Control instance if the element is to be attached to it directly</param>
+        /// <param name="columnCount">Number of columns (by default 0)</params>
+        /// <param name="rowCount">Number of rows (by default 0)</params>
+        /// <returns><c>TableLayoutPanel</c>Instance</returns>
+        public static TableLayoutPanel CreateTableLayoutPanel(string name, Point position, Size size, Control control = null, int columnCount = 0, int rowCount = 0)
+        {
+            TableLayoutPanel tlp = new TableLayoutPanel
+            {
+                Name = name,
+                Location = position,
+                Size = size,
+                RowCount = rowCount,
+                ColumnCount = columnCount
+            };
+
+            control?.Controls.Add(tlp);
+            return tlp;
+        }
+
         /// <summary>Simplified method for creating a MenuStrip</summary>
         /// <param name="name">Name</param>
         /// <param name="text">Text</param>
@@ -205,7 +228,7 @@ namespace MegaMariPrac.Utils
         /// <returns><c>MenuStrip</c>Instance</returns>
         public static MenuStrip CreateMenuStrip(string name, string text, Control control = null)
         {
-            MenuStrip menu = new MenuStrip()
+            MenuStrip menu = new MenuStrip
             {
                 Name = name,
                 Text = text,
@@ -227,7 +250,7 @@ namespace MegaMariPrac.Utils
         /// <returns><c>ToolStripMenuItem</c>Instance</returns>
         public static ToolStripMenuItem CreateToolStripMenuItem(string name, string text, string toolTipText = "", MenuStrip menuStrip = null, ToolStripMenuItem menuItem = null)
         {
-            ToolStripMenuItem item = new ToolStripMenuItem()
+            ToolStripMenuItem item = new ToolStripMenuItem
             {
                 Name = name,
                 Text = text,
@@ -249,7 +272,7 @@ namespace MegaMariPrac.Utils
         /// <returns><c>StatusStrip</c>Instance</returns>
         public static StatusStrip CreateToolStatusStrip(string name, string text, Point position, Size size, bool sizingGrip = false, Control control = null)
         {
-            StatusStrip strip = new StatusStrip()
+            StatusStrip strip = new StatusStrip
             {
                 Name = name,
                 Text = text,
@@ -269,7 +292,7 @@ namespace MegaMariPrac.Utils
         /// <returns><c>ToolStripStatusLabel</c>Instance</returns>
         public static ToolStripStatusLabel CreateToolStripStatusLabel(string name, string text, Size size, string toolTipText = "")
         {
-            return new ToolStripStatusLabel()
+            return new ToolStripStatusLabel
             {
                 Name = name,
                 Text = text,
@@ -290,7 +313,7 @@ namespace MegaMariPrac.Utils
         /// <returns></returns>
         public static ProgressBar CreateProgressBar(string name, Point position, Size size, int min, int max, Control control = null, string style = "Continuous")
         {
-            ProgressBar pb = new ProgressBar()
+            ProgressBar pb = new ProgressBar
             {
                 Name = name,
                 Location = position,
