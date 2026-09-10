@@ -357,9 +357,12 @@ namespace MegaMariPrac.Utils
             }
         }
 
+        /// <summary>Get an image from main resources (global::MegaMariPrac)</summary>
+        /// <param name="name">Img name</param>
+        /// <returns><c>Bitmap</c></returns>
         public static Bitmap GetResourceImage(string name)
         {
-            return name != "" ? (Bitmap)global::MegaMariPrac.Properties.Resources.ResourceManager.GetObject(name) : null;
+            return name != "" ? (Bitmap)Properties.Resources.ResourceManager.GetObject(name) : null;
         }
 
         #endregion
