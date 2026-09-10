@@ -6,7 +6,7 @@ using MegaMariPrac.Utils;
 
 namespace MegaMariPrac
 {
-    partial class MainForm
+    partial class MainForm : Form
     {
         #region Gen designer code
 
