@@ -148,7 +148,7 @@
     <None Include="Resources\eirin_on_marisa.png" />
     <None Include="Resources\reimu_on_marisa.png" />
     <None Include="Resources\reisen_on_marisa.png" />
-    <None Include="Resources\remi_on_marisa.png" />
+    <None Include="Resources\remilia_on_marisa.png" />
     <None Include="Resources\sakuya_on_marisa.png" />
     <None Include="Resources\youmu_on_marisa.png" />
     <None Include="Resources\yuyuko_on_marisa.png" />
@@ -156,7 +156,7 @@
     <None Include="Resources\cirno_on_alice.png" />
     <None Include="Resources\eirin_on_alice.png" />
     <None Include="Resources\reisen_on_alice.png" />
-    <None Include="Resources\remi_on_alice.png" />
+    <None Include="Resources\remilia_on_alice.png" />
     <None Include="Resources\sakuya_on_alice.png" />
     <None Include="Resources\youmu_on_alice.png" />
     <None Include="Resources\yuyuko_on_alice.png" />
@@ -168,7 +168,7 @@
     <None Include="Resources\yuyuko_off.png" />
     <None Include="Resources\youmu_off.png" />
     <None Include="Resources\sakuya_off.png" />
-    <None Include="Resources\remi_off.png" />
+    <None Include="Resources\remilia_off.png" />
     <None Include="Resources\reisen_off.png" />
     <None Include="Resources\reimu_off.png" />
     <None Include="Resources\eirin_off.png" />
@@ -181,7 +181,7 @@
     <Content Include="Resources\eirin_on.png" />
     <Content Include="Resources\reimu_on.png" />
     <Content Include="Resources\reisen_on.png" />
-    <Content Include="Resources\remi_on.png" />
+    <Content Include="Resources\remilia_on.png" />
     <Content Include="Resources\sakuya_on.png" />
     <Content Include="Resources\youmu_on.png" />
     <Content Include="Resources\yuyuko_on.png" />
