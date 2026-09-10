@@ -73,8 +73,7 @@ namespace MegaMariPrac
             GenerateWarpGroup();
 
             // Tooltip
-            this.components = new System.ComponentModel.Container();
-            this.toolTip = new ToolTip(this.components);
+            this.toolTip = WinFormHelpers.CreateToolTip(20000, 200, 100, container: new Container());
 
             // Status
             this.labelStatus = WinFormHelpers.CreateToolStripStatusLabel("labelStatus", "labelStatus", new Size(64, 17));
@@ -440,7 +439,7 @@ namespace MegaMariPrac
         AnchorStyles topRightAnchor = ((AnchorStyles.Top | AnchorStyles.Right));
         Font btnFont = new Font("Microsoft Sans Serif", 6.75F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0))),
             grpFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-        private ToolTip toolTip = new ToolTip();
+        private ToolTip toolTip;
         private MenuStrip menuStrip = new MenuStrip();
         private ToolStripMenuItem hotkeysToolStripMenuItem = new ToolStripMenuItem(),
             applicationFolderToolStripMenuItem = new ToolStripMenuItem(),

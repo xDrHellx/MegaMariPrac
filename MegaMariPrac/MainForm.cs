@@ -115,8 +115,7 @@ namespace MegaMariPrac
         public MainForm()
         {
             InitializeComponent();
-            MinimizeBox = false;
-            MaximizeBox = false;
+            MinimizeBox = MaximizeBox = false;
             FormBorderStyle = FormBorderStyle.FixedSingle;
             LoadHotkeys();
         }
@@ -126,8 +125,7 @@ namespace MegaMariPrac
             if (!Directory.Exists(appdata + @"\MegaMariPrac"))
                 Directory.CreateDirectory(appdata + @"\MegaMariPrac");
 
-            toolTip.AutoPopDelay = 20000; toolTip.InitialDelay = 200; toolTip.ReshowDelay = 100;
-            toolTip.ShowAlways = true; //force the ToolTip text to be displayed whether or not the form is active
+            // Add tooltip to elements
             toolTip.SetToolTip(checkFreezeAll, "Checks all weapon checkboxes below and forces ammo for all of them at maximum.");
             toolTip.SetToolTip(checkHealth, "Forces health for both Marisa and Alice at maximum.");
             toolTip.SetToolTip(checkLives, "Freezes lives at 2.");
