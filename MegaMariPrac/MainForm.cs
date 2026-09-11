@@ -142,7 +142,7 @@ namespace MegaMariPrac
             toolTip.SetToolTip(checkEarlyBroom, "Checking this will load the early broom route into the drowndown list on the right.");
             toolTip.SetToolTip(buttonWarp, "Loads the selected stage from the dropdown list. Requires the user to select 'Continue' afterwards.\nAlso gives characters their appropriate weapons based on the speedrun route.");
 
-            if (!File.Exists(configpath + savestatesfilename)) //checks if savestatesfilename.cfg exists
+            if (!File.Exists(configpath + savestatesfilename)) //checks if savestatesfilename.cfg doesn't exists
             {
                 using (StreamWriter sw = File.CreateText(configpath + savestatesfilename)) //creates the save state file template
                 {
@@ -171,7 +171,9 @@ namespace MegaMariPrac
                                 lst_lines.Add(line);
                             }
                             else
+                            {
                                 lst_lines.Add(line); //a save state line
+                            }
                         }
                     }
                 }
@@ -272,7 +274,9 @@ namespace MegaMariPrac
                                 labelStatus.ForeColor = Color.Cyan;
                             }
                             else if (screenType == STAGE_LOADING)
-                                pm.WriteStatic(SCREEN_TYPE, BitConverter.GetBytes(STAGE)); //forces the stage to show up right away
+                            {
+                                pm.WriteStatic(SCREEN_TYPE, BitConverter.GetBytes(STAGE)); //forces te stage to show up right away
+                            }
                             else
                             {
                                 labelStatus.Text = "Marisa is on the title screen...";
@@ -655,9 +659,8 @@ namespace MegaMariPrac
                 {
                     while (!sr.EndOfStream)
                     {
-                        string line = sr.ReadLine();
-
                         //leave the loop once the line to remove is found
+                        string line = sr.ReadLine();
                         if (line == comboSaves.Text)
                             break;
                         lineNumber++;
@@ -694,6 +697,7 @@ namespace MegaMariPrac
                                         break;
                                 if (line.Contains(dictStage[stageID] + "-" + stageID))
                                     sectionFound = true;
+
                                 lineNumber++;
                             }
                         }
@@ -823,6 +827,9 @@ namespace MegaMariPrac
         #endregion
 
         #region states
+
+        /// <summary>Update the savestates shown in dropdown by updating savestates.cfg</summary>
+        /// <param name="first">Indicate if first line in savestates.cfg for that stage</param>
         private void UpdateComboSaveStates(bool first)
         {
             if (dictStage.ContainsKey(stageID))
@@ -835,9 +842,8 @@ namespace MegaMariPrac
                     {
                         while (!sr.EndOfStream)
                         {
-                            string line = sr.ReadLine();
-
                             //skip empty lines
+                            string line = sr.ReadLine();
                             if (line.Length > 0)
                             {
                                 //if another section is reached after the desired one is parsed
@@ -853,8 +859,23 @@ namespace MegaMariPrac
                                     sectionFound = true;
                             }
                         }
-                        if (first) comboSaves.SelectedIndex = -1;
-                        else comboSaves.SelectedIndex = comboSaves.Items.Count - 1; //this removes the empty entry
+
+                        // If not first, remove the empty entry
+                        if (first == true)
+                        {
+                            comboSaves.SelectedIndex = comboSaves.Items.Count - 1;
+                        }
+                        else
+                        {
+                            /**
+                             * Reset the Text property of the dropdown
+                             * Then deselect the chosen value
+                             * 
+                             * Resetting the property prevents a crash on Win10+
+                             */
+                            comboSaves.ResetText();
+                            comboSaves.SelectedIndex = -1;
+                        }
                     }
                 }
             }
