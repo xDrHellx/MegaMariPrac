@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace MegaMariPrac.Dictionnaries
 {
     /// <summary>Contains classes of constants used for setting or retrieving data</summary>
@@ -34,6 +36,25 @@ namespace MegaMariPrac.Dictionnaries
                 PATCHY_4 = 13,
                 CREDITS = 15,
                 ELSEWHERE = 255;
+            /// <summary>List of value => stage names</summary>
+            public static readonly Dictionary<int, string> stageNames = new Dictionary<int, string>
+            {
+                {REIMU, "Reimu"},
+                {CIRNO, "Cirno"},
+                {SAKUYA, "Sakuya"},
+                {YOUMU, "Youmu"},
+                {YUYUKO, "Yuyuko"},
+                {REISEN, "Reisen"},
+                {REMILIA, "Remilia"},
+                {EIRIN, "Eirin"},
+                {PATCHY_1, "Patchouli 1"},
+                {PATCHY_2, "Patchouli 2"},
+                {PATCHY_3, "Patchouli 3"},
+                {PATCHY_4, "Patchouli 4"},
+                {PATCHY_5, "Patchouli 5"},
+                {PATCHY_6, "Patchouli 6"},
+                {CREDITS, "Credits"}
+            };
         }
 
         /// <summary>Game screens (outside of stages)</summary>
@@ -154,6 +175,35 @@ namespace MegaMariPrac.Dictionnaries
                 ALICE_SAKUYA = 4656,
                 ALICE_YUYUKO = 4736,
                 ALICE_EIRIN = 4816;
+
+            /// <summary>List of sprites for each weapon value for Marisa</summary>
+            public static readonly Dictionary<int, short> marisaWeaponSprites = new Dictionary<int, short>
+            {
+                {Weapons.NORMAL, MARISA_NORMAL},
+                {Weapons.SPECIAL, MARISA_BROOM},
+                {Weapons.REIMU, MARISA_REIMU},
+                {Weapons.REMILIA, MARISA_REMILIA},
+                {Weapons.YOUMU, MARISA_YOUMU},
+                {Weapons.REISEN, MARISA_REISEN},
+                {Weapons.CIRNO, MARISA_CIRNO},
+                {Weapons.SAKUYA, MARISA_SAKUYA},
+                {Weapons.YUYUKO, MARISA_YUYUKO},
+                {Weapons.EIRIN, MARISA_EIRIN}
+            };
+            /// <summary>List of sprites for each weapon value for Alice</summary>
+            public static readonly Dictionary<int, short> aliceWeaponSprites = new Dictionary<int, short>
+            {
+                {Weapons.NORMAL, ALICE_NORMAL},
+                {Weapons.SPECIAL, ALICE_DOLL},
+                {Weapons.REIMU, ALICE_REIMU},
+                {Weapons.REMILIA, ALICE_REMILIA},
+                {Weapons.YOUMU, ALICE_YOUMU},
+                {Weapons.REISEN, ALICE_REISEN},
+                {Weapons.CIRNO, ALICE_CIRNO},
+                {Weapons.SAKUYA, ALICE_SAKUYA},
+                {Weapons.YUYUKO, ALICE_YUYUKO},
+                {Weapons.EIRIN, ALICE_EIRIN}
+            };
         }
 
         #endregion

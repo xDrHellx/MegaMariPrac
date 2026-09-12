@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Utils\WinFormHelpers.cs" />
     <Compile Include="Dictionnaries\Constants.cs" />
+    <Compile Include="Dictionnaries\MemoryFlags.cs" />
     <Compile Include="About\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>

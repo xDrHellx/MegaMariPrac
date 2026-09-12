@@ -17,22 +17,16 @@ namespace MegaMariPrac
     public partial class MainForm : Form
     {
         #region global variables
-        static string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        string configpath = appdata + @"\MegaMariPrac\";
-        string hotkeyfilename = "hotkey.cfg";
-        string savestatesfilename = "savestates.cfg";
+        static string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            hotkeyVersion = "v1.0";
+        string configpath = appdata + @"\MegaMariPrac\",
+            hotkeyfilename = "hotkey.cfg",
+            savestatesfilename = "savestates.cfg";
 
-        Dictionary<int, string> dictStage = new Dictionary<int, string>();
-        Dictionary<string, int> dictWeapon = new Dictionary<string, int>();
-        Dictionary<int, short> dictMarisaSprite = new Dictionary<int, short>();
-        Dictionary<int, short> dictAliceSprite = new Dictionary<int, short>();
-
+        readonly MemoryFlags _memFlags = new MemoryFlags();
         SaveState ss = new SaveState();
-
-        static string hotkeyVersion = "v1.0";
         static int numberHotkeys = 6;
         KeyboardKeys keybKeys = new KeyboardKeys();
-
         List<int> lstHotkeys = new List<int>();
 
         short curCharacter = 0, bossHP = 0;
@@ -72,9 +66,9 @@ namespace MegaMariPrac
         int REIMU_AMMO_OFFSET = 0xEC, REMILIA_AMMO_OFFSET = 0xF0, YOUMU_AMMO_OFFSET = 0xF4, REISEN_AMMO_OFFSET = 0xF8,
             CIRNO_AMMO_OFFSET = 0xFC, SAKUYA_AMMO_OFFSET = 0x100, YUYUKO_AMMO_OFFSET = 0x104, EIRIN_AMMO_OFFSET = 0x108,
             BROOM_AMMO_OFFSET = 0x10C, DOLL_AMMO_OFFSET = 0x110;
-        int CHARACTER_OFFSET = 0xC9;
-        int CHARACTER_SPRITE_OFFSET = 0x68;
-        int CHARACTER_WEAPON_OFFSET = 0x131;
+        int CHARACTER_OFFSET = 0xC9,
+            CHARACTER_SPRITE_OFFSET = 0x68,
+            CHARACTER_WEAPON_OFFSET = 0x131;
 
         #endregion
 
@@ -148,29 +142,6 @@ namespace MegaMariPrac
                 File.WriteAllLines(configpath + savestatesfilename, lst_lines.ToArray()); //write the new lines to the file
             }
 
-            dictStage.Add(Constants.Stages.REIMU, "Reimu"); dictStage.Add(Constants.Stages.CIRNO, "Cirno"); dictStage.Add(Constants.Stages.SAKUYA, "Sakuya");
-            dictStage.Add(Constants.Stages.YOUMU, "Youmu"); dictStage.Add(Constants.Stages.YUYUKO, "Yuyuko"); dictStage.Add(Constants.Stages.REISEN, "Reisen");
-            dictStage.Add(Constants.Stages.REMILIA, "Remilia"); dictStage.Add(Constants.Stages.EIRIN, "Eirin");
-            dictStage.Add(Constants.Stages.PATCHY_1, "Patchouli 1"); dictStage.Add(Constants.Stages.PATCHY_2, "Patchouli 2");
-            dictStage.Add(Constants.Stages.PATCHY_3, "Patchouli 3"); dictStage.Add(Constants.Stages.PATCHY_4, "Patchouli 4"); dictStage.Add(Constants.Stages.PATCHY_5, "Patchouli 5");
-            dictStage.Add(Constants.Stages.PATCHY_6, "Patchouli 6"); dictStage.Add(Constants.Stages.CREDITS, "Credits");
-
-            dictWeapon.Add("Broom", Constants.BossWeaponOn.NOBODY); dictWeapon.Add("Doll", Constants.BossWeaponOn.NOBODY);
-            dictWeapon.Add("Reimu", Constants.BossWeaponOn.NOBODY); dictWeapon.Add("Remilia", Constants.BossWeaponOn.NOBODY); dictWeapon.Add("Youmu", Constants.BossWeaponOn.NOBODY); dictWeapon.Add("Reisen", Constants.BossWeaponOn.NOBODY);
-            dictWeapon.Add("Cirno", Constants.BossWeaponOn.NOBODY); dictWeapon.Add("Sakuya", Constants.BossWeaponOn.NOBODY); dictWeapon.Add("Yuyuko", Constants.BossWeaponOn.NOBODY); dictWeapon.Add("Eirin", Constants.BossWeaponOn.NOBODY);
-
-            dictMarisaSprite.Add(Constants.Weapons.NORMAL, Constants.Sprites.MARISA_NORMAL); dictMarisaSprite.Add(Constants.Weapons.SPECIAL, Constants.Sprites.MARISA_BROOM);
-            dictMarisaSprite.Add(Constants.Weapons.REIMU, Constants.Sprites.MARISA_REIMU); dictMarisaSprite.Add(Constants.Weapons.REMILIA, Constants.Sprites.MARISA_REMILIA);
-            dictMarisaSprite.Add(Constants.Weapons.YOUMU, Constants.Sprites.MARISA_YOUMU); dictMarisaSprite.Add(Constants.Weapons.REISEN, Constants.Sprites.MARISA_REISEN);
-            dictMarisaSprite.Add(Constants.Weapons.CIRNO, Constants.Sprites.MARISA_CIRNO); dictMarisaSprite.Add(Constants.Weapons.SAKUYA, Constants.Sprites.MARISA_SAKUYA);
-            dictMarisaSprite.Add(Constants.Weapons.YUYUKO, Constants.Sprites.MARISA_YUYUKO); dictMarisaSprite.Add(Constants.Weapons.EIRIN, Constants.Sprites.MARISA_EIRIN);
-
-            dictAliceSprite.Add(Constants.Weapons.NORMAL, Constants.Sprites.ALICE_NORMAL); dictAliceSprite.Add(Constants.Weapons.SPECIAL, Constants.Sprites.ALICE_DOLL);
-            dictAliceSprite.Add(Constants.Weapons.REIMU, Constants.Sprites.ALICE_REIMU); dictAliceSprite.Add(Constants.Weapons.REMILIA, Constants.Sprites.ALICE_REMILIA);
-            dictAliceSprite.Add(Constants.Weapons.YOUMU, Constants.Sprites.ALICE_YOUMU); dictAliceSprite.Add(Constants.Weapons.REISEN, Constants.Sprites.ALICE_REISEN);
-            dictAliceSprite.Add(Constants.Weapons.CIRNO, Constants.Sprites.ALICE_CIRNO); dictAliceSprite.Add(Constants.Weapons.SAKUYA, Constants.Sprites.ALICE_SAKUYA);
-            dictAliceSprite.Add(Constants.Weapons.YUYUKO, Constants.Sprites.ALICE_YUYUKO); dictAliceSprite.Add(Constants.Weapons.EIRIN, Constants.Sprites.ALICE_EIRIN);
-
             //enables controls when playing and disables them when title screen/stage select
             new Thread(ManageControls) { IsBackground = true }.Start();
             //this thread will read values from the game
@@ -193,12 +164,12 @@ namespace MegaMariPrac
                             if (curCharacter == Constants.MARISA)
                             {
                                 labelStatus.ForeColor = Color.Gold;
-                                labelStatus.Text = "Marisa is in " + dictStage[stageID] + "'s stage";
+                                labelStatus.Text = "Marisa is in " + Constants.Stages.stageNames[stageID] + "'s stage";
                             }
                             else
                             {
                                 labelStatus.ForeColor = Color.FromArgb(130, 115, 255);
-                                labelStatus.Text = "Alice is in " + dictStage[stageID] + "'s stage";
+                                labelStatus.Text = "Alice is in " + Constants.Stages.stageNames[stageID] + "'s stage";
                             }
                             if (!inStage)
                             {
@@ -520,9 +491,7 @@ namespace MegaMariPrac
         {
             while (true)
             {
-                dictWeapon["Broom"] = flagBroom; dictWeapon["Doll"] = flagDoll;
-                dictWeapon["Reimu"] = flagReimu; dictWeapon["Remilia"] = flagRemilia; dictWeapon["Youmu"] = flagYoumu; dictWeapon["Reisen"] = flagReisen;
-                dictWeapon["Cirno"] = flagCirno; dictWeapon["Sakuya"] = flagSakuya; dictWeapon["Yuyuko"] = flagYuyuko; dictWeapon["Eirin"] = flagEirin;
+                _memFlags.SetWeaponFlags(flagBroom, flagDoll, flagReimu, flagRemilia, flagYoumu, flagReisen, flagCirno, flagSakuya, flagYuyuko, flagEirin);
 
                 EnableIcon(flagBroom, "broom", weaponBoxBroom, false);
                 EnableIcon(flagDoll, "doll", weaponBoxDoll, false);
@@ -668,7 +637,7 @@ namespace MegaMariPrac
                                 if (line.Length > 0)
                                     if (line.Contains("[") && sectionFound)
                                         break;
-                                if (line.Contains(dictStage[stageID] + "-" + stageID))
+                                if (line.Contains(Constants.Stages.stageNames[stageID] + "-" + stageID))
                                     sectionFound = true;
 
                                 lineNumber++;
@@ -805,7 +774,7 @@ namespace MegaMariPrac
         /// <param name="first">Indicate if first line in savestates.cfg for that stage</param>
         private void UpdateComboSaveStates(bool first)
         {
-            if (dictStage.ContainsKey(stageID))
+            if (Constants.Stages.stageNames.ContainsKey(stageID))
             {
                 bool sectionFound = false;
                 if (File.Exists(configpath + savestatesfilename)) //checks if savestates.cfg exists
@@ -828,7 +797,7 @@ namespace MegaMariPrac
                                     comboSaves.Items.Add(line);
 
                                 //if reached the desired section -> set flag to true
-                                if (line.Contains(dictStage[stageID] + "-" + stageID))
+                                if (line.Contains(Constants.Stages.stageNames[stageID] + "-" + stageID))
                                     sectionFound = true;
                             }
                         }
@@ -863,11 +832,10 @@ namespace MegaMariPrac
             labelStoredY.Text = "Y: " + ss.yF.ToString("0.000"); // Y
 
             //weapon flags
-            dictWeapon["Broom"] = ss.broomFlag; dictWeapon["Doll"] = ss.dollFlag;
-            dictWeapon["Reimu"] = ss.reimuFlag; dictWeapon["Remilia"] = ss.remiliaFlag;
-            dictWeapon["Youmu"] = ss.youmuFlag; dictWeapon["Reisen"] = ss.reisenFlag;
-            dictWeapon["Cirno"] = ss.cirnoFlag; dictWeapon["Sakuya"] = ss.sakuyaFlag;
-            dictWeapon["Yuyuko"] = ss.yuyukoFlag; dictWeapon["Eirin"] = ss.eirinFlag;
+            _memFlags.SetWeaponFlags(
+                ss.broomFlag, ss.dollFlag, ss.reimuFlag, ss.remiliaFlag, ss.youmuFlag,
+                ss.reisenFlag, ss.cirnoFlag, ss.sakuyaFlag, ss.yuyukoFlag, ss.eirinFlag
+            );
 
             LoadStoredValues();
         }
@@ -998,16 +966,16 @@ namespace MegaMariPrac
                 pm.Write(FIRST_OFFSET, CHARACTER_WEAPON_OFFSET, new byte[1] { (byte)ss.characterWeapon });
                 pm.Write(FIRST_OFFSET, CHARACTER_SPRITE_OFFSET, BitConverter.GetBytes(ss.characterSprite));
 
-                pm.Write(FIRST_OFFSET, BROOM_FLAG_OFFSET, new byte[1] { (byte)dictWeapon["Broom"] });
-                pm.Write(FIRST_OFFSET, DOLL_FLAG_OFFSET, new byte[1] { (byte)dictWeapon["Doll"] });
-                pm.Write(FIRST_OFFSET, REIMU_FLAG_OFFSET, new byte[1] { (byte)dictWeapon["Reimu"] });
-                pm.Write(FIRST_OFFSET, REMILIA_FLAG_OFFSET, new byte[1] { (byte)dictWeapon["Remilia"] });
-                pm.Write(FIRST_OFFSET, YOUMU_FLAG_OFFSET, new byte[1] { (byte)dictWeapon["Youmu"] });
-                pm.Write(FIRST_OFFSET, REISEN_FLAG_OFFSET, new byte[1] { (byte)dictWeapon["Reisen"] });
-                pm.Write(FIRST_OFFSET, CIRNO_FLAG_OFFSET, new byte[1] { (byte)dictWeapon["Cirno"] });
-                pm.Write(FIRST_OFFSET, SAKUYA_FLAG_OFFSET, new byte[1] { (byte)dictWeapon["Sakuya"] });
-                pm.Write(FIRST_OFFSET, YUYUKO_FLAG_OFFSET, new byte[1] { (byte)dictWeapon["Yuyuko"] });
-                pm.Write(FIRST_OFFSET, EIRIN_FLAG_OFFSET, new byte[1] { (byte)dictWeapon["Eirin"] });
+                pm.Write(FIRST_OFFSET, BROOM_FLAG_OFFSET, new byte[1] { (byte)_memFlags.weapons["Broom"] });
+                pm.Write(FIRST_OFFSET, DOLL_FLAG_OFFSET, new byte[1] { (byte)_memFlags.weapons["Doll"] });
+                pm.Write(FIRST_OFFSET, REIMU_FLAG_OFFSET, new byte[1] { (byte)_memFlags.weapons["Reimu"] });
+                pm.Write(FIRST_OFFSET, REMILIA_FLAG_OFFSET, new byte[1] { (byte)_memFlags.weapons["Remilia"] });
+                pm.Write(FIRST_OFFSET, YOUMU_FLAG_OFFSET, new byte[1] { (byte)_memFlags.weapons["Youmu"] });
+                pm.Write(FIRST_OFFSET, REISEN_FLAG_OFFSET, new byte[1] { (byte)_memFlags.weapons["Reisen"] });
+                pm.Write(FIRST_OFFSET, CIRNO_FLAG_OFFSET, new byte[1] { (byte)_memFlags.weapons["Cirno"] });
+                pm.Write(FIRST_OFFSET, SAKUYA_FLAG_OFFSET, new byte[1] { (byte)_memFlags.weapons["Sakuya"] });
+                pm.Write(FIRST_OFFSET, YUYUKO_FLAG_OFFSET, new byte[1] { (byte)_memFlags.weapons["Yuyuko"] });
+                pm.Write(FIRST_OFFSET, EIRIN_FLAG_OFFSET, new byte[1] { (byte)_memFlags.weapons["Eirin"] });
 
                 pm.Write(FIRST_OFFSET, BROOM_AMMO_OFFSET, BitConverter.GetBytes(ss.broomAmmo));
                 pm.Write(FIRST_OFFSET, DOLL_AMMO_OFFSET, BitConverter.GetBytes(ss.dollAmmo));
