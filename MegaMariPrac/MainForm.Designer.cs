@@ -76,7 +76,7 @@ namespace MegaMariPrac
             this.toolTip = WinFormHelpers.CreateToolTip(20000, 200, 100, container: new Container());
 
             // Status
-            this.labelStatus = WinFormHelpers.CreateToolStripStatusLabel("labelStatus", "labelStatus", new Size(64, 17));
+            this.labelStatus = WinFormHelpers.CreateToolStripStatusLabel("labelStatus", "Waiting...", new Size(64, 17));
             this.labelStatus.BackColor = this.labelStatus.ForeColor = SystemColors.Control;
 
             // Boss HP
@@ -99,7 +99,7 @@ namespace MegaMariPrac
             this.labelBossHp.ForeColor = SystemColors.Control;
 
             // Status bar (generate last to prevent it from hiding other elements)
-            this.statusStrip = WinFormHelpers.CreateToolStatusStrip("statusStrip", "statusStrip1", new Point(0, 293), new Size(451, 22), control: this);
+            this.statusStrip = WinFormHelpers.CreateToolStatusStrip("statusStrip", "", new Point(0, 293), new Size(451, 22), control: this);
             this.statusStrip.BackColor = SystemColors.ControlText;
             this.statusStrip.Items.AddRange(new ToolStripItem[] {this.labelStatus});
             this.statusStrip.TabIndex = 2;
