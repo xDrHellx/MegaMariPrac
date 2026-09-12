@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using MegaMariPrac.About;
 using MegaMariPrac.Hotkeys;
 using MegaMariPrac.SaveStates;
+using MegaMariPrac.Dictionnaries;
 
 namespace MegaMariPrac
 {
@@ -52,63 +53,29 @@ namespace MegaMariPrac
 
         //static addresses
         int STATE = 0xDD6C0;
-        const int READY = 0, PLAYING = 1, TRANSITION_LEFT = 2, TRANSITION_UP = 4, TRANSITION_DOWN = 5, TRANSITION_RIGHT = 14,
-                  WIN_FANFARE = 6, WIN_NO_FANFARE_TELEPORT = 7, WIN_NO_FANFARE_NO_TELEPORT = 8,
-                  REFILL_FULL_HP = 9, REFILL_FULL_AMMO = 9, MENU = 11, DEAD = 12;
-
         int STAGE_ID = 0xDD6C4;
-        const int REIMU_STAGE = 0, CIRNO_STAGE = 1, SAKUYA_STAGE = 2, REMILIA_STAGE = 3,
-                  YOUMU_STAGE = 4, YUYUKO_STAGE = 5, REISEN_STAGE = 6, EIRIN_STAGE = 7,
-                  PATCHY_1 = 8, PATCHY_2 = 9, PATCHY_3 = 12, PATCHY_4 = 13, PATCHY_5 = 10, PATCHY_6 = 11, CREDITS = 15, ELSEWHERE = 255;
-
         int SCREEN_TYPE = 0xE3614;
-        const int TITLE_SCREEN = 0, STAGE_SELECT = 1, STAGE_LOADING = 2, STAGE = 3, WEAPON_GET = 4, GAME_OVER = 6, CONTINUE = 8;
-
         int DELAY = 0xDD6D4, SCREEN_TIMER = 0xDD6D8;
 
         //second offsets added to the result of "megamari.exe" + first offset, resulting in a pointer to certain a certain value
         int X_OFFSET = 0x70, Y_OFFSET = 0x74;
         int CAMERA_X_1_OFFSET = 0xF480, CAMERA_Y_1_OFFSET = 0xF484, CAMERA_X_2_OFFSET = 0xF488, CAMERA_Y_2_OFFSET = 0xF48C;
         int CAMERA_VIEW_X_OFFSET = 0xF3B8, CAMERA_VIEW_Y_OFFSET = 0xF3BC;
-
         int CHECKPOINT_OFFSET = 0xF478;
-        const int CHECKPOINT_START = 0, CHECKPOINT = 1, CHECKPOINT_BOSS = 2;
-
         int MENU_TANK_SLOT_1_OFFSET = 0xDD, MENU_TANK_SLOT_2_OFFSET = 0xDE, MENU_TANK_SLOT_3_OFFSET = 0xDF, MENU_TANK_SLOT_4_OFFSET = 0xE0;
-        const int NO_TANK = 0, ETANK = 1, STAR_TANK = 2, DOUBLE_ETANK = 3;
         int MENU_PANE_OFFSET = 0xDC, MENU_TANKS_OFFSET = 0xDD, MENU_CURSOR_OFFSET = 0x12C;
-
         int LIVES_OFFSET = 0xD4, IFRAMES_OFFSET = 0x128, SPEED_OFFSET = 0xB8,
             MARISA_HP_OFFSET = 0xCC, ALICE_HP_OFFSET = 0xD0;
-        const int FULL_HP = 28;
-
         int REIMU_FLAG_OFFSET = 0xE1, REMILIA_FLAG_OFFSET = 0xE2, YOUMU_FLAG_OFFSET = 0xE3, REISEN_FLAG_OFFSET = 0xE4,
             CIRNO_FLAG_OFFSET = 0xE5, SAKUYA_FLAG_OFFSET = 0xE6, YUYUKO_FLAG_OFFSET = 0xE7, EIRIN_FLAG_OFFSET = 0xE8;
-        const int ON_MARISA = 0, ON_ALICE = 1, ON_NOBODY = 255;
-
         int BROOM_FLAG_OFFSET = 0xE9, DOLL_FLAG_OFFSET = 0xEA;
-        const int SPECIAL_WEAPON_ON = 0, SPECIAL_WEAPON_OFF = 255;
-
         int REIMU_AMMO_OFFSET = 0xEC, REMILIA_AMMO_OFFSET = 0xF0, YOUMU_AMMO_OFFSET = 0xF4, REISEN_AMMO_OFFSET = 0xF8,
             CIRNO_AMMO_OFFSET = 0xFC, SAKUYA_AMMO_OFFSET = 0x100, YUYUKO_AMMO_OFFSET = 0x104, EIRIN_AMMO_OFFSET = 0x108,
             BROOM_AMMO_OFFSET = 0x10C, DOLL_AMMO_OFFSET = 0x110;
-        const int FULL_AMMO = 112;
-
         int CHARACTER_OFFSET = 0xC9;
-        const int MARISA = 0, ALICE = 1;
-
         int CHARACTER_SPRITE_OFFSET = 0x68;
-        const short MARISA_SPRITE_NORMAL = 3376, MARISA_SPRITE_BROOM = 4096,
-                    MARISA_SPRITE_REIMU = 3456, MARISA_SPRITE_REMILIA = 3536, MARISA_SPRITE_YOUMU = 3616, MARISA_SPRITE_REISEN = 3696,
-                    MARISA_SPRITE_CIRNO = 3776, MARISA_SPRITE_SAKUYA = 3856, MARISA_SPRITE_YUYUKO = 3936, MARISA_SPRITE_EIRIN = 4016,
-                    ALICE_SPRITE_NORMAL = 4176, ALICE_SPRITE_DOLL = 4896,
-                    ALICE_SPRITE_REIMU = 4256, ALICE_SPRITE_REMILIA = 4336, ALICE_SPRITE_YOUMU = 4416, ALICE_SPRITE_REISEN = 4496,
-                    ALICE_SPRITE_CIRNO = 4576, ALICE_SPRITE_SAKUYA = 4656, ALICE_SPRITE_YUYUKO = 4736, ALICE_SPRITE_EIRIN = 4816;
-
         int CHARACTER_WEAPON_OFFSET = 0x131;
-        const int NORMAL_WEAPON = 0, SPECIAL_WEAPON = 9,
-                  REIMU_WEAPON = 1, REMILIA_WEAPON = 2, YOUMU_WEAPON = 3, REISEN_WEAPON = 4,
-                  CIRNO_WEAPON = 5, SAKUYA_WEAPON = 6, YUYUKO_WEAPON = 7, EIRIN_WEAPON = 8;
+
         #endregion
 
         #region form
@@ -181,28 +148,28 @@ namespace MegaMariPrac
                 File.WriteAllLines(configpath + savestatesfilename, lst_lines.ToArray()); //write the new lines to the file
             }
 
-            dictStage.Add(REIMU_STAGE, "Reimu"); dictStage.Add(CIRNO_STAGE, "Cirno"); dictStage.Add(SAKUYA_STAGE, "Sakuya");
-            dictStage.Add(YOUMU_STAGE, "Youmu"); dictStage.Add(YUYUKO_STAGE, "Yuyuko"); dictStage.Add(REISEN_STAGE, "Reisen");
-            dictStage.Add(REMILIA_STAGE, "Remilia"); dictStage.Add(EIRIN_STAGE, "Eirin");
-            dictStage.Add(PATCHY_1, "Patchouli 1"); dictStage.Add(PATCHY_2, "Patchouli 2");
-            dictStage.Add(PATCHY_3, "Patchouli 3"); dictStage.Add(PATCHY_4, "Patchouli 4"); dictStage.Add(PATCHY_5, "Patchouli 5");
-            dictStage.Add(PATCHY_6, "Patchouli 6"); dictStage.Add(CREDITS, "Credits");
+            dictStage.Add(Constants.Stages.REIMU, "Reimu"); dictStage.Add(Constants.Stages.CIRNO, "Cirno"); dictStage.Add(Constants.Stages.SAKUYA, "Sakuya");
+            dictStage.Add(Constants.Stages.YOUMU, "Youmu"); dictStage.Add(Constants.Stages.YUYUKO, "Yuyuko"); dictStage.Add(Constants.Stages.REISEN, "Reisen");
+            dictStage.Add(Constants.Stages.REMILIA, "Remilia"); dictStage.Add(Constants.Stages.EIRIN, "Eirin");
+            dictStage.Add(Constants.Stages.PATCHY_1, "Patchouli 1"); dictStage.Add(Constants.Stages.PATCHY_2, "Patchouli 2");
+            dictStage.Add(Constants.Stages.PATCHY_3, "Patchouli 3"); dictStage.Add(Constants.Stages.PATCHY_4, "Patchouli 4"); dictStage.Add(Constants.Stages.PATCHY_5, "Patchouli 5");
+            dictStage.Add(Constants.Stages.PATCHY_6, "Patchouli 6"); dictStage.Add(Constants.Stages.CREDITS, "Credits");
 
-            dictWeapon.Add("Broom", ON_NOBODY); dictWeapon.Add("Doll", ON_NOBODY);
-            dictWeapon.Add("Reimu", ON_NOBODY); dictWeapon.Add("Remilia", ON_NOBODY); dictWeapon.Add("Youmu", ON_NOBODY); dictWeapon.Add("Reisen", ON_NOBODY);
-            dictWeapon.Add("Cirno", ON_NOBODY); dictWeapon.Add("Sakuya", ON_NOBODY); dictWeapon.Add("Yuyuko", ON_NOBODY); dictWeapon.Add("Eirin", ON_NOBODY);
+            dictWeapon.Add("Broom", Constants.BossWeaponOn.NOBODY); dictWeapon.Add("Doll", Constants.BossWeaponOn.NOBODY);
+            dictWeapon.Add("Reimu", Constants.BossWeaponOn.NOBODY); dictWeapon.Add("Remilia", Constants.BossWeaponOn.NOBODY); dictWeapon.Add("Youmu", Constants.BossWeaponOn.NOBODY); dictWeapon.Add("Reisen", Constants.BossWeaponOn.NOBODY);
+            dictWeapon.Add("Cirno", Constants.BossWeaponOn.NOBODY); dictWeapon.Add("Sakuya", Constants.BossWeaponOn.NOBODY); dictWeapon.Add("Yuyuko", Constants.BossWeaponOn.NOBODY); dictWeapon.Add("Eirin", Constants.BossWeaponOn.NOBODY);
 
-            dictMarisaSprite.Add(NORMAL_WEAPON, MARISA_SPRITE_NORMAL); dictMarisaSprite.Add(SPECIAL_WEAPON, MARISA_SPRITE_BROOM);
-            dictMarisaSprite.Add(REIMU_WEAPON, MARISA_SPRITE_REIMU); dictMarisaSprite.Add(REMILIA_WEAPON, MARISA_SPRITE_REMILIA);
-            dictMarisaSprite.Add(YOUMU_WEAPON, MARISA_SPRITE_YOUMU); dictMarisaSprite.Add(REISEN_WEAPON, MARISA_SPRITE_REISEN);
-            dictMarisaSprite.Add(CIRNO_WEAPON, MARISA_SPRITE_CIRNO); dictMarisaSprite.Add(SAKUYA_WEAPON, MARISA_SPRITE_SAKUYA);
-            dictMarisaSprite.Add(YUYUKO_WEAPON, MARISA_SPRITE_YUYUKO); dictMarisaSprite.Add(EIRIN_WEAPON, MARISA_SPRITE_EIRIN);
+            dictMarisaSprite.Add(Constants.Weapons.NORMAL, Constants.Sprites.MARISA_NORMAL); dictMarisaSprite.Add(Constants.Weapons.SPECIAL, Constants.Sprites.MARISA_BROOM);
+            dictMarisaSprite.Add(Constants.Weapons.REIMU, Constants.Sprites.MARISA_REIMU); dictMarisaSprite.Add(Constants.Weapons.REMILIA, Constants.Sprites.MARISA_REMILIA);
+            dictMarisaSprite.Add(Constants.Weapons.YOUMU, Constants.Sprites.MARISA_YOUMU); dictMarisaSprite.Add(Constants.Weapons.REISEN, Constants.Sprites.MARISA_REISEN);
+            dictMarisaSprite.Add(Constants.Weapons.CIRNO, Constants.Sprites.MARISA_CIRNO); dictMarisaSprite.Add(Constants.Weapons.SAKUYA, Constants.Sprites.MARISA_SAKUYA);
+            dictMarisaSprite.Add(Constants.Weapons.YUYUKO, Constants.Sprites.MARISA_YUYUKO); dictMarisaSprite.Add(Constants.Weapons.EIRIN, Constants.Sprites.MARISA_EIRIN);
 
-            dictAliceSprite.Add(NORMAL_WEAPON, ALICE_SPRITE_NORMAL); dictAliceSprite.Add(SPECIAL_WEAPON, ALICE_SPRITE_DOLL);
-            dictAliceSprite.Add(REIMU_WEAPON, ALICE_SPRITE_REIMU); dictAliceSprite.Add(REMILIA_WEAPON, ALICE_SPRITE_REMILIA);
-            dictAliceSprite.Add(YOUMU_WEAPON, ALICE_SPRITE_YOUMU); dictAliceSprite.Add(REISEN_WEAPON, ALICE_SPRITE_REISEN);
-            dictAliceSprite.Add(CIRNO_WEAPON, ALICE_SPRITE_CIRNO); dictAliceSprite.Add(SAKUYA_WEAPON, ALICE_SPRITE_SAKUYA);
-            dictAliceSprite.Add(YUYUKO_WEAPON, ALICE_SPRITE_YUYUKO); dictAliceSprite.Add(EIRIN_WEAPON, ALICE_SPRITE_EIRIN);
+            dictAliceSprite.Add(Constants.Weapons.NORMAL, Constants.Sprites.ALICE_NORMAL); dictAliceSprite.Add(Constants.Weapons.SPECIAL, Constants.Sprites.ALICE_DOLL);
+            dictAliceSprite.Add(Constants.Weapons.REIMU, Constants.Sprites.ALICE_REIMU); dictAliceSprite.Add(Constants.Weapons.REMILIA, Constants.Sprites.ALICE_REMILIA);
+            dictAliceSprite.Add(Constants.Weapons.YOUMU, Constants.Sprites.ALICE_YOUMU); dictAliceSprite.Add(Constants.Weapons.REISEN, Constants.Sprites.ALICE_REISEN);
+            dictAliceSprite.Add(Constants.Weapons.CIRNO, Constants.Sprites.ALICE_CIRNO); dictAliceSprite.Add(Constants.Weapons.SAKUYA, Constants.Sprites.ALICE_SAKUYA);
+            dictAliceSprite.Add(Constants.Weapons.YUYUKO, Constants.Sprites.ALICE_YUYUKO); dictAliceSprite.Add(Constants.Weapons.EIRIN, Constants.Sprites.ALICE_EIRIN);
 
             //enables controls when playing and disables them when title screen/stage select
             new Thread(ManageControls) { IsBackground = true }.Start();
@@ -221,9 +188,9 @@ namespace MegaMariPrac
                 {
                     Invoke((MethodInvoker)delegate //using this because thread
                     {
-                        if (screenType == STAGE) //if marisa is in a stage
+                        if (screenType == Constants.Screens.STAGE) //if marisa is in a stage
                         {
-                            if (curCharacter == MARISA)
+                            if (curCharacter == Constants.MARISA)
                             {
                                 labelStatus.ForeColor = Color.Gold;
                                 labelStatus.Text = "Marisa is in " + dictStage[stageID] + "'s stage";
@@ -268,14 +235,14 @@ namespace MegaMariPrac
                         }
                         else
                         {
-                            if (screenType == STAGE_SELECT)
+                            if (screenType == Constants.Screens.STAGE_SELECT)
                             {
                                 labelStatus.Text = "Stage select...";
                                 labelStatus.ForeColor = Color.Cyan;
                             }
-                            else if (screenType == STAGE_LOADING)
+                            else if (screenType == Constants.Screens.STAGE_LOADING)
                             {
-                                pm.WriteStatic(SCREEN_TYPE, BitConverter.GetBytes(STAGE)); //forces te stage to show up right away
+                                pm.WriteStatic(SCREEN_TYPE, BitConverter.GetBytes(Constants.Screens.STAGE)); //forces te stage to show up right away
                             }
                             else
                             {
@@ -364,7 +331,7 @@ namespace MegaMariPrac
 
                 Thread.Sleep(75);
 
-                if (screenType == TITLE_SCREEN || screenType == STAGE_SELECT || screenType == STAGE_LOADING)
+                if (screenType == Constants.Screens.TITLE_SCREEN || screenType == Constants.Screens.STAGE_SELECT || screenType == Constants.Screens.STAGE_LOADING)
                 {
                     print("Exiting thread " + System.Reflection.MethodBase.GetCurrentMethod().Name);
                     break;
@@ -404,7 +371,7 @@ namespace MegaMariPrac
                 buffer = pm.Read(FIRST_OFFSET_BOSS_HP, 0x0); bossHP = BitConverter.ToInt16(buffer, 0);
 
                 int sleep;
-                if (screenType == TITLE_SCREEN || screenType == STAGE_SELECT || screenType == STAGE_LOADING) sleep = 100;
+                if (screenType == Constants.Screens.TITLE_SCREEN || screenType == Constants.Screens.STAGE_SELECT || screenType == Constants.Screens.STAGE_LOADING) sleep = 100;
                 else sleep = 1;
                 Thread.Sleep(sleep);
             }
@@ -427,7 +394,7 @@ namespace MegaMariPrac
                     if (ex is ObjectDisposedException || ex is InvalidOperationException)
                         print(ex.Message);
                 }
-                if (screenType == TITLE_SCREEN || screenType == STAGE_SELECT || screenType == STAGE_LOADING)
+                if (screenType == Constants.Screens.TITLE_SCREEN || screenType == Constants.Screens.STAGE_SELECT || screenType == Constants.Screens.STAGE_LOADING)
                 {
                     print("Exiting thread " + System.Reflection.MethodBase.GetCurrentMethod().Name);
                     break;
@@ -463,7 +430,7 @@ namespace MegaMariPrac
                         print(ex.Message);
                 }
                 tempTimer = screenTimer;
-                if (screenType == TITLE_SCREEN || screenType == STAGE_SELECT || screenType == STAGE_LOADING)
+                if (screenType == Constants.Screens.TITLE_SCREEN || screenType == Constants.Screens.STAGE_SELECT || screenType == Constants.Screens.STAGE_LOADING)
                 {
                     print("Exiting thread " + System.Reflection.MethodBase.GetCurrentMethod().Name);
                     break;
@@ -476,21 +443,21 @@ namespace MegaMariPrac
         {
             while (true)
             {
-                if (weaponCheckBroom.Checked) pm.Write(FIRST_OFFSET, BROOM_AMMO_OFFSET, BitConverter.GetBytes(FULL_AMMO));
-                if (weaponCheckDoll.Checked) pm.Write(FIRST_OFFSET, DOLL_AMMO_OFFSET, BitConverter.GetBytes(FULL_AMMO));
-                if (weaponCheckReimu.Checked) pm.Write(FIRST_OFFSET, REIMU_AMMO_OFFSET, BitConverter.GetBytes(FULL_AMMO));
-                if (weaponCheckRemilia.Checked) pm.Write(FIRST_OFFSET, REMILIA_AMMO_OFFSET, BitConverter.GetBytes(FULL_AMMO));
-                if (weaponCheckYoumu.Checked) pm.Write(FIRST_OFFSET, YOUMU_AMMO_OFFSET, BitConverter.GetBytes(FULL_AMMO));
-                if (weaponCheckReisen.Checked) pm.Write(FIRST_OFFSET, REISEN_AMMO_OFFSET, BitConverter.GetBytes(FULL_AMMO));
-                if (weaponCheckCirno.Checked) pm.Write(FIRST_OFFSET, CIRNO_AMMO_OFFSET, BitConverter.GetBytes(FULL_AMMO));
-                if (weaponCheckSakuya.Checked) pm.Write(FIRST_OFFSET, SAKUYA_AMMO_OFFSET, BitConverter.GetBytes(FULL_AMMO));
-                if (weaponCheckYuyuko.Checked) pm.Write(FIRST_OFFSET, YUYUKO_AMMO_OFFSET, BitConverter.GetBytes(FULL_AMMO));
-                if (weaponCheckEirin.Checked) pm.Write(FIRST_OFFSET, EIRIN_AMMO_OFFSET, BitConverter.GetBytes(FULL_AMMO));
+                if (weaponCheckBroom.Checked) pm.Write(FIRST_OFFSET, BROOM_AMMO_OFFSET, BitConverter.GetBytes(Constants.FULL_AMMO));
+                if (weaponCheckDoll.Checked) pm.Write(FIRST_OFFSET, DOLL_AMMO_OFFSET, BitConverter.GetBytes(Constants.FULL_AMMO));
+                if (weaponCheckReimu.Checked) pm.Write(FIRST_OFFSET, REIMU_AMMO_OFFSET, BitConverter.GetBytes(Constants.FULL_AMMO));
+                if (weaponCheckRemilia.Checked) pm.Write(FIRST_OFFSET, REMILIA_AMMO_OFFSET, BitConverter.GetBytes(Constants.FULL_AMMO));
+                if (weaponCheckYoumu.Checked) pm.Write(FIRST_OFFSET, YOUMU_AMMO_OFFSET, BitConverter.GetBytes(Constants.FULL_AMMO));
+                if (weaponCheckReisen.Checked) pm.Write(FIRST_OFFSET, REISEN_AMMO_OFFSET, BitConverter.GetBytes(Constants.FULL_AMMO));
+                if (weaponCheckCirno.Checked) pm.Write(FIRST_OFFSET, CIRNO_AMMO_OFFSET, BitConverter.GetBytes(Constants.FULL_AMMO));
+                if (weaponCheckSakuya.Checked) pm.Write(FIRST_OFFSET, SAKUYA_AMMO_OFFSET, BitConverter.GetBytes(Constants.FULL_AMMO));
+                if (weaponCheckYuyuko.Checked) pm.Write(FIRST_OFFSET, YUYUKO_AMMO_OFFSET, BitConverter.GetBytes(Constants.FULL_AMMO));
+                if (weaponCheckEirin.Checked) pm.Write(FIRST_OFFSET, EIRIN_AMMO_OFFSET, BitConverter.GetBytes(Constants.FULL_AMMO));
 
                 if (checkHealth.Checked)
                 {
-                    pm.Write(FIRST_OFFSET, MARISA_HP_OFFSET, BitConverter.GetBytes(FULL_HP));
-                    pm.Write(FIRST_OFFSET, ALICE_HP_OFFSET, BitConverter.GetBytes(FULL_HP));
+                    pm.Write(FIRST_OFFSET, MARISA_HP_OFFSET, BitConverter.GetBytes(Constants.FULL_HP));
+                    pm.Write(FIRST_OFFSET, ALICE_HP_OFFSET, BitConverter.GetBytes(Constants.FULL_HP));
                 }
 
                 if (checkLives.Checked)
@@ -499,7 +466,7 @@ namespace MegaMariPrac
                 if (checkIframes.Checked)
                     pm.Write(FIRST_OFFSET, IFRAMES_OFFSET, BitConverter.GetBytes(200));
 
-                if (screenType == TITLE_SCREEN || screenType == STAGE_SELECT || screenType == STAGE_LOADING)
+                if (screenType == Constants.Screens.TITLE_SCREEN || screenType == Constants.Screens.STAGE_SELECT || screenType == Constants.Screens.STAGE_LOADING)
                 {
                     print("Exiting thread " + System.Reflection.MethodBase.GetCurrentMethod().Name);
                     break;
@@ -512,13 +479,13 @@ namespace MegaMariPrac
         {
             while (true)
             {
-                if (screenType == STAGE && state == DEAD) //track death
+                if (screenType == Constants.Screens.STAGE && state == Constants.GameStates.DEAD) //track death
                 {
                     //fast respawn
-                    pm.WriteStatic(STATE, BitConverter.GetBytes(DEAD));
+                    pm.WriteStatic(STATE, BitConverter.GetBytes(Constants.GameStates.DEAD));
                     pm.WriteStatic(DELAY, BitConverter.GetBytes(240));
                     Thread.Sleep(100);
-                    pm.WriteStatic(STATE, BitConverter.GetBytes(READY));
+                    pm.WriteStatic(STATE, BitConverter.GetBytes(Constants.GameStates.READY));
                     pm.WriteStatic(DELAY, BitConverter.GetBytes(120));
                     LoadStoredValues();
                 }
@@ -540,7 +507,7 @@ namespace MegaMariPrac
                         print(ex.Message);
                 }
 
-                if (screenType == TITLE_SCREEN || screenType == STAGE_SELECT || screenType == STAGE_LOADING)
+                if (screenType == Constants.Screens.TITLE_SCREEN || screenType == Constants.Screens.STAGE_SELECT || screenType == Constants.Screens.STAGE_LOADING)
                 {
                     print("Exiting thread " + System.Reflection.MethodBase.GetCurrentMethod().Name);
                     break;
@@ -571,7 +538,7 @@ namespace MegaMariPrac
                 EnableIcon(flagTank1, box: tankBox1, isTank: true); EnableIcon(flagTank2, box: tankBox2, isTank: true);
                 EnableIcon(flagTank3, box: tankBox3, isTank: true); EnableIcon(flagTank4, box: tankBox4, isTank: true);
 
-                if (screenType == TITLE_SCREEN || screenType == STAGE_SELECT || screenType == STAGE_LOADING)
+                if (screenType == Constants.Screens.TITLE_SCREEN || screenType == Constants.Screens.STAGE_SELECT || screenType == Constants.Screens.STAGE_LOADING)
                 {
                     print("Exiting thread " + System.Reflection.MethodBase.GetCurrentMethod().Name);
                     break;
@@ -586,19 +553,19 @@ namespace MegaMariPrac
             {
                 if (!isTank)
                 {
-                    object test = null;
+                    object iconResource = null;
                     if (regularWeapon)
                     {
                         switch (flag)
                         {
-                            case ON_NOBODY:
-                                test = (Image)Properties.Resources.ResourceManager.GetObject(character + "_off");
+                            case Constants.BossWeaponOn.NOBODY:
+                                iconResource = (Image)Properties.Resources.ResourceManager.GetObject(character + "_off");
                                 break;
-                            case ON_MARISA:
-                                test = (Image)Properties.Resources.ResourceManager.GetObject(character + "_on_marisa");
+                            case Constants.BossWeaponOn.MARISA:
+                                iconResource = (Image)Properties.Resources.ResourceManager.GetObject(character + "_on_marisa");
                                 break;
-                            case ON_ALICE:
-                                test = (Image)Properties.Resources.ResourceManager.GetObject(character + "_on_alice");
+                            case Constants.BossWeaponOn.ALICE:
+                                iconResource = (Image)Properties.Resources.ResourceManager.GetObject(character + "_on_alice");
                                 break;
                         }
                     }
@@ -606,29 +573,33 @@ namespace MegaMariPrac
                     {
                         switch (flag)
                         {
-                            case SPECIAL_WEAPON_OFF:
-                                test = (Image)Properties.Resources.ResourceManager.GetObject(character + "_off");
+                            case Constants.SpecialWeapon.OFF:
+                                iconResource = (Image)Properties.Resources.ResourceManager.GetObject(character + "_off");
                                 break;
-                            case SPECIAL_WEAPON_ON:
-                                test = (Image)Properties.Resources.ResourceManager.GetObject(character + "_on");
+                            case Constants.SpecialWeapon.ON:
+                                iconResource = (Image)Properties.Resources.ResourceManager.GetObject(character + "_on");
                                 break;
                         }
                     }
 
                     // If the resource img was retrieved, set it
-                    if (test is Image img)
+                    if (iconResource is Image icon)
                     {
-                        box.Image = img;
+                        // Get rid of the old icon to prevent memory leaks
+                        box.Image?.Dispose();
+
+                        // Assign a copy of the icon to prevent sharing the same object in memory (which will be "locked" and cause an error over time)
+                        box.Image = new Bitmap(icon);
                     }
                 }
                 else
                 {
                     switch (flag)
                     {
-                        case NO_TANK: box.Image = Properties.Resources.tank_off; break;
-                        case ETANK: box.Image = Properties.Resources.etank; break;
-                        case STAR_TANK: box.Image = Properties.Resources.startank; break;
-                        case DOUBLE_ETANK: box.Image = Properties.Resources.doubletank; break;
+                        case Constants.Etanks.NO_TANK: box.Image = Properties.Resources.tank_off; break;
+                        case Constants.Etanks.ETANK: box.Image = Properties.Resources.etank; break;
+                        case Constants.Etanks.STAR_TANK: box.Image = Properties.Resources.startank; break;
+                        case Constants.Etanks.DOUBLE_ETANK: box.Image = Properties.Resources.doubletank; break;
                     }
                 }
             }
@@ -640,14 +611,14 @@ namespace MegaMariPrac
         private void buttonStore_Click(object sender, EventArgs e)
         {
             // If in a stage
-            if (screenType == STAGE && state == PLAYING)
+            if (screenType == Constants.Screens.STAGE && state == Constants.GameStates.PLAYING)
                 StoreValues();
         }
 
         private void buttonLoad_Click(object sender, EventArgs e)
         {
             // If in a stage
-            if (screenType == STAGE && state == PLAYING)
+            if (screenType == Constants.Screens.STAGE && state == Constants.GameStates.PLAYING)
                 LoadStoredValues();
         }
 
@@ -720,31 +691,31 @@ namespace MegaMariPrac
             //fast respawn
             checkLives.Checked = false;
             pm.Write(FIRST_OFFSET, LIVES_OFFSET, BitConverter.GetBytes(0));
-            pm.WriteStatic(STATE, BitConverter.GetBytes(DEAD));
+            pm.WriteStatic(STATE, BitConverter.GetBytes(Constants.GameStates.DEAD));
             pm.WriteStatic(DELAY, BitConverter.GetBytes(240));
             for (int i = 0; i < 5000; i++)
-                pm.WriteStatic(SCREEN_TYPE, BitConverter.GetBytes(CONTINUE));
+                pm.WriteStatic(SCREEN_TYPE, BitConverter.GetBytes(Constants.Screens.CONTINUE));
         }
 
         private void buttonWin_Click(object sender, EventArgs e)
         {
-            pm.WriteStatic(STATE, BitConverter.GetBytes(WIN_FANFARE));
+            pm.WriteStatic(STATE, BitConverter.GetBytes(Constants.GameStates.WIN_FANFARE));
             Thread.Sleep(250);
             pm.WriteStatic(DELAY, BitConverter.GetBytes(220));
             Thread.Sleep(250);
             pm.WriteStatic(DELAY, BitConverter.GetBytes(150));
             for (int i = 0; i < 5000; i++)
-                pm.WriteStatic(SCREEN_TYPE, BitConverter.GetBytes(WEAPON_GET));
+                pm.WriteStatic(SCREEN_TYPE, BitConverter.GetBytes(Constants.Screens.WEAPON_GET));
         }
 
         private void buttonDie_Click(object sender, EventArgs e)
         {
             //fast respawn
             pm.Write(FIRST_OFFSET, LIVES_OFFSET, BitConverter.GetBytes(3));
-            pm.WriteStatic(STATE, BitConverter.GetBytes(DEAD));
+            pm.WriteStatic(STATE, BitConverter.GetBytes(Constants.GameStates.DEAD));
             pm.WriteStatic(DELAY, BitConverter.GetBytes(240));
             Thread.Sleep(100);
-            pm.WriteStatic(STATE, BitConverter.GetBytes(READY));
+            pm.WriteStatic(STATE, BitConverter.GetBytes(Constants.GameStates.READY));
             pm.WriteStatic(DELAY, BitConverter.GetBytes(120));
         }
 
@@ -752,28 +723,28 @@ namespace MegaMariPrac
         {
             //fast respawn
             int checkpoint = pm.Read(FIRST_OFFSET, CHECKPOINT_OFFSET)[0];
-            if (stageID != PATCHY_6)
+            if (stageID != Constants.Stages.PATCHY_6)
             {
                 switch (checkpoint)
                 {
-                    case CHECKPOINT_START: pm.Write(FIRST_OFFSET, CHECKPOINT_OFFSET, new byte[1] { CHECKPOINT }); break;
-                    case CHECKPOINT: pm.Write(FIRST_OFFSET, CHECKPOINT_OFFSET, new byte[1] { CHECKPOINT_BOSS }); break;
-                    case CHECKPOINT_BOSS: pm.Write(FIRST_OFFSET, CHECKPOINT_OFFSET, new byte[1] { CHECKPOINT_START }); break;
+                    case Constants.Checkpoints.START: pm.Write(FIRST_OFFSET, CHECKPOINT_OFFSET, new byte[1] { Constants.Checkpoints.CHECKPOINT }); break;
+                    case Constants.Checkpoints.CHECKPOINT: pm.Write(FIRST_OFFSET, CHECKPOINT_OFFSET, new byte[1] { Constants.Checkpoints.BOSS }); break;
+                    case Constants.Checkpoints.BOSS: pm.Write(FIRST_OFFSET, CHECKPOINT_OFFSET, new byte[1] { Constants.Checkpoints.START }); break;
                 }
             }
             else //patchy 6 stage only has 2 checkpoints
             {
                 switch (checkpoint)
                 {
-                    case CHECKPOINT_START: pm.Write(FIRST_OFFSET, CHECKPOINT_OFFSET, new byte[1] { CHECKPOINT }); break;
-                    case CHECKPOINT: pm.Write(FIRST_OFFSET, CHECKPOINT_OFFSET, new byte[1] { CHECKPOINT_START }); break;
+                    case Constants.Checkpoints.START: pm.Write(FIRST_OFFSET, CHECKPOINT_OFFSET, new byte[1] { Constants.Checkpoints.CHECKPOINT }); break;
+                    case Constants.Checkpoints.CHECKPOINT: pm.Write(FIRST_OFFSET, CHECKPOINT_OFFSET, new byte[1] { Constants.Checkpoints.START }); break;
                 }
             }
             pm.Write(FIRST_OFFSET, LIVES_OFFSET, BitConverter.GetBytes(3));
-            pm.WriteStatic(STATE, BitConverter.GetBytes(DEAD));
+            pm.WriteStatic(STATE, BitConverter.GetBytes(Constants.GameStates.DEAD));
             pm.WriteStatic(DELAY, BitConverter.GetBytes(240));
             Thread.Sleep(100);
-            pm.WriteStatic(STATE, BitConverter.GetBytes(READY));
+            pm.WriteStatic(STATE, BitConverter.GetBytes(Constants.GameStates.READY));
             pm.WriteStatic(DELAY, BitConverter.GetBytes(120));
         }
 
@@ -954,7 +925,7 @@ namespace MegaMariPrac
         #region actions
         private void StoreValues()
         {
-            if (screenType == STAGE && state == PLAYING)
+            if (screenType == Constants.Screens.STAGE && state == Constants.GameStates.PLAYING)
             {
                 byte[] xPos = pm.Read(FIRST_OFFSET, X_OFFSET); //read x speed value
                 byte[] yPos = pm.Read(FIRST_OFFSET, Y_OFFSET); //read y speed value
@@ -1008,7 +979,7 @@ namespace MegaMariPrac
         private void LoadStoredValues()
         {
             // If in a stage & the character has moved from the starting point
-            if (screenType == STAGE && state == PLAYING && ss.x != 1 && ss.y != 1)
+            if (screenType == Constants.Screens.STAGE && state == Constants.GameStates.PLAYING && ss.x != 1 && ss.y != 1)
             {
                 pm.Write(FIRST_OFFSET, X_OFFSET, BitConverter.GetBytes(ss.x));
                 pm.Write(FIRST_OFFSET, Y_OFFSET, BitConverter.GetBytes(ss.y));
@@ -1121,129 +1092,128 @@ namespace MegaMariPrac
         private void buttonWarp_Click(object sender, EventArgs e)
         {
             bool checkLivesWasChecked = false;
-
             if (checkLives.Checked) { checkLivesWasChecked = true; checkLives.Checked = false; }
 
             //fast respawn
             pm.Write(FIRST_OFFSET, LIVES_OFFSET, BitConverter.GetBytes(0));
-            pm.WriteStatic(STATE, BitConverter.GetBytes(DEAD));
+            pm.WriteStatic(STATE, BitConverter.GetBytes(Constants.GameStates.DEAD));
             pm.WriteStatic(DELAY, BitConverter.GetBytes(240));
 
             for (int i = 0; i < 5000; i++)
-                pm.WriteStatic(SCREEN_TYPE, BitConverter.GetBytes(CONTINUE));
+                pm.WriteStatic(SCREEN_TYPE, BitConverter.GetBytes(Constants.Screens.CONTINUE));
 
             switch (comboWarp.Text)
             {
                 case "Cirno":
-                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(CIRNO_STAGE));
+                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(Constants.Stages.CIRNO));
                     SetWeapons();
                     break;
                 case "Eirin":
-                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(EIRIN_STAGE));
-                    SetWeapons(cirno: ON_ALICE);
+                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(Constants.Stages.EIRIN));
+                    SetWeapons(cirno: Constants.BossWeaponOn.ALICE);
                     break;
                 case "Yuyuko":
-                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(YUYUKO_STAGE));
+                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(Constants.Stages.YUYUKO));
                     if (checkEarlyBroom.Checked)
-                        SetWeapons(broom: SPECIAL_WEAPON_ON, doll: SPECIAL_WEAPON_ON,
-                                   cirno: ON_ALICE, eirin: ON_ALICE);
+                        SetWeapons(broom: Constants.SpecialWeapon.ON, doll: Constants.SpecialWeapon.ON,
+                                   cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE);
                     else
-                        SetWeapons(cirno: ON_ALICE, eirin: ON_ALICE);
+                        SetWeapons(cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE);
                     break;
                 case "Reimu":
-                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(REIMU_STAGE));
+                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(Constants.Stages.REIMU));
                     if (checkEarlyBroom.Checked)
-                        SetWeapons(broom: SPECIAL_WEAPON_ON, doll: SPECIAL_WEAPON_ON,
-                                   cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA);
+                        SetWeapons(broom: Constants.SpecialWeapon.ON, doll: Constants.SpecialWeapon.ON,
+                                   cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA);
                     else
-                        SetWeapons(broom: SPECIAL_WEAPON_ON,
-                                   cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA, reisen: ON_MARISA);
+                        SetWeapons(broom: Constants.SpecialWeapon.ON,
+                                   cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA, reisen: Constants.BossWeaponOn.MARISA);
                     break;
                 case "Youmu":
-                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(YOUMU_STAGE));
+                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(Constants.Stages.YOUMU));
                     if (checkEarlyBroom.Checked)
-                        SetWeapons(broom: SPECIAL_WEAPON_ON, doll: SPECIAL_WEAPON_ON,
-                                   cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA, reimu: ON_MARISA);
+                        SetWeapons(broom: Constants.SpecialWeapon.ON, doll: Constants.SpecialWeapon.ON,
+                                   cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA, reimu: Constants.BossWeaponOn.MARISA);
                     else
-                        SetWeapons(broom: SPECIAL_WEAPON_ON,
-                                   cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA, reimu: ON_MARISA,
-                                   remilia: ON_MARISA, sakuya: ON_MARISA, reisen: ON_MARISA);
+                        SetWeapons(broom: Constants.SpecialWeapon.ON,
+                                   cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA, reimu: Constants.BossWeaponOn.MARISA,
+                                   remilia: Constants.BossWeaponOn.MARISA, sakuya: Constants.BossWeaponOn.MARISA, reisen: Constants.BossWeaponOn.MARISA);
                     break;
                 case "Remilia":
-                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(REMILIA_STAGE));
+                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(Constants.Stages.REMILIA));
                     if (checkEarlyBroom.Checked)
-                        SetWeapons(broom: SPECIAL_WEAPON_ON, doll: SPECIAL_WEAPON_ON,
-                                   cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA, reimu: ON_MARISA,
-                                   youmu: ON_ALICE);
+                        SetWeapons(broom: Constants.SpecialWeapon.ON, doll: Constants.SpecialWeapon.ON,
+                                   cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA, reimu: Constants.BossWeaponOn.MARISA,
+                                   youmu: Constants.BossWeaponOn.ALICE);
                     else
-                        SetWeapons(broom: SPECIAL_WEAPON_ON,
-                                   cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA, reimu: ON_MARISA,
-                                   reisen: ON_MARISA);
+                        SetWeapons(broom: Constants.SpecialWeapon.ON,
+                                   cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA, reimu: Constants.BossWeaponOn.MARISA,
+                                   reisen: Constants.BossWeaponOn.MARISA);
                     break;
                 case "Sakuya":
-                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(SAKUYA_STAGE));
+                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(Constants.Stages.SAKUYA));
                     if (checkEarlyBroom.Checked)
-                        SetWeapons(broom: SPECIAL_WEAPON_ON, doll: SPECIAL_WEAPON_ON,
-                                   cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA, reimu: ON_MARISA,
-                                   youmu: ON_ALICE, remilia: ON_MARISA);
+                        SetWeapons(broom: Constants.SpecialWeapon.ON, doll: Constants.SpecialWeapon.ON,
+                                   cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA, reimu: Constants.BossWeaponOn.MARISA,
+                                   youmu: Constants.BossWeaponOn.ALICE, remilia: Constants.BossWeaponOn.MARISA);
                     else
-                        SetWeapons(broom: SPECIAL_WEAPON_ON,
-                                   cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA, reimu: ON_MARISA,
-                                   reisen: ON_MARISA, remilia: ON_MARISA);
+                        SetWeapons(broom: Constants.SpecialWeapon.ON,
+                                   cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA, reimu: Constants.BossWeaponOn.MARISA,
+                                   reisen: Constants.BossWeaponOn.MARISA, remilia: Constants.BossWeaponOn.MARISA);
                     break;
                 case "Reisen":
-                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(REISEN_STAGE));
+                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(Constants.Stages.REISEN));
                     if (checkEarlyBroom.Checked)
-                        SetWeapons(broom: SPECIAL_WEAPON_ON, doll: SPECIAL_WEAPON_ON,
-                                   cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA, reimu: ON_MARISA,
-                                   youmu: ON_ALICE, remilia: ON_MARISA, sakuya: ON_MARISA);
+                        SetWeapons(broom: Constants.SpecialWeapon.ON, doll: Constants.SpecialWeapon.ON,
+                                   cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA, reimu: Constants.BossWeaponOn.MARISA,
+                                   youmu: Constants.BossWeaponOn.ALICE, remilia: Constants.BossWeaponOn.MARISA, sakuya: Constants.BossWeaponOn.MARISA);
                     else
-                        SetWeapons(cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA);
+                        SetWeapons(cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA);
                     break;
                 case "Patchouli 1":
-                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(PATCHY_1));
-                    SetWeapons(broom: SPECIAL_WEAPON_ON, doll: SPECIAL_WEAPON_ON,
-                               cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA, reimu: ON_MARISA,
-                               youmu: ON_ALICE, remilia: ON_MARISA, sakuya: ON_MARISA, reisen: ON_MARISA);
+                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(Constants.Stages.PATCHY_1));
+                    SetWeapons(broom: Constants.SpecialWeapon.ON, doll: Constants.SpecialWeapon.ON,
+                               cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA, reimu: Constants.BossWeaponOn.MARISA,
+                               youmu: Constants.BossWeaponOn.ALICE, remilia: Constants.BossWeaponOn.MARISA, sakuya: Constants.BossWeaponOn.MARISA, reisen: Constants.BossWeaponOn.MARISA);
                     break;
                 case "Patchouli 2":
-                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(PATCHY_2));
-                    SetWeapons(broom: SPECIAL_WEAPON_ON, doll: SPECIAL_WEAPON_ON,
-                               cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA, reimu: ON_MARISA,
-                               youmu: ON_ALICE, remilia: ON_MARISA, sakuya: ON_MARISA, reisen: ON_MARISA);
+                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(Constants.Stages.PATCHY_2));
+                    SetWeapons(broom: Constants.SpecialWeapon.ON, doll: Constants.SpecialWeapon.ON,
+                               cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA, reimu: Constants.BossWeaponOn.MARISA,
+                               youmu: Constants.BossWeaponOn.ALICE, remilia: Constants.BossWeaponOn.MARISA, sakuya: Constants.BossWeaponOn.MARISA, reisen: Constants.BossWeaponOn.MARISA);
                     break;
                 case "Patchouli 3":
-                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(PATCHY_3));
-                    SetWeapons(broom: SPECIAL_WEAPON_ON, doll: SPECIAL_WEAPON_ON,
-                               cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA, reimu: ON_MARISA,
-                               youmu: ON_ALICE, remilia: ON_MARISA, sakuya: ON_MARISA, reisen: ON_MARISA);
+                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(Constants.Stages.PATCHY_3));
+                    SetWeapons(broom: Constants.SpecialWeapon.ON, doll: Constants.SpecialWeapon.ON,
+                               cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA, reimu: Constants.BossWeaponOn.MARISA,
+                               youmu: Constants.BossWeaponOn.ALICE, remilia: Constants.BossWeaponOn.MARISA, sakuya: Constants.BossWeaponOn.MARISA, reisen: Constants.BossWeaponOn.MARISA);
                     break;
                 case "Patchouli 4":
-                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(PATCHY_4));
-                    SetWeapons(broom: SPECIAL_WEAPON_ON, doll: SPECIAL_WEAPON_ON,
-                               cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA, reimu: ON_MARISA,
-                               youmu: ON_ALICE, remilia: ON_MARISA, sakuya: ON_MARISA, reisen: ON_MARISA);
+                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(Constants.Stages.PATCHY_4));
+                    SetWeapons(broom: Constants.SpecialWeapon.ON, doll: Constants.SpecialWeapon.ON,
+                               cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA, reimu: Constants.BossWeaponOn.MARISA,
+                               youmu: Constants.BossWeaponOn.ALICE, remilia: Constants.BossWeaponOn.MARISA, sakuya: Constants.BossWeaponOn.MARISA, reisen: Constants.BossWeaponOn.MARISA);
                     break;
                 case "Patchouli 5":
-                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(PATCHY_5));
-                    SetWeapons(broom: SPECIAL_WEAPON_ON, doll: SPECIAL_WEAPON_ON,
-                               cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA, reimu: ON_MARISA,
-                               youmu: ON_ALICE, remilia: ON_MARISA, sakuya: ON_MARISA, reisen: ON_MARISA);
+                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(Constants.Stages.PATCHY_5));
+                    SetWeapons(broom: Constants.SpecialWeapon.ON, doll: Constants.SpecialWeapon.ON,
+                               cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA, reimu: Constants.BossWeaponOn.MARISA,
+                               youmu: Constants.BossWeaponOn.ALICE, remilia: Constants.BossWeaponOn.MARISA, sakuya: Constants.BossWeaponOn.MARISA, reisen: Constants.BossWeaponOn.MARISA);
                     break;
                 case "Patchouli 6":
-                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(PATCHY_6));
-                    SetWeapons(broom: SPECIAL_WEAPON_ON, doll: SPECIAL_WEAPON_ON,
-                               cirno: ON_ALICE, eirin: ON_ALICE, yuyuko: ON_MARISA, reimu: ON_MARISA,
-                               youmu: ON_ALICE, remilia: ON_MARISA, sakuya: ON_MARISA, reisen: ON_MARISA);
+                    pm.WriteStatic(STAGE_ID, BitConverter.GetBytes(Constants.Stages.PATCHY_6));
+                    SetWeapons(broom: Constants.SpecialWeapon.ON, doll: Constants.SpecialWeapon.ON,
+                               cirno: Constants.BossWeaponOn.ALICE, eirin: Constants.BossWeaponOn.ALICE, yuyuko: Constants.BossWeaponOn.MARISA, reimu: Constants.BossWeaponOn.MARISA,
+                               youmu: Constants.BossWeaponOn.ALICE, remilia: Constants.BossWeaponOn.MARISA, sakuya: Constants.BossWeaponOn.MARISA, reisen: Constants.BossWeaponOn.MARISA);
                     break;
             }
 
             if (checkLivesWasChecked) { Thread.Sleep(500); checkLives.Checked = true; }
         }
 
-        private void SetWeapons(int broom = SPECIAL_WEAPON_OFF, int doll = SPECIAL_WEAPON_OFF,
-                        int reimu = ON_NOBODY, int remilia = ON_NOBODY, int youmu = ON_NOBODY, int reisen = ON_NOBODY,
-                        int cirno = ON_NOBODY, int sakuya = ON_NOBODY, int yuyuko = ON_NOBODY, int eirin = ON_NOBODY)
+        private void SetWeapons(int broom = Constants.SpecialWeapon.OFF, int doll = Constants.SpecialWeapon.OFF,
+            int reimu = Constants.BossWeaponOn.NOBODY, int remilia = Constants.BossWeaponOn.NOBODY, int youmu = Constants.BossWeaponOn.NOBODY, int reisen = Constants.BossWeaponOn.NOBODY,
+            int cirno = Constants.BossWeaponOn.NOBODY, int sakuya = Constants.BossWeaponOn.NOBODY, int yuyuko = Constants.BossWeaponOn.NOBODY, int eirin = Constants.BossWeaponOn.NOBODY)
         {
             pm.Write(FIRST_OFFSET, BROOM_FLAG_OFFSET, new byte[1] { (byte)broom });
             pm.Write(FIRST_OFFSET, DOLL_FLAG_OFFSET, new byte[1] { (byte)doll });
@@ -1263,19 +1233,19 @@ namespace MegaMariPrac
         {
             if (checkFreezeAll.Checked)
             {
-                weaponCheckBroom.Checked = true; weaponCheckDoll.Checked = true;
-                weaponCheckReimu.Checked = true; weaponCheckRemilia.Checked = true;
-                weaponCheckYoumu.Checked = true; weaponCheckReisen.Checked = true;
-                weaponCheckCirno.Checked = true; weaponCheckSakuya.Checked = true;
-                weaponCheckYuyuko.Checked = true; weaponCheckEirin.Checked = true;
+                weaponCheckBroom.Checked = weaponCheckDoll.Checked =
+                weaponCheckReimu.Checked = weaponCheckRemilia.Checked =
+                weaponCheckYoumu.Checked = weaponCheckReisen.Checked =
+                weaponCheckCirno.Checked = weaponCheckSakuya.Checked =
+                weaponCheckYuyuko.Checked = weaponCheckEirin.Checked = true;
             }
             else
             {
-                weaponCheckBroom.Checked = false; weaponCheckDoll.Checked = false;
-                weaponCheckReimu.Checked = false; weaponCheckRemilia.Checked = false;
-                weaponCheckYoumu.Checked = false; weaponCheckReisen.Checked = false;
-                weaponCheckCirno.Checked = false; weaponCheckSakuya.Checked = false;
-                weaponCheckYuyuko.Checked = false; weaponCheckEirin.Checked = false;
+                weaponCheckBroom.Checked = weaponCheckDoll.Checked =
+                weaponCheckReimu.Checked = weaponCheckRemilia.Checked =
+                weaponCheckYoumu.Checked = weaponCheckReisen.Checked =
+                weaponCheckCirno.Checked = weaponCheckSakuya.Checked =
+                weaponCheckYuyuko.Checked = weaponCheckEirin.Checked = false;
             }
         }
 
@@ -1285,17 +1255,17 @@ namespace MegaMariPrac
             {
                 switch (flag)
                 {
-                    case ON_NOBODY: pm.Write(FIRST_OFFSET, offset, new byte[1] { ON_MARISA }); break;
-                    case ON_MARISA: pm.Write(FIRST_OFFSET, offset, new byte[1] { ON_ALICE }); break;
-                    case ON_ALICE: pm.Write(FIRST_OFFSET, offset, new byte[1] { ON_NOBODY }); break;
+                    case Constants.BossWeaponOn.NOBODY: pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.BossWeaponOn.MARISA }); break;
+                    case Constants.BossWeaponOn.MARISA: pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.BossWeaponOn.ALICE }); break;
+                    case Constants.BossWeaponOn.ALICE: pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.BossWeaponOn.NOBODY }); break;
                 }
             }
             else
             {
                 switch (flag)
                 {
-                    case SPECIAL_WEAPON_OFF: pm.Write(FIRST_OFFSET, offset, new byte[1] { SPECIAL_WEAPON_ON }); break;
-                    case SPECIAL_WEAPON_ON: pm.Write(FIRST_OFFSET, offset, new byte[1] { SPECIAL_WEAPON_OFF }); break;
+                    case Constants.SpecialWeapon.OFF: pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.SpecialWeapon.ON }); break;
+                    case Constants.SpecialWeapon.ON: pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.SpecialWeapon.OFF }); break;
                 }
             }
         }
@@ -1306,10 +1276,10 @@ namespace MegaMariPrac
 
             switch (curTank)
             {
-                case NO_TANK: tankBox.Image = Properties.Resources.etank; pm.Write(FIRST_OFFSET, offset, new byte[1] { ETANK }); break;
-                case ETANK: tankBox.Image = Properties.Resources.startank; pm.Write(FIRST_OFFSET, offset, new byte[1] { STAR_TANK }); break;
-                case STAR_TANK: tankBox.Image = Properties.Resources.doubletank; pm.Write(FIRST_OFFSET, offset, new byte[1] { DOUBLE_ETANK }); break;
-                case DOUBLE_ETANK: tankBox.Image = Properties.Resources.tank_off; pm.Write(FIRST_OFFSET, offset, new byte[1] { NO_TANK }); break;
+                case Constants.Etanks.ETANK: tankBox.Image = Properties.Resources.etank; pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.Etanks.ETANK }); break;
+                case Constants.Etanks.STAR_TANK: tankBox.Image = Properties.Resources.startank; pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.Etanks.STAR_TANK }); break;
+                case Constants.Etanks.DOUBLE_ETANK: tankBox.Image = Properties.Resources.doubletank; pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.Etanks.DOUBLE_ETANK }); break;
+                case Constants.Etanks.NO_TANK: tankBox.Image = Properties.Resources.tank_off; pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.Etanks.NO_TANK }); break;
             }
         }
         #endregion
