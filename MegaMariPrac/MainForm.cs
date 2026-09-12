@@ -275,23 +275,12 @@ namespace MegaMariPrac
 
             while (true)
             {
-                if (lstHotkeys[0] != 0) modifier1 = pm.ReadStatic(lstHotkeys[0], modifier1); else modifier1[0] = 128;
-                if (lstHotkeys[2] != 0) modifier2 = pm.ReadStatic(lstHotkeys[2], modifier2); else modifier2[0] = 128;
-                if (lstHotkeys[4] != 0) modifier3 = pm.ReadStatic(lstHotkeys[4], modifier3); else modifier3[0] = 128;
-                if (lstHotkeys[6] != 0) modifier4 = pm.ReadStatic(lstHotkeys[6], modifier4); else modifier4[0] = 128;
-                if (lstHotkeys[8] != 0) modifier5 = pm.ReadStatic(lstHotkeys[8], modifier5); else modifier5[0] = 128;
-                if (lstHotkeys[10] != 0) modifier6 = pm.ReadStatic(lstHotkeys[10], modifier6); else modifier6[0] = 128;
-
-                key1 = pm.ReadStatic(lstHotkeys[1], key1); key2 = pm.ReadStatic(lstHotkeys[3], key2);
-                key3 = pm.ReadStatic(lstHotkeys[5], key3); key4 = pm.ReadStatic(lstHotkeys[7], key4);
-                key5 = pm.ReadStatic(lstHotkeys[9], key5); key6 = pm.ReadStatic(lstHotkeys[11], key6);
-
-                bool isHotkey1Pressed = modifier1[0] == 128 && key1[0] == 128;
-                bool isHotkey2Pressed = modifier2[0] == 128 && key2[0] == 128;
-                bool isHotkey3Pressed = modifier3[0] == 128 && key3[0] == 128;
-                bool isHotkey4Pressed = modifier4[0] == 128 && key4[0] == 128;
-                bool isHotkey5Pressed = modifier5[0] == 128 && key5[0] == 128;
-                bool isHotkey6Pressed = modifier6[0] == 128 && key6[0] == 128;
+                bool isHotkey1Pressed = IsHotkeyPressed(modifier1[0], key1[0]);
+                bool isHotkey2Pressed = IsHotkeyPressed(modifier2[0], key2[0]);
+                bool isHotkey3Pressed = IsHotkeyPressed(modifier3[0], key3[0]);
+                bool isHotkey4Pressed = IsHotkeyPressed(modifier4[0], key4[0]);
+                bool isHotkey5Pressed = IsHotkeyPressed(modifier5[0], key5[0]);
+                bool isHotkey6Pressed = IsHotkeyPressed(modifier6[0], key6[0]);
 
                 if (isHotkey1Pressed) { StoreValues(); comboSaves.SelectedIndex = -1; }
                 if (isHotkey2Pressed) { LoadStoredValues(); }
@@ -308,6 +297,15 @@ namespace MegaMariPrac
                     break;
                 }
             }
+        }
+
+        /// <summary>Check if a Hotkey is pressed</summary>
+        /// <param name="modifier">Modifier</param>
+        /// <param name="key">Key</param>
+        /// <returns><c>bool</c>True if pressed</returns>
+        bool IsHotkeyPressed(byte modifier, byte key)
+        {
+            return modifier == 128 && key == 128;
         }
 
         private void ReadValues()
