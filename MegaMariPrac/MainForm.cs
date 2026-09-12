@@ -639,12 +639,14 @@ namespace MegaMariPrac
         #region buttons
         private void buttonStore_Click(object sender, EventArgs e)
         {
+            // If in a stage
             if (screenType == STAGE && state == PLAYING)
                 StoreValues();
         }
 
         private void buttonLoad_Click(object sender, EventArgs e)
         {
+            // If in a stage
             if (screenType == STAGE && state == PLAYING)
                 LoadStoredValues();
         }
@@ -653,8 +655,8 @@ namespace MegaMariPrac
         {
             if (File.Exists(configpath + savestatesfilename)) //checks if savestates.cfg exists
             {
-                int lineNumber = 0;
                 //find the line number of the line to delete
+                int lineNumber = 0;
                 using (StreamReader sr = File.OpenText(configpath + savestatesfilename))
                 {
                     while (!sr.EndOfStream)
@@ -886,15 +888,15 @@ namespace MegaMariPrac
             string[] split = comboSaves.Text.Split('|');
             ss = new SaveState(split[1]);
 
-            labelStoredX.Text = "X: " + ss._XF.ToString("0.000"); //X
-            labelStoredY.Text = "Y: " + ss._YF.ToString("0.000"); //Y
+            labelStoredX.Text = "X: " + ss.xF.ToString("0.000"); // X
+            labelStoredY.Text = "Y: " + ss.yF.ToString("0.000"); // Y
 
             //weapon flags
-            dictWeapon["Broom"] = ss._BroomFlag; dictWeapon["Doll"] = ss._DollFlag;
-            dictWeapon["Reimu"] = ss._ReimuFlag; dictWeapon["Remilia"] = ss._RemiliaFlag;
-            dictWeapon["Youmu"] = ss._YoumuFlag; dictWeapon["Reisen"] = ss._ReisenFlag;
-            dictWeapon["Cirno"] = ss._CirnoFlag; dictWeapon["Sakuya"] = ss._SakuyaFlag;
-            dictWeapon["Yuyuko"] = ss._YuyukoFlag; dictWeapon["Eirin"] = ss._EirinFlag;
+            dictWeapon["Broom"] = ss.broomFlag; dictWeapon["Doll"] = ss.dollFlag;
+            dictWeapon["Reimu"] = ss.reimuFlag; dictWeapon["Remilia"] = ss.remiliaFlag;
+            dictWeapon["Youmu"] = ss.youmuFlag; dictWeapon["Reisen"] = ss.reisenFlag;
+            dictWeapon["Cirno"] = ss.cirnoFlag; dictWeapon["Sakuya"] = ss.sakuyaFlag;
+            dictWeapon["Yuyuko"] = ss.yuyukoFlag; dictWeapon["Eirin"] = ss.eirinFlag;
 
             LoadStoredValues();
         }
@@ -958,37 +960,37 @@ namespace MegaMariPrac
                 byte[] yPos = pm.Read(FIRST_OFFSET, Y_OFFSET); //read y speed value
 
                 ss = new SaveState(
-                    X: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, X_OFFSET), 0), Y: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, Y_OFFSET), 0),
-                    XF: BitConverter.ToSingle(pm.Read(FIRST_OFFSET, X_OFFSET), 0), YF: BitConverter.ToSingle(pm.Read(FIRST_OFFSET, Y_OFFSET), 0),
-                    Camera1X: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, CAMERA_X_1_OFFSET), 0),
-                    Camera1Y: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, CAMERA_Y_1_OFFSET), 0),
-                    Camera2X: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, CAMERA_X_2_OFFSET), 0),
-                    Camera2Y: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, CAMERA_Y_2_OFFSET), 0),
-                    CameraViewX: pm.Read(FIRST_OFFSET, CAMERA_VIEW_X_OFFSET)[0], CameraViewY: pm.Read(FIRST_OFFSET, CAMERA_VIEW_Y_OFFSET)[0],
-                    MarisaHP: pm.Read(FIRST_OFFSET, MARISA_HP_OFFSET)[0], AliceHP: pm.Read(FIRST_OFFSET, ALICE_HP_OFFSET)[0],
-                    Character: BitConverter.ToInt16(pm.Read(FIRST_OFFSET, CHARACTER_OFFSET), 0),
-                    CharacterWeapon: pm.Read(FIRST_OFFSET, CHARACTER_WEAPON_OFFSET)[0],
-                    CharacterSprite: BitConverter.ToInt16(pm.Read(FIRST_OFFSET, CHARACTER_SPRITE_OFFSET), 0),
-                    BroomAmmo: pm.Read(FIRST_OFFSET, BROOM_AMMO_OFFSET)[0], BroomFlag: pm.Read(FIRST_OFFSET, BROOM_FLAG_OFFSET)[0],
-                    CirnoAmmo: pm.Read(FIRST_OFFSET, CIRNO_AMMO_OFFSET)[0], CirnoFlag: pm.Read(FIRST_OFFSET, CIRNO_FLAG_OFFSET)[0],
-                    DollAmmo: pm.Read(FIRST_OFFSET, DOLL_AMMO_OFFSET)[0], DollFlag: pm.Read(FIRST_OFFSET, DOLL_FLAG_OFFSET)[0],
-                    EirinAmmo: pm.Read(FIRST_OFFSET, EIRIN_AMMO_OFFSET)[0], EirinFlag: pm.Read(FIRST_OFFSET, EIRIN_FLAG_OFFSET)[0],
-                    ReimuAmmo: pm.Read(FIRST_OFFSET, REIMU_AMMO_OFFSET)[0], ReimuFlag: pm.Read(FIRST_OFFSET, REIMU_FLAG_OFFSET)[0],
-                    ReisenAmmo: pm.Read(FIRST_OFFSET, REISEN_AMMO_OFFSET)[0], ReisenFlag: pm.Read(FIRST_OFFSET, REISEN_FLAG_OFFSET)[0],
-                    RemiliaAmmo: pm.Read(FIRST_OFFSET, REMILIA_AMMO_OFFSET)[0], RemiliaFlag: pm.Read(FIRST_OFFSET, REMILIA_FLAG_OFFSET)[0],
-                    SakuyaAmmo: pm.Read(FIRST_OFFSET, SAKUYA_AMMO_OFFSET)[0], SakuyaFlag: pm.Read(FIRST_OFFSET, SAKUYA_FLAG_OFFSET)[0],
-                    YoumuAmmo: pm.Read(FIRST_OFFSET, YOUMU_AMMO_OFFSET)[0], YoumuFlag: pm.Read(FIRST_OFFSET, YOUMU_FLAG_OFFSET)[0],
-                    YuyukoAmmo: pm.Read(FIRST_OFFSET, YUYUKO_AMMO_OFFSET)[0], YuyukoFlag: pm.Read(FIRST_OFFSET, YUYUKO_FLAG_OFFSET)[0],
-                    MenuCursor: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, MENU_CURSOR_OFFSET), 0),
-                    Tanks: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, MENU_TANKS_OFFSET), 0),
-                    Lives: pm.Read(FIRST_OFFSET, LIVES_OFFSET)[0]);
+                    x: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, X_OFFSET), 0), y: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, Y_OFFSET), 0),
+                    xF: BitConverter.ToSingle(pm.Read(FIRST_OFFSET, X_OFFSET), 0), yF: BitConverter.ToSingle(pm.Read(FIRST_OFFSET, Y_OFFSET), 0),
+                    camera1X: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, CAMERA_X_1_OFFSET), 0),
+                    camera1Y: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, CAMERA_Y_1_OFFSET), 0),
+                    camera2X: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, CAMERA_X_2_OFFSET), 0),
+                    camera2Y: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, CAMERA_Y_2_OFFSET), 0),
+                    cameraViewX: pm.Read(FIRST_OFFSET, CAMERA_VIEW_X_OFFSET)[0], cameraViewY: pm.Read(FIRST_OFFSET, CAMERA_VIEW_Y_OFFSET)[0],
+                    marisaHP: pm.Read(FIRST_OFFSET, MARISA_HP_OFFSET)[0], aliceHP: pm.Read(FIRST_OFFSET, ALICE_HP_OFFSET)[0],
+                    character: BitConverter.ToInt16(pm.Read(FIRST_OFFSET, CHARACTER_OFFSET), 0),
+                    characterWeapon: pm.Read(FIRST_OFFSET, CHARACTER_WEAPON_OFFSET)[0],
+                    characterSprite: BitConverter.ToInt16(pm.Read(FIRST_OFFSET, CHARACTER_SPRITE_OFFSET), 0),
+                    broomAmmo: pm.Read(FIRST_OFFSET, BROOM_AMMO_OFFSET)[0], broomFlag: pm.Read(FIRST_OFFSET, BROOM_FLAG_OFFSET)[0],
+                    cirnoAmmo: pm.Read(FIRST_OFFSET, CIRNO_AMMO_OFFSET)[0], cirnoFlag: pm.Read(FIRST_OFFSET, CIRNO_FLAG_OFFSET)[0],
+                    dollAmmo: pm.Read(FIRST_OFFSET, DOLL_AMMO_OFFSET)[0], dollFlag: pm.Read(FIRST_OFFSET, DOLL_FLAG_OFFSET)[0],
+                    eirinAmmo: pm.Read(FIRST_OFFSET, EIRIN_AMMO_OFFSET)[0], eirinFlag: pm.Read(FIRST_OFFSET, EIRIN_FLAG_OFFSET)[0],
+                    reimuAmmo: pm.Read(FIRST_OFFSET, REIMU_AMMO_OFFSET)[0], reimuFlag: pm.Read(FIRST_OFFSET, REIMU_FLAG_OFFSET)[0],
+                    reisenAmmo: pm.Read(FIRST_OFFSET, REISEN_AMMO_OFFSET)[0], reisenFlag: pm.Read(FIRST_OFFSET, REISEN_FLAG_OFFSET)[0],
+                    remiliaAmmo: pm.Read(FIRST_OFFSET, REMILIA_AMMO_OFFSET)[0], remiliaFlag: pm.Read(FIRST_OFFSET, REMILIA_FLAG_OFFSET)[0],
+                    sakuyaAmmo: pm.Read(FIRST_OFFSET, SAKUYA_AMMO_OFFSET)[0], sakuyaFlag: pm.Read(FIRST_OFFSET, SAKUYA_FLAG_OFFSET)[0],
+                    youmuAmmo: pm.Read(FIRST_OFFSET, YOUMU_AMMO_OFFSET)[0], youmuFlag: pm.Read(FIRST_OFFSET, YOUMU_FLAG_OFFSET)[0],
+                    yuyukoAmmo: pm.Read(FIRST_OFFSET, YUYUKO_AMMO_OFFSET)[0], yuyukoFlag: pm.Read(FIRST_OFFSET, YUYUKO_FLAG_OFFSET)[0],
+                    menuCursor: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, MENU_CURSOR_OFFSET), 0),
+                    tanks: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, MENU_TANKS_OFFSET), 0),
+                    lives: pm.Read(FIRST_OFFSET, LIVES_OFFSET)[0]);
 
                 try
                 {
                     Invoke((MethodInvoker)delegate //using this because thread
                     {
-                        labelStoredX.Text = "X: " + ss._XF.ToString("0.000");
-                        labelStoredY.Text = "Y: " + ss._YF.ToString("0.000");
+                        labelStoredX.Text = "X: " + ss.xF.ToString("0.000");
+                        labelStoredY.Text = "Y: " + ss.yF.ToString("0.000");
                     });
                 }
                 catch (Exception ex)
@@ -999,26 +1001,31 @@ namespace MegaMariPrac
             }
         }
 
+        /// <summary>
+        ///     Load stored values from within the game<br/>
+        ///     <i>Note: this will force a game over</i>
+        /// </summary>
         private void LoadStoredValues()
         {
-            if ((screenType == STAGE && state == PLAYING) && (ss._X != 1 && ss._Y != 1))
+            // If in a stage & the character has moved from the starting point
+            if (screenType == STAGE && state == PLAYING && ss.x != 1 && ss.y != 1)
             {
-                pm.Write(FIRST_OFFSET, X_OFFSET, BitConverter.GetBytes(ss._X));
-                pm.Write(FIRST_OFFSET, Y_OFFSET, BitConverter.GetBytes(ss._Y));
+                pm.Write(FIRST_OFFSET, X_OFFSET, BitConverter.GetBytes(ss.x));
+                pm.Write(FIRST_OFFSET, Y_OFFSET, BitConverter.GetBytes(ss.y));
 
-                pm.Write(FIRST_OFFSET, CAMERA_VIEW_X_OFFSET, BitConverter.GetBytes(ss._CameraViewX));
-                pm.Write(FIRST_OFFSET, CAMERA_VIEW_Y_OFFSET, BitConverter.GetBytes(ss._CameraViewY));
-                pm.Write(FIRST_OFFSET, CAMERA_X_1_OFFSET, BitConverter.GetBytes(ss._Camera1X));
-                pm.Write(FIRST_OFFSET, CAMERA_Y_1_OFFSET, BitConverter.GetBytes(ss._Camera1Y));
-                pm.Write(FIRST_OFFSET, CAMERA_X_2_OFFSET, BitConverter.GetBytes(ss._Camera2X));
-                pm.Write(FIRST_OFFSET, CAMERA_Y_2_OFFSET, BitConverter.GetBytes(ss._Camera2Y));
+                pm.Write(FIRST_OFFSET, CAMERA_VIEW_X_OFFSET, BitConverter.GetBytes(ss.cameraViewX));
+                pm.Write(FIRST_OFFSET, CAMERA_VIEW_Y_OFFSET, BitConverter.GetBytes(ss.cameraViewY));
+                pm.Write(FIRST_OFFSET, CAMERA_X_1_OFFSET, BitConverter.GetBytes(ss.camera1X));
+                pm.Write(FIRST_OFFSET, CAMERA_Y_1_OFFSET, BitConverter.GetBytes(ss.camera1Y));
+                pm.Write(FIRST_OFFSET, CAMERA_X_2_OFFSET, BitConverter.GetBytes(ss.camera2X));
+                pm.Write(FIRST_OFFSET, CAMERA_Y_2_OFFSET, BitConverter.GetBytes(ss.camera2Y));
 
-                pm.Write(FIRST_OFFSET, MARISA_HP_OFFSET, new byte[1] { (byte)ss._MarisaHP });
-                pm.Write(FIRST_OFFSET, ALICE_HP_OFFSET, new byte[1] { (byte)ss._AliceHP });
+                pm.Write(FIRST_OFFSET, MARISA_HP_OFFSET, new byte[1] { (byte)ss.marisaHP });
+                pm.Write(FIRST_OFFSET, ALICE_HP_OFFSET, new byte[1] { (byte)ss.aliceHP });
 
-                pm.Write(FIRST_OFFSET, CHARACTER_OFFSET, BitConverter.GetBytes(ss._Character));
-                pm.Write(FIRST_OFFSET, CHARACTER_WEAPON_OFFSET, new byte[1] { (byte)ss._CharacterWeapon });
-                pm.Write(FIRST_OFFSET, CHARACTER_SPRITE_OFFSET, BitConverter.GetBytes(ss._CharacterSprite));
+                pm.Write(FIRST_OFFSET, CHARACTER_OFFSET, BitConverter.GetBytes(ss.character));
+                pm.Write(FIRST_OFFSET, CHARACTER_WEAPON_OFFSET, new byte[1] { (byte)ss.characterWeapon });
+                pm.Write(FIRST_OFFSET, CHARACTER_SPRITE_OFFSET, BitConverter.GetBytes(ss.characterSprite));
 
                 pm.Write(FIRST_OFFSET, BROOM_FLAG_OFFSET, new byte[1] { (byte)dictWeapon["Broom"] });
                 pm.Write(FIRST_OFFSET, DOLL_FLAG_OFFSET, new byte[1] { (byte)dictWeapon["Doll"] });
@@ -1031,20 +1038,20 @@ namespace MegaMariPrac
                 pm.Write(FIRST_OFFSET, YUYUKO_FLAG_OFFSET, new byte[1] { (byte)dictWeapon["Yuyuko"] });
                 pm.Write(FIRST_OFFSET, EIRIN_FLAG_OFFSET, new byte[1] { (byte)dictWeapon["Eirin"] });
 
-                pm.Write(FIRST_OFFSET, BROOM_AMMO_OFFSET, BitConverter.GetBytes(ss._BroomAmmo));
-                pm.Write(FIRST_OFFSET, DOLL_AMMO_OFFSET, BitConverter.GetBytes(ss._DollAmmo));
-                pm.Write(FIRST_OFFSET, REIMU_AMMO_OFFSET, BitConverter.GetBytes(ss._ReimuAmmo));
-                pm.Write(FIRST_OFFSET, REMILIA_AMMO_OFFSET, BitConverter.GetBytes(ss._RemiliaAmmo));
-                pm.Write(FIRST_OFFSET, YOUMU_AMMO_OFFSET, BitConverter.GetBytes(ss._YoumuAmmo));
-                pm.Write(FIRST_OFFSET, REISEN_AMMO_OFFSET, BitConverter.GetBytes(ss._ReisenAmmo));
-                pm.Write(FIRST_OFFSET, CIRNO_AMMO_OFFSET, BitConverter.GetBytes(ss._CirnoAmmo));
-                pm.Write(FIRST_OFFSET, SAKUYA_AMMO_OFFSET, BitConverter.GetBytes(ss._SakuyaAmmo));
-                pm.Write(FIRST_OFFSET, YUYUKO_AMMO_OFFSET, BitConverter.GetBytes(ss._YuyukoAmmo));
-                pm.Write(FIRST_OFFSET, EIRIN_AMMO_OFFSET, BitConverter.GetBytes(ss._EirinAmmo));
+                pm.Write(FIRST_OFFSET, BROOM_AMMO_OFFSET, BitConverter.GetBytes(ss.broomAmmo));
+                pm.Write(FIRST_OFFSET, DOLL_AMMO_OFFSET, BitConverter.GetBytes(ss.dollAmmo));
+                pm.Write(FIRST_OFFSET, REIMU_AMMO_OFFSET, BitConverter.GetBytes(ss.reimuAmmo));
+                pm.Write(FIRST_OFFSET, REMILIA_AMMO_OFFSET, BitConverter.GetBytes(ss.remiliaAmmo));
+                pm.Write(FIRST_OFFSET, YOUMU_AMMO_OFFSET, BitConverter.GetBytes(ss.youmuAmmo));
+                pm.Write(FIRST_OFFSET, REISEN_AMMO_OFFSET, BitConverter.GetBytes(ss.reisenAmmo));
+                pm.Write(FIRST_OFFSET, CIRNO_AMMO_OFFSET, BitConverter.GetBytes(ss.cirnoAmmo));
+                pm.Write(FIRST_OFFSET, SAKUYA_AMMO_OFFSET, BitConverter.GetBytes(ss.sakuyaAmmo));
+                pm.Write(FIRST_OFFSET, YUYUKO_AMMO_OFFSET, BitConverter.GetBytes(ss.yuyukoAmmo));
+                pm.Write(FIRST_OFFSET, EIRIN_AMMO_OFFSET, BitConverter.GetBytes(ss.eirinAmmo));
 
-                pm.Write(FIRST_OFFSET, MENU_CURSOR_OFFSET, BitConverter.GetBytes(ss._MenuCursor));
-                pm.Write(FIRST_OFFSET, MENU_TANKS_OFFSET, BitConverter.GetBytes(ss._Tanks));
-                pm.Write(FIRST_OFFSET, LIVES_OFFSET, new byte[1] { (byte)ss._Lives });
+                pm.Write(FIRST_OFFSET, MENU_CURSOR_OFFSET, BitConverter.GetBytes(ss.menuCursor));
+                pm.Write(FIRST_OFFSET, MENU_TANKS_OFFSET, BitConverter.GetBytes(ss.tanks));
+                pm.Write(FIRST_OFFSET, LIVES_OFFSET, new byte[1] { (byte)ss.lives });
             }
         }
 
@@ -1307,9 +1314,11 @@ namespace MegaMariPrac
         }
         #endregion
 
+        #region Helpers
         private void print(string msg)
         {
             Console.WriteLine(msg);
         }
+        #endregion
     }
 }
