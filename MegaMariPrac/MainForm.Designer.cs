@@ -253,10 +253,10 @@ namespace MegaMariPrac
             this.groupGeneral.TabStop = false;
 
             // Set params & click events for each tank PictureBox
-            SetTankBox(this.tankBox1, "tankBox1", new Point(6, 222), 49);
-            SetTankBox(this.tankBox2, "tankBox2", new Point(52, 222), 50);
-            SetTankBox(this.tankBox3, "tankBox3", new Point(98, 222), 51);
-            SetTankBox(this.tankBox4, "tankBox4", new Point(144, 222), 52);
+            this.tankBox1 = CreateTankBox("tankBox1", new Point(6, 222), 49);
+            this.tankBox2 = CreateTankBox("tankBox2", new Point(52, 222), 50);
+            this.tankBox3 = CreateTankBox("tankBox3", new Point(98, 222), 51);
+            this.tankBox4 = CreateTankBox("tankBox4", new Point(144, 222), 52);
             
             this.buttonCheckpoint = WinFormHelpers.CreateButton("buttonCheckPoint", "Checkpoint", new Point(86, 192), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
             this.buttonCheckpoint.TabIndex = 15;
@@ -287,16 +287,16 @@ namespace MegaMariPrac
             this.buttonWin.Click += new System.EventHandler(this.buttonWin_Click);
 
             // Set params for each weapon CheckBox
-            SetWeaponCheckBox(this.weaponCheckDoll, "weaponCheckDoll",new Point(57, 58), 22);
-            SetWeaponCheckBox(this.weaponCheckRemilia, "weaponCheckRemilia",new Point(57, 94), 21);
-            SetWeaponCheckBox(this.weaponCheckReisen, "weaponCheckReisen",new Point(57, 130), 20);
-            SetWeaponCheckBox(this.weaponCheckSakuya, "weaponCheckSakuya",new Point(57, 166), 19);
-            SetWeaponCheckBox(this.weaponCheckEirin, "weaponCheckEirin",new Point(57, 202), 18);
-            SetWeaponCheckBox(this.weaponCheckYuyuko, "weaponCheckYuyuko",new Point(21, 202), 15);
-            SetWeaponCheckBox(this.weaponCheckCirno, "weaponCheckCirno",new Point(21, 166), 14);
-            SetWeaponCheckBox(this.weaponCheckYoumu, "weaponCheckYoumu",new Point(21, 130), 13);
-            SetWeaponCheckBox(this.weaponCheckReimu, "weaponCheckReimu",new Point(21, 94), 12);
-            SetWeaponCheckBox(this.weaponCheckBroom, "weaponCheckBroom",new Point(21, 58), 1);
+            this.weaponCheckDoll = CreateWeaponCheckBox("weaponCheckDoll",new Point(57, 58), 22);
+            this.weaponCheckRemilia = CreateWeaponCheckBox("weaponCheckRemilia",new Point(57, 94), 21);
+            this.weaponCheckReisen = CreateWeaponCheckBox("weaponCheckReisen",new Point(57, 130), 20);
+            this.weaponCheckSakuya = CreateWeaponCheckBox("weaponCheckSakuya",new Point(57, 166), 19);
+            this.weaponCheckEirin = CreateWeaponCheckBox("weaponCheckEirin",new Point(57, 202), 18);
+            this.weaponCheckYuyuko = CreateWeaponCheckBox("weaponCheckYuyuko",new Point(21, 202), 15);
+            this.weaponCheckCirno = CreateWeaponCheckBox("weaponCheckCirno",new Point(21, 166), 14);
+            this.weaponCheckYoumu = CreateWeaponCheckBox("weaponCheckYoumu",new Point(21, 130), 13);
+            this.weaponCheckReimu = CreateWeaponCheckBox("weaponCheckReimu",new Point(21, 94), 12);
+            this.weaponCheckBroom = CreateWeaponCheckBox("weaponCheckBroom",new Point(21, 58), 1);
 
             this.buttonGameOver = WinFormHelpers.CreateButton("buttonGameOver", "Game over", new Point(86, 120), new Size(78, 24), btnFont, control: groupGeneral, enabled: false);
             this.buttonGameOver.TabIndex = 8;
@@ -309,16 +309,16 @@ namespace MegaMariPrac
             this.buttonDie.Click += new System.EventHandler(this.buttonDie_Click);
 
             // Set params & click events for each weapon PictureBox
-            SetWeaponBox(this.weaponBoxEirin, "eirin", new Point(42, 186), 10);
-            SetWeaponBox(this.weaponBoxSakuya, "sakuya", new Point(42, 150), 9);
-            SetWeaponBox(this.weaponBoxReisen, "reisen", new Point(42, 114), 8);
-            SetWeaponBox(this.weaponBoxDoll, "doll", new Point(42, 42), 7);
-            SetWeaponBox(this.weaponBoxRemilia, "remilia", new Point(42, 78), 6);
-            SetWeaponBox(this.weaponBoxYuyuko, "yuyuko", new Point(6, 186), 4);
-            SetWeaponBox(this.weaponBoxCirno, "cirno", new Point(6, 150), 3);
-            SetWeaponBox(this.weaponBoxYoumu, "youmu", new Point(6, 114), 2);
-            SetWeaponBox(this.weaponBoxBroom, "broom", new Point(6, 42), 1);
-            SetWeaponBox(this.weaponBoxReimu, "reimu", new Point(6, 78), 0);
+            this.weaponBoxEirin = CreateWeaponBox("eirin", new Point(42, 186), 10);
+            this.weaponBoxSakuya = CreateWeaponBox("sakuya", new Point(42, 150), 9);
+            this.weaponBoxReisen = CreateWeaponBox("reisen", new Point(42, 114), 8);
+            this.weaponBoxDoll = CreateWeaponBox("doll", new Point(42, 42), 7);
+            this.weaponBoxRemilia = CreateWeaponBox("remilia", new Point(42, 78), 6);
+            this.weaponBoxYuyuko = CreateWeaponBox("yuyuko", new Point(6, 186), 4);
+            this.weaponBoxCirno = CreateWeaponBox("cirno", new Point(6, 150), 3);
+            this.weaponBoxYoumu = CreateWeaponBox("youmu", new Point(6, 114), 2);
+            this.weaponBoxBroom = CreateWeaponBox("broom", new Point(6, 42), 1);
+            this.weaponBoxReimu = CreateWeaponBox("reimu", new Point(6, 78), 0);
         }
 
         void GenerateWarpGroup()
@@ -363,71 +363,68 @@ namespace MegaMariPrac
 
         #region Setter methods
 
-        /// <summary>
-        ///     Set a TankBox's (PictureBox) parameters.<br/>
-        ///     Also add the Click event to it.
-        /// </summary>
-        /// <param name="instance">Instance to populate</param>
+        /// <summary>Create a PictureBox for an E-Tank</summary>
         /// <param name="character">Character the WeaponBox is for</param>
         /// <param name="position">Position</param>
         /// <param name="tabIndex">TabIndex</param>
-        void SetTankBox(PictureBox instance, string name, Point position, int tabIndex)
+        /// <returns><c>PictureBox</c></return>
+        PictureBox CreateTankBox(string name, Point position, int tabIndex)
         {
             // Get the tank OFF img
-            Bitmap img = WinFormHelpers.GetResourceImage("tank_off");
-            if (instance == null || img == null || name.Length < 1)
+            Image img = WinFormHelpers.GetResourceImage("tank_off");
+            if (img == null || name.Length < 1)
             {
-                return;
+                return null;
             }
 
-            instance = WinFormHelpers.CreatePictureBox(name, img, position, new Size(27, 31), groupGeneral, enabled: false);
+            PictureBox instance = WinFormHelpers.CreatePictureBox(name, img, position, new Size(27, 31), groupGeneral, enabled: false);
             instance.InitialImage = null;
             instance.TabIndex = tabIndex;
             instance.TabStop = false;
             instance.MouseDown += new MouseEventHandler(this.tankBox_Click);
+            return instance;
         }
 
-        /// <summary>Set a CheckBox's parameters</summary>
-        /// <param name="instance">Instance to populate</param>
+        /// <summary>Create a CheckBox for a weapon</summary>
         /// <param name="character">Character the WeaponBox is for</param>
         /// <param name="position">Position</param>
         /// <param name="tabIndex">TabIndex</param>
-        void SetWeaponCheckBox(CheckBox instance, string name, Point position, int tabIndex)
+        /// <returns><c>CheckBox</c></return>
+        CheckBox CreateWeaponCheckBox(string name, Point position, int tabIndex)
         {
-            if (instance == null || name.Length < 1)
+            if (name.Length < 1)
             {
-                return;
+                return null;
             }
 
-            instance = WinFormHelpers.CreateCheckBox(name, "", position, new Size(15, 14), control: groupGeneral, enabled: false);
+            CheckBox instance = WinFormHelpers.CreateCheckBox(name, "", position, new Size(15, 14), control: groupGeneral, enabled: false);
             instance.TabIndex = 22;
             instance.TabStop = false;
             instance.UseVisualStyleBackColor = name == "weaponCheckBroom" ? false : true;
+            return instance;
         }
 
-        /// <summary>
-        ///     Set a WeaponBox's (PictureBox) parameters.<br/>
-        ///     Also add the Click event to it.
-        /// </summary>
-        /// <param name="instance">Instance to populate</param>
+        /// <summary>Create a PictureBox for a weapon</summary>
         /// <param name="character">Character the WeaponBox is for</param>
         /// <param name="position">Position</param>
         /// <param name="tabIndex">TabIndex</param>
-        void SetWeaponBox(PictureBox instance, string character, Point position, int tabIndex)
+        /// <returns><c>PictureBox</c></returns>
+        PictureBox CreateWeaponBox(string character, Point position, int tabIndex)
         {
             // Get the character's OFF image
             character = character.ToLower();
-            Bitmap img = WinFormHelpers.GetResourceImage($"{character}_off");
-            if (instance == null || img == null || character.Length < 1)
+            Image img = WinFormHelpers.GetResourceImage($"{character}_off");
+            if (img == null)
             {
-                return;
+                return null;
             }
 
             string characterWithUppercase = char.ToUpper(character[0]) + character.Substring(1).ToLower();
-            instance = WinFormHelpers.CreatePictureBox($"weaponBox{characterWithUppercase}", img, position, new Size(30, 30), groupGeneral, enabled: false);
+            PictureBox instance = WinFormHelpers.CreatePictureBox($"weaponBox{characterWithUppercase}", img, position, new Size(30, 30), groupGeneral, enabled: false);
             instance.TabIndex = tabIndex;
             instance.TabStop = false;
             instance.MouseDown += new MouseEventHandler(this.weaponBox_Click);
+            return instance;
         }
 
         #endregion
