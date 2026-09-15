@@ -836,10 +836,13 @@ namespace MegaMariPrac
                 }
                 else
                 {
-                    MessageBox.Show("Some changes have been made to hotkeys. They have been set back to defaults.\n",
-                                    "Hotkeys changed",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
+                    MessageBox.Show(
+                        this,
+                        "Some changes have been made to hotkeys. They have been set back to defaults.\n",
+                        "Hotkeys changed",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
                     WriteDefaultHotkeyConfig();
                 }
             }
