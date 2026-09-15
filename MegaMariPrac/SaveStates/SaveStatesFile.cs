@@ -8,7 +8,7 @@ namespace MegaMariPrac.SaveStates
     /// <summary>Class for handling the savestates file</summary>
     public class SaveStateFile
     {
-        #region Properties | construct
+        #region Properties
 
         public static readonly string name = "savestates.cfg",
             path = MainForm._configpath + name;
@@ -16,8 +16,6 @@ namespace MegaMariPrac.SaveStates
         #endregion
 
         #region Methods
-
-        public SaveStateFile() { }
 
         /// <summary>Check if the file exist</summary>
         /// <returns><c>bool</c></returns>
@@ -42,10 +40,11 @@ namespace MegaMariPrac.SaveStates
         }
 
         /// <summary>Create the file with the default template</summary>
-        public static void CreateFile()
+        /// <param name="overwrite">True if we force the creation of the file, at the cost of overwriting existing file (False by default)</param>
+        public static void CreateFile(bool overwrite = false)
         {
             // If the file already exist, stop
-            if (Exists())
+            if (overwrite == false && Exists())
             {
                 return;
             }
