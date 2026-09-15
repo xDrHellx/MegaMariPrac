@@ -19,27 +19,26 @@ namespace MegaMariPrac
         #region global variables
         static string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             hotkeyVersion = "v1.0";
-        string configpath = appdata + @"\MegaMariPrac\",
-            hotkeyfilename = "hotkey.cfg",
-            savestatesfilename = "savestates.cfg";
-
+        public static readonly string _configpath = appdata + @"\MegaMariPrac\",
+            _hotkeyfilename = "hotkey.cfg";
+        public static readonly string configFilePath = _configpath + _hotkeyfilename;
         readonly MemoryFlags _memFlags = new MemoryFlags();
-        SaveState ss = new SaveState();
+        SaveState _ss = new SaveState();
         static int numberHotkeys = 6;
-        KeyboardKeys keybKeys = new KeyboardKeys();
-        List<int> lstHotkeys = new List<int>();
+        readonly KeyboardKeys _keybKeys = new KeyboardKeys();
+        List<int> _lstHotkeys = new List<int>();
 
-        short curCharacter = 0, bossHP = 0;
-        int screenType = 0, stageID = 255, state = 255,
-            flagBroom = 255, flagDoll = 255, flagReimu = 255, flagCirno = 255, flagSakuya = 255,
-            flagRemilia = 255, flagYoumu = 255, flagYuyuko = 255, flagReisen = 255, flagEirin = 255,
-            flagTank1 = 0, flagTank2 = 0, flagTank3 = 0, flagTank4 = 0;
-        float XF = 0, YF = 0;
-        uint screenTimer = 0;
+        short _curCharacter = 0, _bossHP = 0;
+        int _screenType = 0, _stageID = 255, _state = 255,
+            _flagBroom = 255, _flagDoll = 255, _flagReimu = 255, _flagCirno = 255, _flagSakuya = 255,
+            _flagRemilia = 255, _flagYoumu = 255, _flagYuyuko = 255, _flagReisen = 255, _flagEirin = 255,
+            _flagTank1 = 0, _flagTank2 = 0, _flagTank3 = 0, _flagTank4 = 0;
+        float _xF = 0, _yF = 0;
+        uint _screenTimer = 0;
         #endregion
 
         #region memory stuff
-        static ProcessMemory pm = new ProcessMemory();
+        readonly static ProcessMemory pm = new ProcessMemory();
 
         //first offsets - these are added to "megamari.exe" when reading/writing
         int FIRST_OFFSET = 0xDB0D4; //general first offset
@@ -83,6 +82,7 @@ namespace MegaMariPrac
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            // If prac tool directly doesn't exist, create it
             if (!Directory.Exists(appdata + @"\MegaMariPrac"))
                 Directory.CreateDirectory(appdata + @"\MegaMariPrac");
 
@@ -103,43 +103,17 @@ namespace MegaMariPrac
             toolTip.SetToolTip(checkEarlyBroom, "Checking this will load the early broom route into the drowndown list on the right.");
             toolTip.SetToolTip(buttonWarp, "Loads the selected stage from the dropdown list. Requires the user to select 'Continue' afterwards.\nAlso gives characters their appropriate weapons based on the speedrun route.");
 
-            if (!File.Exists(configpath + savestatesfilename)) //checks if savestatesfilename.cfg doesn't exists
+            /**
+             * If the savestates file doesn't exist, create it
+             * Otherwise run a quick cleanup to remove empty lines that might be in the wrong spots
+             */
+            if (!SaveStateFile.Exists())
             {
-                using (StreamWriter sw = File.CreateText(configpath + savestatesfilename)) //creates the save state file template
-                {
-                    sw.WriteLine("[Reimu-0]\n"); sw.WriteLine("[Cirno-1]\n");
-                    sw.WriteLine("[Sakuya-2]\n"); sw.WriteLine("[Remilia-3]\n");
-                    sw.WriteLine("[Youmu-4]\n"); sw.WriteLine("[Yuyuko-5]\n");
-                    sw.WriteLine("[Reisen-6]\n"); sw.WriteLine("[Eirin-7]\n");
-                    sw.WriteLine("[Patchouli 1-8]\n"); sw.WriteLine("[Patchouli 2-9]\n");
-                    sw.WriteLine("[Patchouli 3-12]\n"); sw.WriteLine("[Patchouli 4-13]\n");
-                    sw.WriteLine("[Patchouli 5-10]\n"); sw.WriteLine("[Patchouli 6-11]\n");
-                }
+                SaveStateFile.CreateFile();
             }
-            else //if savestates.cfg exists, run a quick cleanup to remove empty lines that might be in the wrong spots
+            else
             {
-                List<string> lst_lines = new List<string>();
-                using (StreamReader sr = File.OpenText(configpath + savestatesfilename))
-                {
-                    while (!sr.EndOfStream)
-                    {
-                        string line = sr.ReadLine();
-                        if (line.Length > 0)
-                        {
-                            if (line.Contains("["))
-                            {
-                                lst_lines.Add(""); //add an empty line before each stage ID
-                                lst_lines.Add(line);
-                            }
-                            else
-                            {
-                                lst_lines.Add(line); //a save state line
-                            }
-                        }
-                    }
-                }
-                lst_lines.RemoveAt(0); //removes the very first line which is empty
-                File.WriteAllLines(configpath + savestatesfilename, lst_lines.ToArray()); //write the new lines to the file
+                SaveStateFile.Clean();
             }
 
             //enables controls when playing and disables them when title screen/stage select
@@ -159,17 +133,17 @@ namespace MegaMariPrac
                 {
                     Invoke((MethodInvoker)delegate //using this because thread
                     {
-                        if (screenType == Constants.Screens.STAGE) //if marisa is in a stage
+                        if (_screenType == Constants.Screens.STAGE) //if marisa is in a stage
                         {
-                            if (curCharacter == Constants.MARISA)
+                            if (_curCharacter == Constants.MARISA)
                             {
                                 labelStatus.ForeColor = Color.Gold;
-                                labelStatus.Text = "Marisa is in " + Constants.Stages.stageNames[stageID] + "'s stage";
+                                labelStatus.Text = "Marisa is in " + Constants.Stages.stageNames[_stageID] + "'s stage";
                             }
                             else
                             {
                                 labelStatus.ForeColor = Color.FromArgb(130, 115, 255);
-                                labelStatus.Text = "Alice is in " + Constants.Stages.stageNames[stageID] + "'s stage";
+                                labelStatus.Text = "Alice is in " + Constants.Stages.stageNames[_stageID] + "'s stage";
                             }
                             if (!inStage)
                             {
@@ -206,12 +180,12 @@ namespace MegaMariPrac
                         }
                         else
                         {
-                            if (screenType == Constants.Screens.STAGE_SELECT)
+                            if (_screenType == Constants.Screens.STAGE_SELECT)
                             {
                                 labelStatus.Text = "Stage select...";
                                 labelStatus.ForeColor = Color.Cyan;
                             }
-                            else if (screenType == Constants.Screens.STAGE_LOADING)
+                            else if (_screenType == Constants.Screens.STAGE_LOADING)
                             {
                                 pm.WriteStatic(SCREEN_TYPE, BitConverter.GetBytes(Constants.Screens.STAGE)); //forces te stage to show up right away
                             }
@@ -275,6 +249,17 @@ namespace MegaMariPrac
 
             while (true)
             {
+                if (_lstHotkeys[0] != 0) modifier1 = pm.ReadStatic(_lstHotkeys[0], modifier1); else modifier1[0] = 128;
+                if (_lstHotkeys[2] != 0) modifier2 = pm.ReadStatic(_lstHotkeys[2], modifier2); else modifier2[0] = 128;
+                if (_lstHotkeys[4] != 0) modifier3 = pm.ReadStatic(_lstHotkeys[4], modifier3); else modifier3[0] = 128;
+                if (_lstHotkeys[6] != 0) modifier4 = pm.ReadStatic(_lstHotkeys[6], modifier4); else modifier4[0] = 128;
+                if (_lstHotkeys[8] != 0) modifier5 = pm.ReadStatic(_lstHotkeys[8], modifier5); else modifier5[0] = 128;
+                if (_lstHotkeys[10] != 0) modifier6 = pm.ReadStatic(_lstHotkeys[10], modifier6); else modifier6[0] = 128;
+
+                key1 = pm.ReadStatic(_lstHotkeys[1], key1); key2 = pm.ReadStatic(_lstHotkeys[3], key2);
+                key3 = pm.ReadStatic(_lstHotkeys[5], key3); key4 = pm.ReadStatic(_lstHotkeys[7], key4);
+                key5 = pm.ReadStatic(_lstHotkeys[9], key5); key6 = pm.ReadStatic(_lstHotkeys[11], key6);
+
                 bool isHotkey1Pressed = IsHotkeyPressed(modifier1[0], key1[0]);
                 bool isHotkey2Pressed = IsHotkeyPressed(modifier2[0], key2[0]);
                 bool isHotkey3Pressed = IsHotkeyPressed(modifier3[0], key3[0]);
@@ -291,7 +276,7 @@ namespace MegaMariPrac
 
                 Thread.Sleep(75);
 
-                if (screenType == Constants.Screens.TITLE_SCREEN || screenType == Constants.Screens.STAGE_SELECT || screenType == Constants.Screens.STAGE_LOADING)
+                if (_screenType == Constants.Screens.TITLE_SCREEN || _screenType == Constants.Screens.STAGE_SELECT || _screenType == Constants.Screens.STAGE_LOADING)
                 {
                     print("Exiting thread " + System.Reflection.MethodBase.GetCurrentMethod().Name);
                     break;
@@ -312,36 +297,34 @@ namespace MegaMariPrac
         {
             while (true)
             {
-                byte[] buffer = pm.Read(FIRST_OFFSET, X_OFFSET); XF = BitConverter.ToSingle(buffer, 0); //convert to float
-                buffer = pm.Read(FIRST_OFFSET, Y_OFFSET); YF = BitConverter.ToSingle(buffer, 0); //convert to float
+                byte[] buffer = pm.Read(FIRST_OFFSET, X_OFFSET); _xF = BitConverter.ToSingle(buffer, 0); //convert to float
+                buffer = pm.Read(FIRST_OFFSET, Y_OFFSET); _yF = BitConverter.ToSingle(buffer, 0); //convert to float
 
-                buffer = pm.ReadStatic(STATE, buffer); state = buffer[0];
-                buffer = pm.ReadStatic(SCREEN_TYPE, buffer); screenType = buffer[0];
-                buffer = pm.ReadStatic(STAGE_ID, buffer); stageID = buffer[0];
-                buffer = pm.ReadStatic(SCREEN_TIMER, buffer); screenTimer = BitConverter.ToUInt32(buffer, 0);
+                buffer = pm.ReadStatic(STATE, buffer); _state = buffer[0];
+                buffer = pm.ReadStatic(SCREEN_TYPE, buffer); _screenType = buffer[0];
+                buffer = pm.ReadStatic(STAGE_ID, buffer); _stageID = buffer[0];
+                buffer = pm.ReadStatic(SCREEN_TIMER, buffer); _screenTimer = BitConverter.ToUInt32(buffer, 0);
 
-                buffer = pm.Read(FIRST_OFFSET, CHARACTER_OFFSET); curCharacter = BitConverter.ToInt16(buffer, 0);
-                buffer = pm.Read(FIRST_OFFSET, BROOM_FLAG_OFFSET); flagBroom = buffer[0];
-                buffer = pm.Read(FIRST_OFFSET, DOLL_FLAG_OFFSET); flagDoll = buffer[0];
-                buffer = pm.Read(FIRST_OFFSET, REIMU_FLAG_OFFSET); flagReimu = buffer[0];
-                buffer = pm.Read(FIRST_OFFSET, CIRNO_FLAG_OFFSET); flagCirno = buffer[0];
-                buffer = pm.Read(FIRST_OFFSET, SAKUYA_FLAG_OFFSET); flagSakuya = buffer[0];
-                buffer = pm.Read(FIRST_OFFSET, REMILIA_FLAG_OFFSET); flagRemilia = buffer[0];
-                buffer = pm.Read(FIRST_OFFSET, YOUMU_FLAG_OFFSET); flagYoumu = buffer[0];
-                buffer = pm.Read(FIRST_OFFSET, YUYUKO_FLAG_OFFSET); flagYuyuko = buffer[0];
-                buffer = pm.Read(FIRST_OFFSET, REISEN_FLAG_OFFSET); flagReisen = buffer[0];
-                buffer = pm.Read(FIRST_OFFSET, EIRIN_FLAG_OFFSET); flagEirin = buffer[0];
+                buffer = pm.Read(FIRST_OFFSET, CHARACTER_OFFSET); _curCharacter = BitConverter.ToInt16(buffer, 0);
+                buffer = pm.Read(FIRST_OFFSET, BROOM_FLAG_OFFSET); _flagBroom = buffer[0];
+                buffer = pm.Read(FIRST_OFFSET, DOLL_FLAG_OFFSET); _flagDoll = buffer[0];
+                buffer = pm.Read(FIRST_OFFSET, REIMU_FLAG_OFFSET); _flagReimu = buffer[0];
+                buffer = pm.Read(FIRST_OFFSET, CIRNO_FLAG_OFFSET); _flagCirno = buffer[0];
+                buffer = pm.Read(FIRST_OFFSET, SAKUYA_FLAG_OFFSET); _flagSakuya = buffer[0];
+                buffer = pm.Read(FIRST_OFFSET, REMILIA_FLAG_OFFSET); _flagRemilia = buffer[0];
+                buffer = pm.Read(FIRST_OFFSET, YOUMU_FLAG_OFFSET); _flagYoumu = buffer[0];
+                buffer = pm.Read(FIRST_OFFSET, YUYUKO_FLAG_OFFSET); _flagYuyuko = buffer[0];
+                buffer = pm.Read(FIRST_OFFSET, REISEN_FLAG_OFFSET); _flagReisen = buffer[0];
+                buffer = pm.Read(FIRST_OFFSET, EIRIN_FLAG_OFFSET); _flagEirin = buffer[0];
 
-                buffer = pm.Read(FIRST_OFFSET, MENU_TANK_SLOT_1_OFFSET); flagTank1 = buffer[0];
-                buffer = pm.Read(FIRST_OFFSET, MENU_TANK_SLOT_2_OFFSET); flagTank2 = buffer[0];
-                buffer = pm.Read(FIRST_OFFSET, MENU_TANK_SLOT_3_OFFSET); flagTank3 = buffer[0];
-                buffer = pm.Read(FIRST_OFFSET, MENU_TANK_SLOT_4_OFFSET); flagTank4 = buffer[0];
+                buffer = pm.Read(FIRST_OFFSET, MENU_TANK_SLOT_1_OFFSET); _flagTank1 = buffer[0];
+                buffer = pm.Read(FIRST_OFFSET, MENU_TANK_SLOT_2_OFFSET); _flagTank2 = buffer[0];
+                buffer = pm.Read(FIRST_OFFSET, MENU_TANK_SLOT_3_OFFSET); _flagTank3 = buffer[0];
+                buffer = pm.Read(FIRST_OFFSET, MENU_TANK_SLOT_4_OFFSET); _flagTank4 = buffer[0];
 
-                buffer = pm.Read(FIRST_OFFSET_BOSS_HP, 0x0); bossHP = BitConverter.ToInt16(buffer, 0);
+                buffer = pm.Read(FIRST_OFFSET_BOSS_HP, 0x0); _bossHP = BitConverter.ToInt16(buffer, 0);
 
-                int sleep;
-                if (screenType == Constants.Screens.TITLE_SCREEN || screenType == Constants.Screens.STAGE_SELECT || screenType == Constants.Screens.STAGE_LOADING) sleep = 100;
-                else sleep = 1;
+                int sleep = _screenType == Constants.Screens.TITLE_SCREEN || _screenType == Constants.Screens.STAGE_SELECT || _screenType == Constants.Screens.STAGE_LOADING ? 100 : 1;
                 Thread.Sleep(sleep);
             }
         }
@@ -354,8 +337,8 @@ namespace MegaMariPrac
                 {
                     Invoke((MethodInvoker)delegate //using this because thread
                     {
-                        labelX.Text = "X: " + XF.ToString("0.000");
-                        labelY.Text = "Y: " + YF.ToString("0.000");
+                        labelX.Text = "X: " + _xF.ToString("0.000");
+                        labelY.Text = "Y: " + _yF.ToString("0.000");
                     });
                 }
                 catch (Exception ex)
@@ -363,7 +346,7 @@ namespace MegaMariPrac
                     if (ex is ObjectDisposedException || ex is InvalidOperationException)
                         print(ex.Message);
                 }
-                if (screenType == Constants.Screens.TITLE_SCREEN || screenType == Constants.Screens.STAGE_SELECT || screenType == Constants.Screens.STAGE_LOADING)
+                if (_screenType == Constants.Screens.TITLE_SCREEN || _screenType == Constants.Screens.STAGE_SELECT || _screenType == Constants.Screens.STAGE_LOADING)
                 {
                     print("Exiting thread " + System.Reflection.MethodBase.GetCurrentMethod().Name);
                     break;
@@ -378,13 +361,13 @@ namespace MegaMariPrac
             uint tempTimer = 0;
             while (true)
             {
-                t = TimeSpan.FromSeconds((double)screenTimer / 60);
+                t = TimeSpan.FromSeconds((double)_screenTimer / 60);
                 string stringScreenTimer = t.Minutes.ToString("D2") + ":" + t.Seconds.ToString("D2") + "." + t.Milliseconds.ToString("D3");
                 try
                 {
                     Invoke((MethodInvoker)delegate //using this because thread
                     {
-                        if (tempTimer > screenTimer)
+                        if (tempTimer > _screenTimer)
                         {
                             t = TimeSpan.FromSeconds((double)tempTimer / 60);
                             string stringLastScreenTime = t.Minutes.ToString("D2") + ":" + t.Seconds.ToString("D2") + "." + t.Milliseconds.ToString("D3");
@@ -398,8 +381,8 @@ namespace MegaMariPrac
                     if (ex is ObjectDisposedException || ex is InvalidOperationException)
                         print(ex.Message);
                 }
-                tempTimer = screenTimer;
-                if (screenType == Constants.Screens.TITLE_SCREEN || screenType == Constants.Screens.STAGE_SELECT || screenType == Constants.Screens.STAGE_LOADING)
+                tempTimer = _screenTimer;
+                if (_screenType == Constants.Screens.TITLE_SCREEN || _screenType == Constants.Screens.STAGE_SELECT || _screenType == Constants.Screens.STAGE_LOADING)
                 {
                     print("Exiting thread " + System.Reflection.MethodBase.GetCurrentMethod().Name);
                     break;
@@ -435,7 +418,7 @@ namespace MegaMariPrac
                 if (checkIframes.Checked)
                     pm.Write(FIRST_OFFSET, IFRAMES_OFFSET, BitConverter.GetBytes(200));
 
-                if (screenType == Constants.Screens.TITLE_SCREEN || screenType == Constants.Screens.STAGE_SELECT || screenType == Constants.Screens.STAGE_LOADING)
+                if (_screenType == Constants.Screens.TITLE_SCREEN || _screenType == Constants.Screens.STAGE_SELECT || _screenType == Constants.Screens.STAGE_LOADING)
                 {
                     print("Exiting thread " + System.Reflection.MethodBase.GetCurrentMethod().Name);
                     break;
@@ -448,7 +431,7 @@ namespace MegaMariPrac
         {
             while (true)
             {
-                if (screenType == Constants.Screens.STAGE && state == Constants.GameStates.DEAD) //track death
+                if (_screenType == Constants.Screens.STAGE && _state == Constants.GameStates.DEAD) //track death
                 {
                     //fast respawn
                     pm.WriteStatic(STATE, BitConverter.GetBytes(Constants.GameStates.DEAD));
@@ -463,10 +446,10 @@ namespace MegaMariPrac
                 {
                     Invoke((MethodInvoker)delegate //using this because thread
                     {
-                        if (bossHP >= 0 && bossHP <= 280)
+                        if (_bossHP >= 0 && _bossHP <= 280)
                         {
-                            barBossHP.Value = bossHP;
-                            labelBossHp.Text = bossHP.ToString();
+                            barBossHP.Value = _bossHP;
+                            labelBossHp.Text = _bossHP.ToString();
                         }
                     });
                 }
@@ -476,7 +459,7 @@ namespace MegaMariPrac
                         print(ex.Message);
                 }
 
-                if (screenType == Constants.Screens.TITLE_SCREEN || screenType == Constants.Screens.STAGE_SELECT || screenType == Constants.Screens.STAGE_LOADING)
+                if (_screenType == Constants.Screens.TITLE_SCREEN || _screenType == Constants.Screens.STAGE_SELECT || _screenType == Constants.Screens.STAGE_LOADING)
                 {
                     print("Exiting thread " + System.Reflection.MethodBase.GetCurrentMethod().Name);
                     break;
@@ -489,23 +472,23 @@ namespace MegaMariPrac
         {
             while (true)
             {
-                _memFlags.SetWeaponFlags(flagBroom, flagDoll, flagReimu, flagRemilia, flagYoumu, flagReisen, flagCirno, flagSakuya, flagYuyuko, flagEirin);
+                _memFlags.SetWeaponFlags(_flagBroom, _flagDoll, _flagReimu, _flagRemilia, _flagYoumu, _flagReisen, _flagCirno, _flagSakuya, _flagYuyuko, _flagEirin);
 
-                EnableIcon(flagBroom, "broom", weaponBoxBroom, false);
-                EnableIcon(flagDoll, "doll", weaponBoxDoll, false);
-                EnableIcon(flagReimu, "reimu", weaponBoxReimu);
-                EnableIcon(flagRemilia, "remilia", weaponBoxRemilia);
-                EnableIcon(flagYoumu, "youmu", weaponBoxYoumu);
-                EnableIcon(flagReisen, "reisen", weaponBoxReisen);
-                EnableIcon(flagCirno, "cirno", weaponBoxCirno);
-                EnableIcon(flagSakuya, "sakuya", weaponBoxSakuya);
-                EnableIcon(flagYuyuko, "yuyuko", weaponBoxYuyuko);
-                EnableIcon(flagEirin, "eirin", weaponBoxEirin);
+                EnableIcon(_flagBroom, "broom", weaponBoxBroom, false);
+                EnableIcon(_flagDoll, "doll", weaponBoxDoll, false);
+                EnableIcon(_flagReimu, "reimu", weaponBoxReimu);
+                EnableIcon(_flagRemilia, "remilia", weaponBoxRemilia);
+                EnableIcon(_flagYoumu, "youmu", weaponBoxYoumu);
+                EnableIcon(_flagReisen, "reisen", weaponBoxReisen);
+                EnableIcon(_flagCirno, "cirno", weaponBoxCirno);
+                EnableIcon(_flagSakuya, "sakuya", weaponBoxSakuya);
+                EnableIcon(_flagYuyuko, "yuyuko", weaponBoxYuyuko);
+                EnableIcon(_flagEirin, "eirin", weaponBoxEirin);
 
-                EnableIcon(flagTank1, box: tankBox1, isTank: true); EnableIcon(flagTank2, box: tankBox2, isTank: true);
-                EnableIcon(flagTank3, box: tankBox3, isTank: true); EnableIcon(flagTank4, box: tankBox4, isTank: true);
+                EnableIcon(_flagTank1, box: tankBox1, isTank: true); EnableIcon(_flagTank2, box: tankBox2, isTank: true);
+                EnableIcon(_flagTank3, box: tankBox3, isTank: true); EnableIcon(_flagTank4, box: tankBox4, isTank: true);
 
-                if (screenType == Constants.Screens.TITLE_SCREEN || screenType == Constants.Screens.STAGE_SELECT || screenType == Constants.Screens.STAGE_LOADING)
+                if (_screenType == Constants.Screens.TITLE_SCREEN || _screenType == Constants.Screens.STAGE_SELECT || _screenType == Constants.Screens.STAGE_LOADING)
                 {
                     print("Exiting thread " + System.Reflection.MethodBase.GetCurrentMethod().Name);
                     break;
@@ -578,40 +561,26 @@ namespace MegaMariPrac
         private void buttonStore_Click(object sender, EventArgs e)
         {
             // If in a stage
-            if (screenType == Constants.Screens.STAGE && state == Constants.GameStates.PLAYING)
+            if (_screenType == Constants.Screens.STAGE && _state == Constants.GameStates.PLAYING)
                 StoreValues();
         }
 
         private void buttonLoad_Click(object sender, EventArgs e)
         {
             // If in a stage
-            if (screenType == Constants.Screens.STAGE && state == Constants.GameStates.PLAYING)
+            if (_screenType == Constants.Screens.STAGE && _state == Constants.GameStates.PLAYING)
                 LoadStoredValues();
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            if (File.Exists(configpath + savestatesfilename)) //checks if savestates.cfg exists
+            if (comboSaves.Text.Length == 0)
             {
-                //find the line number of the line to delete
-                int lineNumber = 0;
-                using (StreamReader sr = File.OpenText(configpath + savestatesfilename))
-                {
-                    while (!sr.EndOfStream)
-                    {
-                        //leave the loop once the line to remove is found
-                        string line = sr.ReadLine();
-                        if (line == comboSaves.Text)
-                            break;
-                        lineNumber++;
-                    }
-                }
-                //read all save state lines into memory
-                List<string> lines = File.ReadAllLines(configpath + savestatesfilename).ToList();
-                lines.RemoveAt(lineNumber);
-                File.WriteAllLines(configpath + savestatesfilename, lines); //write the new lines to the file
-                UpdateComboSaveStates(true);
+                return;
             }
+
+            SaveStateFile.DeleteSaveState(comboSaves.Text);
+            UpdateComboSaveStates(true);
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
@@ -620,35 +589,9 @@ namespace MegaMariPrac
             {
                 if (ssname.ShowDialog() == DialogResult.OK)
                 {
-                    bool sectionFound = false;
-                    int lineNumber = 0;
-
-                    if (File.Exists(configpath + savestatesfilename)) //checks if savestates.cfg exists
-                    {
-                        //find the line number to which the new line needs to be inserted
-                        using (StreamReader sr = File.OpenText(configpath + savestatesfilename))
-                        {
-                            while (!sr.EndOfStream)
-                            {
-                                string line = sr.ReadLine();
-
-                                if (line.Length > 0)
-                                    if (line.Contains("[") && sectionFound)
-                                        break;
-                                if (line.Contains(Constants.Stages.stageNames[stageID] + "-" + stageID))
-                                    sectionFound = true;
-
-                                lineNumber++;
-                            }
-                        }
-                        //read all save state lines into memory
-                        List<string> lines = File.ReadAllLines(configpath + savestatesfilename).ToList();
-                        //insert the desired line at the number found - 1
-                        StoreValues();
-                        lines.Insert(lineNumber - 1, ssname.name + " | " + ss.ToString());
-                        File.WriteAllLines(configpath + savestatesfilename, lines); //write the new lines to the file
-                        UpdateComboSaveStates(false);
-                    }
+                    SaveStateFile.AddSaveState(_stageID, ssname.name, _ss.ToString());
+                    StoreValues();
+                    UpdateComboSaveStates(false);
                 }
             }
         }
@@ -690,7 +633,7 @@ namespace MegaMariPrac
         {
             //fast respawn
             int checkpoint = pm.Read(FIRST_OFFSET, CHECKPOINT_OFFSET)[0];
-            if (stageID != Constants.Stages.PATCHY_6)
+            if (_stageID != Constants.Stages.PATCHY_6)
             {
                 switch (checkpoint)
                 {
@@ -720,16 +663,16 @@ namespace MegaMariPrac
             PictureBox s = (PictureBox)sender;
             switch (s.Name)
             {
-                case "weaponBoxBroom": SetWeapon(BROOM_FLAG_OFFSET, flagBroom, false); break;
-                case "weaponBoxDoll": SetWeapon(DOLL_FLAG_OFFSET, flagDoll, false); break;
-                case "weaponBoxReimu": SetWeapon(REIMU_FLAG_OFFSET, flagReimu, true); break;
-                case "weaponBoxRemilia": SetWeapon(REMILIA_FLAG_OFFSET, flagRemilia, true); break;
-                case "weaponBoxYoumu": SetWeapon(YOUMU_FLAG_OFFSET, flagYoumu, true); break;
-                case "weaponBoxReisen": SetWeapon(REISEN_FLAG_OFFSET, flagReisen, true); break;
-                case "weaponBoxCirno": SetWeapon(CIRNO_FLAG_OFFSET, flagCirno, true); break;
-                case "weaponBoxSakuya": SetWeapon(SAKUYA_FLAG_OFFSET, flagSakuya, true); break;
-                case "weaponBoxYuyuko": SetWeapon(YUYUKO_FLAG_OFFSET, flagYuyuko, true); break;
-                case "weaponBoxEirin": SetWeapon(EIRIN_FLAG_OFFSET, flagEirin, true); break;
+                case "weaponBoxBroom": SetWeapon(BROOM_FLAG_OFFSET, _flagBroom, false); break;
+                case "weaponBoxDoll": SetWeapon(DOLL_FLAG_OFFSET, _flagDoll, false); break;
+                case "weaponBoxReimu": SetWeapon(REIMU_FLAG_OFFSET, _flagReimu, true); break;
+                case "weaponBoxRemilia": SetWeapon(REMILIA_FLAG_OFFSET, _flagRemilia, true); break;
+                case "weaponBoxYoumu": SetWeapon(YOUMU_FLAG_OFFSET, _flagYoumu, true); break;
+                case "weaponBoxReisen": SetWeapon(REISEN_FLAG_OFFSET, _flagReisen, true); break;
+                case "weaponBoxCirno": SetWeapon(CIRNO_FLAG_OFFSET, _flagCirno, true); break;
+                case "weaponBoxSakuya": SetWeapon(SAKUYA_FLAG_OFFSET, _flagSakuya, true); break;
+                case "weaponBoxYuyuko": SetWeapon(YUYUKO_FLAG_OFFSET, _flagYuyuko, true); break;
+                case "weaponBoxEirin": SetWeapon(EIRIN_FLAG_OFFSET, _flagEirin, true); break;
             }
         }
 
@@ -749,7 +692,7 @@ namespace MegaMariPrac
         #region menustrip
         private void applicationFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("explorer.exe", configpath);
+            Process.Start("explorer.exe", _configpath);
         }
 
         private void helpAboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -772,13 +715,13 @@ namespace MegaMariPrac
         /// <param name="first">Indicate if first line in savestates.cfg for that stage</param>
         private void UpdateComboSaveStates(bool first)
         {
-            if (Constants.Stages.stageNames.ContainsKey(stageID))
+            if (Constants.Stages.stageNames.ContainsKey(_stageID))
             {
                 bool sectionFound = false;
-                if (File.Exists(configpath + savestatesfilename)) //checks if savestates.cfg exists
+                if (SaveStateFile.Exists()) //checks if savestates.cfg exists
                 {
                     comboSaves.Items.Clear();
-                    using (StreamReader sr = File.OpenText(configpath + savestatesfilename))
+                    using (StreamReader sr = File.OpenText(SaveStateFile.path))
                     {
                         while (!sr.EndOfStream)
                         {
@@ -795,7 +738,7 @@ namespace MegaMariPrac
                                     comboSaves.Items.Add(line);
 
                                 //if reached the desired section -> set flag to true
-                                if (line.Contains(Constants.Stages.stageNames[stageID] + "-" + stageID))
+                                if (line.Contains(Constants.Stages.stageNames[_stageID] + "-" + _stageID))
                                     sectionFound = true;
                             }
                         }
@@ -824,15 +767,15 @@ namespace MegaMariPrac
         private void comboSaves_SelectionChangeCommitted(object sender, EventArgs e)
         {
             string[] split = comboSaves.Text.Split('|');
-            ss = new SaveState(split[1]);
+            _ss = new SaveState(split[1]);
 
-            labelStoredX.Text = "X: " + ss.xF.ToString("0.000"); // X
-            labelStoredY.Text = "Y: " + ss.yF.ToString("0.000"); // Y
+            labelStoredX.Text = "X: " + _ss.xF.ToString("0.000"); // X
+            labelStoredY.Text = "Y: " + _ss.yF.ToString("0.000"); // Y
 
             //weapon flags
             _memFlags.SetWeaponFlags(
-                ss.broomFlag, ss.dollFlag, ss.reimuFlag, ss.remiliaFlag, ss.youmuFlag,
-                ss.reisenFlag, ss.cirnoFlag, ss.sakuyaFlag, ss.yuyukoFlag, ss.eirinFlag
+                _ss.broomFlag, _ss.dollFlag, _ss.reimuFlag, _ss.remiliaFlag, _ss.youmuFlag,
+                _ss.reisenFlag, _ss.cirnoFlag, _ss.sakuyaFlag, _ss.yuyukoFlag, _ss.eirinFlag
             );
 
             LoadStoredValues();
@@ -842,35 +785,35 @@ namespace MegaMariPrac
         #region hotkeys
         private void WriteDefaultHotkeyConfig()
         {
-            TextWriter writer = new StreamWriter(configpath + hotkeyfilename);
+            TextWriter writer = new StreamWriter(configFilePath);
             writer.WriteLine(hotkeyVersion + "\nLAlt\n1\nLAlt\n2\nLAlt\n3\nLAlt\n4\nLAlt\n5\nLAlt\n6");
             writer.Close();
         }
 
         private void LoadHotkeys()
         {
-            if (!Directory.Exists(configpath)) Directory.CreateDirectory(configpath);
-            if (!File.Exists(configpath + hotkeyfilename))
+            if (!Directory.Exists(_configpath)) Directory.CreateDirectory(_configpath);
+            if (!File.Exists(configFilePath))
                 WriteDefaultHotkeyConfig();
-            if (File.Exists(configpath + hotkeyfilename)) //checks if hotkey.cfg exists
+            if (File.Exists(configFilePath)) //checks if hotkey.cfg exists
             {
-                if (File.ReadLines(configpath + hotkeyfilename).First().Contains(hotkeyVersion))
+                if (File.ReadLines(configFilePath).First().Contains(hotkeyVersion))
                 {
-                    using (StreamReader sr = File.OpenText(configpath + hotkeyfilename))
+                    using (StreamReader sr = File.OpenText(configFilePath))
                     {
                         int modifier = 0;
-                        lstHotkeys.Clear();
+                        _lstHotkeys.Clear();
                         sr.ReadLine(); //skip the first line containing the version number
                         for (int i = 2; i <= numberHotkeys * 2 + 1; i++)
                         {
                             if (i % 2 == 0) //if the line number is even then it's a modifier
                             {
-                                modifier = keybKeys.dictModifierKeys[sr.ReadLine()]; //this variable will hold the address of the modifier
-                                lstHotkeys.Add(modifier);
+                                modifier = _keybKeys.dictModifierKeys[sr.ReadLine()]; //this variable will hold the address of the modifier
+                                _lstHotkeys.Add(modifier);
                             }
                             else //if the line number is odd then it's a hotkey
                             {
-                                lstHotkeys.Add(keybKeys.dictKeys[sr.ReadLine()]);
+                                _lstHotkeys.Add(_keybKeys.dictKeys[sr.ReadLine()]);
                             }
                         }
                     }
@@ -891,12 +834,12 @@ namespace MegaMariPrac
         #region actions
         private void StoreValues()
         {
-            if (screenType == Constants.Screens.STAGE && state == Constants.GameStates.PLAYING)
+            if (_screenType == Constants.Screens.STAGE && _state == Constants.GameStates.PLAYING)
             {
                 byte[] xPos = pm.Read(FIRST_OFFSET, X_OFFSET); //read x speed value
                 byte[] yPos = pm.Read(FIRST_OFFSET, Y_OFFSET); //read y speed value
 
-                ss = new SaveState(
+                _ss = new SaveState(
                     x: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, X_OFFSET), 0), y: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, Y_OFFSET), 0),
                     xF: BitConverter.ToSingle(pm.Read(FIRST_OFFSET, X_OFFSET), 0), yF: BitConverter.ToSingle(pm.Read(FIRST_OFFSET, Y_OFFSET), 0),
                     camera1X: BitConverter.ToInt32(pm.Read(FIRST_OFFSET, CAMERA_X_1_OFFSET), 0),
@@ -926,8 +869,8 @@ namespace MegaMariPrac
                 {
                     Invoke((MethodInvoker)delegate //using this because thread
                     {
-                        labelStoredX.Text = "X: " + ss.xF.ToString("0.000");
-                        labelStoredY.Text = "Y: " + ss.yF.ToString("0.000");
+                        labelStoredX.Text = "X: " + _ss.xF.ToString("0.000");
+                        labelStoredY.Text = "Y: " + _ss.yF.ToString("0.000");
                     });
                 }
                 catch (Exception ex)
@@ -945,24 +888,24 @@ namespace MegaMariPrac
         private void LoadStoredValues()
         {
             // If in a stage & the character has moved from the starting point
-            if (screenType == Constants.Screens.STAGE && state == Constants.GameStates.PLAYING && ss.x != 1 && ss.y != 1)
+            if (_screenType == Constants.Screens.STAGE && _state == Constants.GameStates.PLAYING && _ss.x != 1 && _ss.y != 1)
             {
-                pm.Write(FIRST_OFFSET, X_OFFSET, BitConverter.GetBytes(ss.x));
-                pm.Write(FIRST_OFFSET, Y_OFFSET, BitConverter.GetBytes(ss.y));
+                pm.Write(FIRST_OFFSET, X_OFFSET, BitConverter.GetBytes(_ss.x));
+                pm.Write(FIRST_OFFSET, Y_OFFSET, BitConverter.GetBytes(_ss.y));
 
-                pm.Write(FIRST_OFFSET, CAMERA_VIEW_X_OFFSET, BitConverter.GetBytes(ss.cameraViewX));
-                pm.Write(FIRST_OFFSET, CAMERA_VIEW_Y_OFFSET, BitConverter.GetBytes(ss.cameraViewY));
-                pm.Write(FIRST_OFFSET, CAMERA_X_1_OFFSET, BitConverter.GetBytes(ss.camera1X));
-                pm.Write(FIRST_OFFSET, CAMERA_Y_1_OFFSET, BitConverter.GetBytes(ss.camera1Y));
-                pm.Write(FIRST_OFFSET, CAMERA_X_2_OFFSET, BitConverter.GetBytes(ss.camera2X));
-                pm.Write(FIRST_OFFSET, CAMERA_Y_2_OFFSET, BitConverter.GetBytes(ss.camera2Y));
+                pm.Write(FIRST_OFFSET, CAMERA_VIEW_X_OFFSET, BitConverter.GetBytes(_ss.cameraViewX));
+                pm.Write(FIRST_OFFSET, CAMERA_VIEW_Y_OFFSET, BitConverter.GetBytes(_ss.cameraViewY));
+                pm.Write(FIRST_OFFSET, CAMERA_X_1_OFFSET, BitConverter.GetBytes(_ss.camera1X));
+                pm.Write(FIRST_OFFSET, CAMERA_Y_1_OFFSET, BitConverter.GetBytes(_ss.camera1Y));
+                pm.Write(FIRST_OFFSET, CAMERA_X_2_OFFSET, BitConverter.GetBytes(_ss.camera2X));
+                pm.Write(FIRST_OFFSET, CAMERA_Y_2_OFFSET, BitConverter.GetBytes(_ss.camera2Y));
 
-                pm.Write(FIRST_OFFSET, MARISA_HP_OFFSET, new byte[1] { (byte)ss.marisaHP });
-                pm.Write(FIRST_OFFSET, ALICE_HP_OFFSET, new byte[1] { (byte)ss.aliceHP });
+                pm.Write(FIRST_OFFSET, MARISA_HP_OFFSET, new byte[1] { (byte)_ss.marisaHP });
+                pm.Write(FIRST_OFFSET, ALICE_HP_OFFSET, new byte[1] { (byte)_ss.aliceHP });
 
-                pm.Write(FIRST_OFFSET, CHARACTER_OFFSET, BitConverter.GetBytes(ss.character));
-                pm.Write(FIRST_OFFSET, CHARACTER_WEAPON_OFFSET, new byte[1] { (byte)ss.characterWeapon });
-                pm.Write(FIRST_OFFSET, CHARACTER_SPRITE_OFFSET, BitConverter.GetBytes(ss.characterSprite));
+                pm.Write(FIRST_OFFSET, CHARACTER_OFFSET, BitConverter.GetBytes(_ss.character));
+                pm.Write(FIRST_OFFSET, CHARACTER_WEAPON_OFFSET, new byte[1] { (byte)_ss.characterWeapon });
+                pm.Write(FIRST_OFFSET, CHARACTER_SPRITE_OFFSET, BitConverter.GetBytes(_ss.characterSprite));
 
                 pm.Write(FIRST_OFFSET, BROOM_FLAG_OFFSET, new byte[1] { (byte)_memFlags.weapons["Broom"] });
                 pm.Write(FIRST_OFFSET, DOLL_FLAG_OFFSET, new byte[1] { (byte)_memFlags.weapons["Doll"] });
@@ -975,20 +918,20 @@ namespace MegaMariPrac
                 pm.Write(FIRST_OFFSET, YUYUKO_FLAG_OFFSET, new byte[1] { (byte)_memFlags.weapons["Yuyuko"] });
                 pm.Write(FIRST_OFFSET, EIRIN_FLAG_OFFSET, new byte[1] { (byte)_memFlags.weapons["Eirin"] });
 
-                pm.Write(FIRST_OFFSET, BROOM_AMMO_OFFSET, BitConverter.GetBytes(ss.broomAmmo));
-                pm.Write(FIRST_OFFSET, DOLL_AMMO_OFFSET, BitConverter.GetBytes(ss.dollAmmo));
-                pm.Write(FIRST_OFFSET, REIMU_AMMO_OFFSET, BitConverter.GetBytes(ss.reimuAmmo));
-                pm.Write(FIRST_OFFSET, REMILIA_AMMO_OFFSET, BitConverter.GetBytes(ss.remiliaAmmo));
-                pm.Write(FIRST_OFFSET, YOUMU_AMMO_OFFSET, BitConverter.GetBytes(ss.youmuAmmo));
-                pm.Write(FIRST_OFFSET, REISEN_AMMO_OFFSET, BitConverter.GetBytes(ss.reisenAmmo));
-                pm.Write(FIRST_OFFSET, CIRNO_AMMO_OFFSET, BitConverter.GetBytes(ss.cirnoAmmo));
-                pm.Write(FIRST_OFFSET, SAKUYA_AMMO_OFFSET, BitConverter.GetBytes(ss.sakuyaAmmo));
-                pm.Write(FIRST_OFFSET, YUYUKO_AMMO_OFFSET, BitConverter.GetBytes(ss.yuyukoAmmo));
-                pm.Write(FIRST_OFFSET, EIRIN_AMMO_OFFSET, BitConverter.GetBytes(ss.eirinAmmo));
+                pm.Write(FIRST_OFFSET, BROOM_AMMO_OFFSET, BitConverter.GetBytes(_ss.broomAmmo));
+                pm.Write(FIRST_OFFSET, DOLL_AMMO_OFFSET, BitConverter.GetBytes(_ss.dollAmmo));
+                pm.Write(FIRST_OFFSET, REIMU_AMMO_OFFSET, BitConverter.GetBytes(_ss.reimuAmmo));
+                pm.Write(FIRST_OFFSET, REMILIA_AMMO_OFFSET, BitConverter.GetBytes(_ss.remiliaAmmo));
+                pm.Write(FIRST_OFFSET, YOUMU_AMMO_OFFSET, BitConverter.GetBytes(_ss.youmuAmmo));
+                pm.Write(FIRST_OFFSET, REISEN_AMMO_OFFSET, BitConverter.GetBytes(_ss.reisenAmmo));
+                pm.Write(FIRST_OFFSET, CIRNO_AMMO_OFFSET, BitConverter.GetBytes(_ss.cirnoAmmo));
+                pm.Write(FIRST_OFFSET, SAKUYA_AMMO_OFFSET, BitConverter.GetBytes(_ss.sakuyaAmmo));
+                pm.Write(FIRST_OFFSET, YUYUKO_AMMO_OFFSET, BitConverter.GetBytes(_ss.yuyukoAmmo));
+                pm.Write(FIRST_OFFSET, EIRIN_AMMO_OFFSET, BitConverter.GetBytes(_ss.eirinAmmo));
 
-                pm.Write(FIRST_OFFSET, MENU_CURSOR_OFFSET, BitConverter.GetBytes(ss.menuCursor));
-                pm.Write(FIRST_OFFSET, MENU_TANKS_OFFSET, BitConverter.GetBytes(ss.tanks));
-                pm.Write(FIRST_OFFSET, LIVES_OFFSET, new byte[1] { (byte)ss.lives });
+                pm.Write(FIRST_OFFSET, MENU_CURSOR_OFFSET, BitConverter.GetBytes(_ss.menuCursor));
+                pm.Write(FIRST_OFFSET, MENU_TANKS_OFFSET, BitConverter.GetBytes(_ss.tanks));
+                pm.Write(FIRST_OFFSET, LIVES_OFFSET, new byte[1] { (byte)_ss.lives });
             }
         }
 

@@ -80,6 +80,7 @@
       <DependentUpon>HotkeyDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Hotkeys\KeyboardKeys.cs" />
+    <Compile Include="SaveStates\SaveStatesFile.cs" />
     <Compile Include="SaveStates\SaveState.cs" />
     <Compile Include="SaveStates\SaveStateName.cs">
       <SubType>Form</SubType>
