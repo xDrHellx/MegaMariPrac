@@ -551,7 +551,8 @@ namespace MegaMariPrac
                     if (iconResource is Image icon)
                     {
                         // Get rid of the old icon to prevent memory leaks
-                        box.Image?.Dispose();
+                        // TODO This causes the tool to crash
+                        // box.Image?.Dispose();
 
                         // Assign a copy of the icon to prevent sharing the same object in memory (which will be "locked" and cause an error over time)
                         box.Image = new Bitmap(icon);
