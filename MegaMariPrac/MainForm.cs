@@ -131,103 +131,119 @@ namespace MegaMariPrac
             {
                 try
                 {
-                    Invoke((MethodInvoker)delegate //using this because thread
+                    // Using this because Thread
+                    Invoke((MethodInvoker)delegate
                     {
-                        if (_screenType == Constants.Screens.STAGE) //if marisa is in a stage
+                        // If in a stage
+                        if (_screenType == Constants.Screens.STAGE)
                         {
-                            if (_curCharacter == Constants.MARISA)
+                            // Set menuStrip text
+                            labelStatus.ForeColor = _curCharacter == Constants.MARISA ? Color.Gold : Color.FromArgb(130, 115, 255);
+                            labelStatus.Text = $"{(_curCharacter == Constants.MARISA ? "Marisa" : "Alice")} is in {Constants.Stages.stageNames[_stageID]}'s stage";
+
+                            if (inStage)
                             {
-                                labelStatus.ForeColor = Color.Gold;
-                                labelStatus.Text = "Marisa is in " + Constants.Stages.stageNames[_stageID] + "'s stage";
+                                return;
                             }
-                            else
+
+                            // Enable elements in groups
+                            foreach (Control group in Controls)
                             {
-                                labelStatus.ForeColor = Color.FromArgb(130, 115, 255);
-                                labelStatus.Text = "Alice is in " + Constants.Stages.stageNames[_stageID] + "'s stage";
-                            }
-                            if (!inStage)
-                            {
-                                foreach (Control group in Controls)
+                                // Check for a group
+                                if (!(group is GroupBox))
                                 {
-                                    if (group is GroupBox)
-                                    {
-                                        switch (group.Name)
-                                        {
-                                            case "groupCoordinates":
-                                                foreach (Control c in group.Controls)
-                                                {
-                                                    if (c is Button || c is TextBox) c.Enabled = true;
-                                                    if (c is TextBox) c.Text = string.Empty;
-                                                }
-                                                break;
-                                            default:
-                                                foreach (Control c in group.Controls) c.Enabled = true; break;
-                                        }
-                                    }
+                                    continue;
                                 }
 
-                                UpdateComboSaveStates(true);
-                                StoreValues();
-
-                                new Thread(Coordinates) { IsBackground = true }.Start();
-                                new Thread(Timers) { IsBackground = true }.Start();
-                                new Thread(Freeze) { IsBackground = true }.Start();
-                                new Thread(Track) { IsBackground = true }.Start();
-                                new Thread(EnableWeaponTankIcons) { IsBackground = true }.Start();
-                                new Thread(Hotkeys) { IsBackground = true }.Start();
-                                inStage = true;
+                                switch (group.Name)
+                                {
+                                    case "groupCoordinates":
+                                        foreach (Control c in group.Controls)
+                                        {
+                                            if (c is Button || c is TextBox) c.Enabled = true;
+                                            if (c is TextBox) c.Text = string.Empty;
+                                        }
+                                        break;
+                                    default:
+                                        foreach (Control c in group.Controls) c.Enabled = true;
+                                        break;
+                                }
                             }
+
+                            UpdateComboSaveStates(true);
+                            StoreValues();
+
+                            new Thread(Coordinates) { IsBackground = true }.Start();
+                            new Thread(Timers) { IsBackground = true }.Start();
+                            new Thread(Freeze) { IsBackground = true }.Start();
+                            new Thread(Track) { IsBackground = true }.Start();
+                            new Thread(EnableWeaponTankIcons) { IsBackground = true }.Start();
+                            new Thread(Hotkeys) { IsBackground = true }.Start();
+                            inStage = true;
                         }
                         else
                         {
-                            if (_screenType == Constants.Screens.STAGE_SELECT)
+                            // If not in a stage
+                            switch (_screenType)
                             {
-                                labelStatus.Text = "Stage select...";
-                                labelStatus.ForeColor = Color.Cyan;
+                                case Constants.Screens.STAGE_SELECT:
+                                    // Indicate that we're in the stage select menu
+                                    labelStatus.Text = "Stage select...";
+                                    labelStatus.ForeColor = Color.Cyan;
+                                    break;
+                                case Constants.Screens.STAGE_LOADING:
+                                    // If loading stage, skip it by forcing the stage value
+                                    pm.WriteStatic(SCREEN_TYPE, BitConverter.GetBytes(Constants.Screens.STAGE));
+                                    break;
+                                default:
+                                    // Otherwise treat it as being on the title screen
+                                    labelStatus.Text = "Marisa is on the title screen...";
+                                    labelStatus.ForeColor = Color.LightGreen;
+                                    break;
                             }
-                            else if (_screenType == Constants.Screens.STAGE_LOADING)
-                            {
-                                pm.WriteStatic(SCREEN_TYPE, BitConverter.GetBytes(Constants.Screens.STAGE)); //forces te stage to show up right away
-                            }
-                            else
-                            {
-                                labelStatus.Text = "Marisa is on the title screen...";
-                                labelStatus.ForeColor = Color.LightGreen;
-                            }
-                            if (inStage)
-                            {
-                                weaponBoxBroom.Image = Properties.Resources.broom_off; weaponBoxDoll.Image = Properties.Resources.doll_off;
-                                weaponBoxReimu.Image = Properties.Resources.reimu_off; weaponBoxRemilia.Image = Properties.Resources.remilia_off;
-                                weaponBoxYoumu.Image = Properties.Resources.youmu_off; weaponBoxReisen.Image = Properties.Resources.reisen_off;
-                                weaponBoxCirno.Image = Properties.Resources.cirno_off; weaponBoxSakuya.Image = Properties.Resources.sakuya_off;
-                                weaponBoxYuyuko.Image = Properties.Resources.yuyuko_off; weaponBoxEirin.Image = Properties.Resources.eirin_off;
-                                tankBox1.Image = Properties.Resources.tank_off; tankBox2.Image = Properties.Resources.tank_off;
-                                tankBox3.Image = Properties.Resources.tank_off; tankBox4.Image = Properties.Resources.tank_off;
 
-                                foreach (Control group in Controls)
+                            if (!inStage)
+                            {
+                                return;
+                            }
+
+                            // Update weapons & etanks icons
+                            weaponBoxBroom.Image = Properties.Resources.broom_off; weaponBoxDoll.Image = Properties.Resources.doll_off;
+                            weaponBoxReimu.Image = Properties.Resources.reimu_off; weaponBoxRemilia.Image = Properties.Resources.remilia_off;
+                            weaponBoxYoumu.Image = Properties.Resources.youmu_off; weaponBoxReisen.Image = Properties.Resources.reisen_off;
+                            weaponBoxCirno.Image = Properties.Resources.cirno_off; weaponBoxSakuya.Image = Properties.Resources.sakuya_off;
+                            weaponBoxYuyuko.Image = Properties.Resources.yuyuko_off; weaponBoxEirin.Image = Properties.Resources.eirin_off;
+                            tankBox1.Image = Properties.Resources.tank_off; tankBox2.Image = Properties.Resources.tank_off;
+                            tankBox3.Image = Properties.Resources.tank_off; tankBox4.Image = Properties.Resources.tank_off;
+
+                            // Enable elements in groups
+                            foreach (Control group in Controls)
+                            {
+                                // Check for a group
+                                if (!(group is GroupBox))
                                 {
-                                    if (group is GroupBox)
-                                    {
-                                        switch (group.Name)
-                                        {
-                                            case "groupCoordinates":
-                                                foreach (Control c in group.Controls)
-                                                {
-                                                    if (c is Button || c is TextBox) c.Enabled = false;
-                                                    if (c is TextBox) c.Text = string.Empty;
-                                                }
-                                                break;
-                                            default:
-                                                foreach (Control c in group.Controls) c.Enabled = false; break;
-                                        }
-                                    }
+                                    continue;
                                 }
 
-                                comboSaves.Items.Clear();
-                                labelX.Text = "X:"; labelY.Text = "Y:"; labelStoredX.Text = "X:"; labelStoredY.Text = "Y:";
-                                labelScreenTime.Text = "00:00:00"; labelLastScreenTime.Text = "00:00:00";
-                                inStage = false;
+                                switch (group.Name)
+                                {
+                                    case "groupCoordinates":
+                                        foreach (Control c in group.Controls)
+                                        {
+                                            if (c is Button || c is TextBox) c.Enabled = false;
+                                            if (c is TextBox) c.Text = string.Empty;
+                                        }
+                                        break;
+                                    default:
+                                        foreach (Control c in group.Controls) c.Enabled = false; break;
+                                }
                             }
+
+                            // Update selectable savestates, coordinates & screen time
+                            comboSaves.Items.Clear();
+                            labelX.Text = "X:"; labelY.Text = "Y:"; labelStoredX.Text = "X:"; labelStoredY.Text = "Y:";
+                            labelScreenTime.Text = "00:00:00"; labelLastScreenTime.Text = "00:00:00";
+                            inStage = false;
                         }
                     });
                 }
@@ -260,12 +276,12 @@ namespace MegaMariPrac
                 key3 = pm.ReadStatic(_lstHotkeys[5], key3); key4 = pm.ReadStatic(_lstHotkeys[7], key4);
                 key5 = pm.ReadStatic(_lstHotkeys[9], key5); key6 = pm.ReadStatic(_lstHotkeys[11], key6);
 
-                bool isHotkey1Pressed = IsHotkeyPressed(modifier1[0], key1[0]);
-                bool isHotkey2Pressed = IsHotkeyPressed(modifier2[0], key2[0]);
-                bool isHotkey3Pressed = IsHotkeyPressed(modifier3[0], key3[0]);
-                bool isHotkey4Pressed = IsHotkeyPressed(modifier4[0], key4[0]);
-                bool isHotkey5Pressed = IsHotkeyPressed(modifier5[0], key5[0]);
-                bool isHotkey6Pressed = IsHotkeyPressed(modifier6[0], key6[0]);
+                bool isHotkey1Pressed = IsHotkeyPressed(modifier1[0], key1[0]),
+                    isHotkey2Pressed = IsHotkeyPressed(modifier2[0], key2[0]),
+                    isHotkey3Pressed = IsHotkeyPressed(modifier3[0], key3[0]),
+                    isHotkey4Pressed = IsHotkeyPressed(modifier4[0], key4[0]),
+                    isHotkey5Pressed = IsHotkeyPressed(modifier5[0], key5[0]),
+                    isHotkey6Pressed = IsHotkeyPressed(modifier6[0], key6[0]);
 
                 if (isHotkey1Pressed) { StoreValues(); comboSaves.SelectedIndex = -1; }
                 if (isHotkey2Pressed) { LoadStoredValues(); }
@@ -381,6 +397,7 @@ namespace MegaMariPrac
                     if (ex is ObjectDisposedException || ex is InvalidOperationException)
                         print(ex.Message);
                 }
+
                 tempTimer = _screenTimer;
                 if (_screenType == Constants.Screens.TITLE_SCREEN || _screenType == Constants.Screens.STAGE_SELECT || _screenType == Constants.Screens.STAGE_LOADING)
                 {
@@ -921,6 +938,7 @@ namespace MegaMariPrac
                 pm.Write(FIRST_OFFSET, MARISA_HP_OFFSET, new byte[1] { (byte)_ss.marisaHP });
                 pm.Write(FIRST_OFFSET, ALICE_HP_OFFSET, new byte[1] { (byte)_ss.aliceHP });
 
+                // TODO Setting value for these 3 things crashes the game
                 pm.Write(FIRST_OFFSET, CHARACTER_OFFSET, BitConverter.GetBytes(_ss.character));
                 pm.Write(FIRST_OFFSET, CHARACTER_WEAPON_OFFSET, new byte[1] { (byte)_ss.characterWeapon });
                 pm.Write(FIRST_OFFSET, CHARACTER_SPRITE_OFFSET, BitConverter.GetBytes(_ss.characterSprite));
@@ -1200,7 +1218,6 @@ namespace MegaMariPrac
         private void SetTank(int offset, PictureBox tankBox)
         {
             int curTank = pm.Read(FIRST_OFFSET, offset)[0];
-
             switch (curTank)
             {
                 case Constants.Etanks.ETANK: tankBox.Image = Properties.Resources.etank; pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.Etanks.ETANK }); break;
