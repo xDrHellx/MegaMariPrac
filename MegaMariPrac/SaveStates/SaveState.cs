@@ -22,14 +22,14 @@
         public int menuCursor { get; set; } public int tanks { get; set; } public int lives { get; set; }
 
         public SaveState(int x = 1, int y = 1, float xF = 1, float yF = 1,
-                            int cameraViewX = 0, int cameraViewY = 0, int camera1X = 0, int camera1Y = 0, int camera2X = 0, int camera2Y = 0,
-                            int marisaHP = 28, int aliceHP = 28, short character = 0, int characterWeapon = 0, short characterSprite = 0,
-                            int broomAmmo = 112, int broomFlag = 255, int cirnoAmmo = 112, int cirnoFlag = 255,
-                            int dollAmmo = 112, int dollFlag = 255, int eirinAmmo = 112, int eirinFlag = 255,
-                            int reimuAmmo = 112, int reimuFlag = 255, int reisenAmmo = 112, int reisenFlag = 255,
-                            int remiliaAmmo = 112, int remiliaFlag = 255, int sakuyaAmmo = 112, int sakuyaFlag = 255,
-                            int youmuAmmo = 112, int youmuFlag = 255, int yuyukoAmmo = 112, int yuyukoFlag = 255,
-                            int menuCursor = 0, int tanks = 0, int lives = 0)
+            int cameraViewX = 0, int cameraViewY = 0, int camera1X = 0, int camera1Y = 0, int camera2X = 0, int camera2Y = 0,
+            int marisaHP = 28, int aliceHP = 28, short character = 0, int characterWeapon = 0, short characterSprite = 0,
+            int broomAmmo = 112, int broomFlag = 255, int cirnoAmmo = 112, int cirnoFlag = 255,
+            int dollAmmo = 112, int dollFlag = 255, int eirinAmmo = 112, int eirinFlag = 255,
+            int reimuAmmo = 112, int reimuFlag = 255, int reisenAmmo = 112, int reisenFlag = 255,
+            int remiliaAmmo = 112, int remiliaFlag = 255, int sakuyaAmmo = 112, int sakuyaFlag = 255,
+            int youmuAmmo = 112, int youmuFlag = 255, int yuyukoAmmo = 112, int yuyukoFlag = 255,
+            int menuCursor = 0, int tanks = 0, int lives = 0)
         {
             this.x = x; this.y = y; this.xF = xF; this.yF = yF;
             this.cameraViewX = cameraViewX; this.cameraViewY = cameraViewY;
@@ -75,15 +75,15 @@
         public override string ToString()
         {
             return xF.ToString("0.000") + "," + yF.ToString("0.000") + "," + x + "," + y + "," +
-                    cameraViewX + "," + cameraViewY + "," +
-                    camera1X + "," + camera1Y + "," + camera2X + "," + camera2Y + "," +
-                    marisaHP + "," + aliceHP + "," + character + "," + characterWeapon + "," + characterSprite + "," +
-                    broomAmmo + "," + broomFlag + "," + cirnoAmmo + "," + cirnoFlag + "," +
-                    dollAmmo + "," + dollFlag + "," + eirinAmmo + "," + eirinFlag + "," +
-                    reimuAmmo + "," + reimuFlag + "," + reisenAmmo + "," + reisenFlag + "," +
-                    remiliaAmmo + "," + remiliaFlag + "," + sakuyaAmmo + "," + sakuyaFlag + "," +
-                    youmuAmmo + "," + youmuFlag + "," + yuyukoAmmo + "," + yuyukoFlag + "," +
-                    menuCursor + "," + tanks + "," + lives;
+                cameraViewX + "," + cameraViewY + "," +
+                camera1X + "," + camera1Y + "," + camera2X + "," + camera2Y + "," +
+                marisaHP + "," + aliceHP + "," + character + "," + characterWeapon + "," + characterSprite + "," +
+                broomAmmo + "," + broomFlag + "," + cirnoAmmo + "," + cirnoFlag + "," +
+                dollAmmo + "," + dollFlag + "," + eirinAmmo + "," + eirinFlag + "," +
+                reimuAmmo + "," + reimuFlag + "," + reisenAmmo + "," + reisenFlag + "," +
+                remiliaAmmo + "," + remiliaFlag + "," + sakuyaAmmo + "," + sakuyaFlag + "," +
+                youmuAmmo + "," + youmuFlag + "," + yuyukoAmmo + "," + yuyukoFlag + "," +
+                menuCursor + "," + tanks + "," + lives;
         }
     }
 }
