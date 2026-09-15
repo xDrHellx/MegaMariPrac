@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using MegaMariPrac.Dictionnaries;
 
 namespace MegaMariPrac.SaveStates
@@ -33,6 +31,14 @@ namespace MegaMariPrac.SaveStates
         public static List<string> GetLines()
         {
             return File.ReadAllLines(path).ToList();
+        }
+
+        /// <summary>Get the section for a stage in the savestates file</summary>
+        /// <param name="stageId">Stage ID</param>
+        /// <returns><c>string</c>Section (ex: "Sakuya-2")</returns>
+        public static string GetStageSection(int stageId)
+        {
+            return $"{Constants.Stages.stageNames[stageId]}-{stageId}";
         }
 
         /// <summary>Create the file with the default template</summary>
@@ -103,7 +109,7 @@ namespace MegaMariPrac.SaveStates
             }
 
             // Prepare the section we're looking for (stage ID within file)
-            string section = $"{Constants.Stages.stageNames[stageId]}-{stageId}";
+            string section = GetStageSection(stageId);
 
             /**
              * Special case for the last stage :

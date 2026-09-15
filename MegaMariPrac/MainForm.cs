@@ -715,51 +715,66 @@ namespace MegaMariPrac
         /// <param name="first">Indicate if first line in savestates.cfg for that stage</param>
         private void UpdateComboSaveStates(bool first)
         {
-            if (Constants.Stages.stageNames.ContainsKey(_stageID))
+            // If invalid stage or savestates file doesn't exist, stop
+            if (!Constants.Stages.stageNames.ContainsKey(_stageID) || !SaveStateFile.Exists())
             {
-                bool sectionFound = false;
-                if (SaveStateFile.Exists()) //checks if savestates.cfg exists
+                return;
+            }
+
+            // Clear the dropdown & add each entry for the current stage
+            comboSaves.Items.Clear();
+            bool sectionFound = false;
+            using (StreamReader sr = File.OpenText(SaveStateFile.path))
+            {
+                // While there are lines to parse
+                while (!sr.EndOfStream)
                 {
-                    comboSaves.Items.Clear();
-                    using (StreamReader sr = File.OpenText(SaveStateFile.path))
+                    // Check each line that isn't empty
+                    string line = sr.ReadLine();
+                    if (line.Length == 0)
                     {
-                        while (!sr.EndOfStream)
-                        {
-                            //skip empty lines
-                            string line = sr.ReadLine();
-                            if (line.Length > 0)
-                            {
-                                //if another section is reached after the desired one is parsed
-                                if (line.Contains("[") && sectionFound)
-                                    break;
-
-                                //if flag is true then analyze the line to check its screenID
-                                if (sectionFound)
-                                    comboSaves.Items.Add(line);
-
-                                //if reached the desired section -> set flag to true
-                                if (line.Contains(Constants.Stages.stageNames[_stageID] + "-" + _stageID))
-                                    sectionFound = true;
-                            }
-                        }
-
-                        // If not first, remove the empty entry
-                        if (first == true)
-                        {
-                            comboSaves.SelectedIndex = comboSaves.Items.Count - 1;
-                        }
-                        else
-                        {
-                            /**
-                             * Reset the Text property of the dropdown
-                             * Then deselect the chosen value
-                             * 
-                             * Resetting the property prevents a crash on Win10+
-                             */
-                            comboSaves.ResetText();
-                            comboSaves.SelectedIndex = -1;
-                        }
+                        continue;
                     }
+
+                    /**
+                     * Once the current stage's section has been found,
+                     * if we reach the next stage's section, stop
+                     */
+                    if (sectionFound && line.Contains("["))
+                    {
+                        break;
+                    }
+
+                    //if flag is true then analyze the line to check its screenID
+                    /**
+                     * If section was found, lines are savestates for this stage
+                     * We add them to the dropdown
+                     */
+                    if (sectionFound)
+                    {
+                        comboSaves.Items.Add(line);
+                    }
+
+                    // If the current stage's section has been found, indicate it
+                    if (line.Contains(SaveStateFile.GetStageSection(_stageID)))
+                    {
+                        sectionFound = true;
+                    }
+                }
+
+                // If not the first line, remove the empty entry
+                if (first != true)
+                {
+                    comboSaves.SelectedIndex = comboSaves.Items.Count - 1;
+                }
+                else
+                {
+                    /**
+                     * Reset the Text property of the dropdown (to prevent risks of crash)
+                     * Then deselect the chosen value
+                     */
+                    comboSaves.ResetText();
+                    comboSaves.SelectedIndex = -1;
                 }
             }
         }
