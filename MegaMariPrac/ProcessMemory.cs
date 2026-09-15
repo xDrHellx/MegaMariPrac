@@ -21,12 +21,12 @@ namespace MegaMariPrac
 
         //process handle
         static Process p = Process.GetProcessesByName("megamari")[0];
-        IntPtr processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, p.Id);
+        IntPtr _processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, p.Id);
         public static int FirstProcessModuleMemorySize;
 
         //amount of bytes written/read
-        private int bytesWritten = 0,
-            bytesRead = 0;
+        private int _bytesWritten = 0,
+            _bytesRead = 0;
         #endregion
 
         public ProcessMemory()
@@ -49,12 +49,12 @@ namespace MegaMariPrac
 
         public void WriteStatic(int address, byte[] buffer)
         {
-            WriteProcessMemory((int)processHandle, (int)p.Modules[0].BaseAddress + address, buffer, buffer.Length, ref bytesWritten);
+            WriteProcessMemory((int)_processHandle, (int)p.Modules[0].BaseAddress + address, buffer, buffer.Length, ref _bytesWritten);
         }
 
         public byte[] ReadStatic(int address, byte[] buffer)
         {
-            ReadProcessMemory((int)processHandle, (int)p.Modules[0].BaseAddress + address, buffer, buffer.Length, ref bytesRead);
+            ReadProcessMemory((int)_processHandle, (int)p.Modules[0].BaseAddress + address, buffer, buffer.Length, ref _bytesRead);
             return buffer;
         }
 
@@ -63,14 +63,14 @@ namespace MegaMariPrac
             byte[] buffer = new byte[4];
 
             //read address pointed by the game + first initial offset -> equivalent to 'Game.exe+first offset' in cheat engine
-            ReadProcessMemory((int)processHandle, (int)p.Modules[0].BaseAddress + first_off, buffer, buffer.Length, ref bytesRead);
+            ReadProcessMemory((int)_processHandle, (int)p.Modules[0].BaseAddress + first_off, buffer, buffer.Length, ref _bytesRead);
             IntPtr curAdd = (IntPtr)BitConverter.ToInt32(buffer, 0);
 
             //offsetting new pointer
             curAdd += last_off;
 
             //writing value from the new pointer address
-            WriteProcessMemory((int)processHandle, (int)curAdd, value, value.Length, ref bytesWritten);
+            WriteProcessMemory((int)_processHandle, (int)curAdd, value, value.Length, ref _bytesWritten);
         }
 
         public byte[] Read(int first_off, int last_off)
@@ -78,14 +78,14 @@ namespace MegaMariPrac
             byte[] buffer = new byte[4];
 
             //read address pointed by the game + first initial offset -> equivalent to 'Game.exe+first offset' in cheat engine
-            ReadProcessMemory((int)processHandle, (int)p.Modules[0].BaseAddress + first_off, buffer, buffer.Length, ref bytesRead);
+            ReadProcessMemory((int)_processHandle, (int)p.Modules[0].BaseAddress + first_off, buffer, buffer.Length, ref _bytesRead);
             IntPtr curAdd = (IntPtr)BitConverter.ToInt32(buffer, 0);
 
             //offsetting new pointer
             curAdd += last_off;
 
             //reading value from the new pointer address
-            ReadProcessMemory((int)processHandle, (int)curAdd, buffer, buffer.Length, ref bytesRead);
+            ReadProcessMemory((int)_processHandle, (int)curAdd, buffer, buffer.Length, ref _bytesRead);
 
             //return read value
             return buffer;
