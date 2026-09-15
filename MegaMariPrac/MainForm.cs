@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -17,11 +16,8 @@ namespace MegaMariPrac
     public partial class MainForm : Form
     {
         #region global variables
-        static string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            hotkeyVersion = "v1.0";
-        public static readonly string _configpath = appdata + @"\MegaMariPrac\",
-            _hotkeyfilename = "hotkey.cfg";
-        public static readonly string configFilePath = _configpath + _hotkeyfilename;
+        static string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        public static readonly string _configpath = appdata + @"\MegaMariPrac\";
         readonly MemoryFlags _memFlags = new MemoryFlags();
         SaveState _ss = new SaveState();
         static int numberHotkeys = 6;
@@ -77,14 +73,16 @@ namespace MegaMariPrac
             InitializeComponent();
             MinimizeBox = MaximizeBox = false;
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            LoadHotkeys();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            // If prac tool directly doesn't exist, create it
-            if (!Directory.Exists(appdata + @"\MegaMariPrac"))
-                Directory.CreateDirectory(appdata + @"\MegaMariPrac");
+            // If prac tool directory doesn't exist, create it
+            if (!Directory.Exists(_configpath))
+                Directory.CreateDirectory(_configpath);
+
+            // Load hotkeys config
+            LoadHotkeys();
 
             // Add tooltip to elements
             toolTip.SetToolTip(checkFreezeAll, "Checks all weapon checkboxes below and forces ammo for all of them at maximum.");
@@ -815,53 +813,51 @@ namespace MegaMariPrac
         #endregion
 
         #region hotkeys
-        private void WriteDefaultHotkeyConfig()
-        {
-            TextWriter writer = new StreamWriter(configFilePath);
-            writer.WriteLine(hotkeyVersion + "\nLAlt\n1\nLAlt\n2\nLAlt\n3\nLAlt\n4\nLAlt\n5\nLAlt\n6");
-            writer.Close();
-        }
-
         private void LoadHotkeys()
         {
-            if (!Directory.Exists(_configpath)) Directory.CreateDirectory(_configpath);
-            if (!File.Exists(configFilePath))
-                WriteDefaultHotkeyConfig();
-            if (File.Exists(configFilePath)) //checks if hotkey.cfg exists
+            // If the hotkeys config file doesn't exist, create it
+            if (!HotkeysConfigFile.Exists()) HotkeysConfigFile.CreateFile();
+
+            // If the hotkeys still doesn't exists, stop (could be because of user rights, etc)
+            if (!HotkeysConfigFile.Exists())
             {
-                if (File.ReadLines(configFilePath).First().Contains(hotkeyVersion))
+                return;
+            }
+
+            // If the file is up to date (latest version)
+            if (HotkeysConfigFile.IsLatestVersion())
+            {
+                using (StreamReader sr = File.OpenText(HotkeysConfigFile.path))
                 {
-                    using (StreamReader sr = File.OpenText(configFilePath))
+                    int modifier = 0;
+                    _lstHotkeys.Clear();
+                    sr.ReadLine(); //skip the first line containing the version number
+                    for (int i = 2; i <= numberHotkeys * 2 + 1; i++)
                     {
-                        int modifier = 0;
-                        _lstHotkeys.Clear();
-                        sr.ReadLine(); //skip the first line containing the version number
-                        for (int i = 2; i <= numberHotkeys * 2 + 1; i++)
+                        if ((i % 2) == 0) //if the line number is even then it's a modifier
                         {
-                            if (i % 2 == 0) //if the line number is even then it's a modifier
-                            {
-                                modifier = _keybKeys.dictModifierKeys[sr.ReadLine()]; //this variable will hold the address of the modifier
-                                _lstHotkeys.Add(modifier);
-                            }
-                            else //if the line number is odd then it's a hotkey
-                            {
-                                _lstHotkeys.Add(_keybKeys.dictKeys[sr.ReadLine()]);
-                            }
+                            modifier = _keybKeys.dictModifierKeys[sr.ReadLine()]; //this variable will hold the address of the modifier
+                            _lstHotkeys.Add(modifier);
+                        }
+                        else //if the line number is odd then it's a hotkey
+                        {
+                            _lstHotkeys.Add(_keybKeys.dictKeys[sr.ReadLine()]);
                         }
                     }
-                    //foreach (int key in lstHotkeys) print(key.ToString("x"));
                 }
-                else
-                {
-                    MessageBox.Show(
-                        this,
-                        "Some changes have been made to hotkeys. They have been set back to defaults.\n",
-                        "Hotkeys changed",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
-                    WriteDefaultHotkeyConfig();
-                }
+                //foreach (int key in lstHotkeys) print(key.ToString("x"));
+            }
+            else
+            {
+                // If the file's version isn't the latest one, recreate the file
+                MessageBox.Show(
+                    this,
+                    "Some changes have been made to hotkeys. They have been set back to defaults.\n",
+                    "Hotkeys changed",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                HotkeysConfigFile.CreateFile(true);
             }
         }
         #endregion

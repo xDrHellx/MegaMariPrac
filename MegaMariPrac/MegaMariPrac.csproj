@@ -73,6 +73,7 @@
     <Compile Include="About\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Hotkeys\HotkeysConfigFile.cs" />
     <Compile Include="Hotkeys\HotkeyDialog.cs">
       <SubType>Form</SubType>
     </Compile>
