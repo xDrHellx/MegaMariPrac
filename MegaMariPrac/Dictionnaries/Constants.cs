@@ -30,10 +30,10 @@ namespace MegaMariPrac.Dictionnaries
                 EIRIN = 7,
                 PATCHY_1 = 8,
                 PATCHY_2 = 9,
-                PATCHY_5 = 10,
-                PATCHY_6 = 11,
                 PATCHY_3 = 12,
                 PATCHY_4 = 13,
+                PATCHY_5 = 10,
+                PATCHY_6 = 11,
                 CREDITS = 15,
                 ELSEWHERE = 255;
             /// <summary>List of value => stage names</summary>
