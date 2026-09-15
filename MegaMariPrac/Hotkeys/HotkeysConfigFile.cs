@@ -10,7 +10,7 @@ namespace MegaMariPrac.Hotkeys
 
         public static readonly string name = "hotkey.cfg",
             path = MainForm._configpath + name,
-            hotkeyVersion = "1.0";
+            version = "1.0";
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace MegaMariPrac.Hotkeys
         /// <returns><c>bool</c></returns>
         public static bool IsLatestVersion()
         {
-            return Exists() && File.ReadLines(path).First().Contains(hotkeyVersion);
+            return Exists() && File.ReadLines(path).First().Contains(version);
         }
 
         /// <summary>Create the file with the default hotkey</summary>
@@ -41,7 +41,7 @@ namespace MegaMariPrac.Hotkeys
             }
 
             TextWriter writer = new StreamWriter(path);
-            writer.WriteLine($"{hotkeyVersion}\nLAlt\n1\nLAlt\n2\nLAlt\n3\nLAlt\n4\nLAlt\n5\nLAlt\n6");
+            writer.WriteLine($"{version}\nLAlt\n1\nLAlt\n2\nLAlt\n3\nLAlt\n4\nLAlt\n5\nLAlt\n6");
             writer.Close();
         }
 
