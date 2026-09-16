@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Windows.Forms;
 
 namespace MegaMariPrac.About
@@ -10,9 +9,9 @@ namespace MegaMariPrac.About
         {
             InitializeComponent();
             CenterToScreen();
-            Text = String.Format("About {0}", AssemblyTitle);
+            Text = string.Format("About {0}", AssemblyTitle);
             _labelProductName.Text = AssemblyProduct;
-            _labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
+            _labelVersion.Text = string.Format("Version {0}", AssemblyVersion);
             _labelCopyright.Text = AssemblyCopyright;
             _labelGameDev.Text = "Game made by Twilight Frontier";
             _textBoxDescription.Text = "Github repo: https://github.com/shadax1/MegaMariPrac" +
