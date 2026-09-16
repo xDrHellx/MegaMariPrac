@@ -693,10 +693,10 @@ namespace MegaMariPrac
             PictureBox s = (PictureBox)sender;
             switch (s.Name)
             {
-                case "tankBox1": SetTank(MENU_TANK_SLOT_1_OFFSET, tankBox1); break;
-                case "tankBox2": SetTank(MENU_TANK_SLOT_2_OFFSET, tankBox2); break;
-                case "tankBox3": SetTank(MENU_TANK_SLOT_3_OFFSET, tankBox3); break;
-                case "tankBox4": SetTank(MENU_TANK_SLOT_4_OFFSET, tankBox4); break;
+                case "tankBox1": SetTank(MENU_TANK_SLOT_1_OFFSET, s); break;
+                case "tankBox2": SetTank(MENU_TANK_SLOT_2_OFFSET, s); break;
+                case "tankBox3": SetTank(MENU_TANK_SLOT_3_OFFSET, s); break;
+                case "tankBox4": SetTank(MENU_TANK_SLOT_4_OFFSET, s); break;
             }
         }
         #endregion
@@ -1213,10 +1213,10 @@ namespace MegaMariPrac
             int curTank = pm.Read(FIRST_OFFSET, offset)[0];
             switch (curTank)
             {
-                case Constants.Etanks.ETANK: tankBox.Image = Properties.Resources.etank; pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.Etanks.ETANK }); break;
-                case Constants.Etanks.STAR_TANK: tankBox.Image = Properties.Resources.startank; pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.Etanks.STAR_TANK }); break;
-                case Constants.Etanks.DOUBLE_ETANK: tankBox.Image = Properties.Resources.doubletank; pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.Etanks.DOUBLE_ETANK }); break;
-                case Constants.Etanks.NO_TANK: tankBox.Image = Properties.Resources.tank_off; pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.Etanks.NO_TANK }); break;
+                case Constants.Etanks.NO_TANK: tankBox.Image = Properties.Resources.etank; pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.Etanks.ETANK }); break;
+                case Constants.Etanks.ETANK: tankBox.Image = Properties.Resources.startank; pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.Etanks.STAR_TANK }); break;
+                case Constants.Etanks.STAR_TANK: tankBox.Image = Properties.Resources.doubletank; pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.Etanks.DOUBLE_ETANK }); break;
+                case Constants.Etanks.DOUBLE_ETANK: tankBox.Image = Properties.Resources.tank_off; pm.Write(FIRST_OFFSET, offset, new byte[1] { Constants.Etanks.NO_TANK }); break;
             }
         }
         #endregion
