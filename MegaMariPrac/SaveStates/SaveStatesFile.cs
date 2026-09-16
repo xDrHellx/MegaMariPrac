@@ -11,7 +11,7 @@ namespace MegaMariPrac.SaveStates
         #region Properties
 
         public static readonly string name = "savestates.cfg",
-            path = MainForm._configpath + name;
+            path = MainForm.configpath + name;
 
         #endregion
 
@@ -49,6 +49,8 @@ namespace MegaMariPrac.SaveStates
                 return;
             }
 
+            // Create the folder if it doesn't exist already, then the file in it
+            MainForm.CreateConfigDirectory();
             using (StreamWriter sw = File.CreateText(path))
             {
                 sw.WriteLine("[Reimu-0]\n"); sw.WriteLine("[Cirno-1]\n");

@@ -17,7 +17,7 @@ namespace MegaMariPrac
     {
         #region global variables
         static string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        public static readonly string _configpath = appdata + @"\MegaMariPrac\";
+        public static readonly string configpath = appdata + @"\MegaMariPrac\";
         readonly MemoryFlags _memFlags = new MemoryFlags();
         SaveState _ss = new SaveState();
         static int numberHotkeys = 6;
@@ -77,10 +77,6 @@ namespace MegaMariPrac
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            // If prac tool directory doesn't exist, create it
-            if (!Directory.Exists(_configpath))
-                Directory.CreateDirectory(_configpath);
-
             // Load hotkeys config
             LoadHotkeys();
 
@@ -708,7 +704,7 @@ namespace MegaMariPrac
         #region menustrip
         private void applicationFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("explorer.exe", _configpath);
+            Process.Start("explorer.exe", configpath);
         }
 
         private void helpAboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1226,6 +1222,13 @@ namespace MegaMariPrac
         #endregion
 
         #region Helpers
+
+        /// <summary>Create the directory containing config files</summary>
+        public static void CreateConfigDirectory()
+        {
+            if (!Directory.Exists(configpath)) Directory.CreateDirectory(configpath);
+        }
+
         private void print(string msg)
         {
             Console.WriteLine(msg);

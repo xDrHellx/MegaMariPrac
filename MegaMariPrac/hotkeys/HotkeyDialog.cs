@@ -8,11 +8,7 @@ namespace MegaMariPrac.Hotkeys
 {
     public partial class HotkeyDialog : Form
     {
-        static string hotkeyVersion = "v1.0",
-            appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        string _configpath = appdata + @"\MegaMariPrac\",
-            _hotkeyfilename = "hotkey.cfg";
-        KeyboardKeys _keybKeys = new KeyboardKeys();
+        readonly KeyboardKeys _keybKeys = new KeyboardKeys();
 
         public HotkeyDialog()
         {
@@ -44,59 +40,60 @@ namespace MegaMariPrac.Hotkeys
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            using (StreamWriter sw = File.CreateText(_configpath + _hotkeyfilename)) //saving hotkeys
+            // Saving hotkeys
+            using (StreamWriter sw = File.CreateText(HotkeysConfigFile.path))
             {
-                sw.WriteLine(hotkeyVersion); //stores the value of the combobox inside the .cfg
-                //store combobox values by parsing all components inside the form in the TabIndex order
+                /**
+                 * Add the version inside the .cfg file
+                 * Then loop through ComboBoxes related to this window & store their values too
+                 */
+                sw.WriteLine(HotkeysConfigFile.version);
                 foreach (Control c in Controls.Cast<Control>().OrderBy(c => c.TabIndex))
-                    if (c is ComboBox) //if they are comboboxes
-                        sw.WriteLine(c.Text); //stores the value of the combobox inside the .cfg
+                    if (c is ComboBox)
+                        sw.WriteLine(c.Text);
             }
             Close();
         }
 
         private void HotkeyDialog_Load(object sender, EventArgs e)
         {
-            if (!Directory.Exists(_configpath))
-                Directory.CreateDirectory(_configpath);
-
-            if (File.Exists(_configpath + _hotkeyfilename)) //checks if config.cfg exists
+            MainForm.CreateConfigDirectory();
+            if (HotkeysConfigFile.Exists())
             {
-                using (StreamReader sr = File.OpenText(_configpath + _hotkeyfilename))
+                // Loop over values stored inside the .cfg file
+                using (StreamReader sr = File.OpenText(HotkeysConfigFile.path))
                 {
-                    sr.ReadLine(); //skip line with version
-                    //loads comboboxes with values by parsing all components inside the form in the TabIndex order
+                    // Skip the first line containing the version
+                    sr.ReadLine();
+
+                    // Load ComboBoxes with values in TabIndex order & set their values based on the file's content
                     foreach (Control c in Controls.Cast<Control>().OrderBy(c => c.TabIndex))
-                        if (c is ComboBox) //if they are comboboxes
-                            c.Text = sr.ReadLine(); //reads the value from the .cfg and puts it into the combobox
+                        if (c is ComboBox)
+                            c.Text = sr.ReadLine();
                 }
             }
         }
 
         private void comboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            string[] selectedHotkeys = {
+                comboModifier1.SelectedItem.ToString() + comboHotkey1.SelectedItem.ToString(),
+                comboModifier2.SelectedItem.ToString() + comboHotkey2.SelectedItem.ToString(),
+                comboModifier3.SelectedItem.ToString() + comboHotkey3.SelectedItem.ToString(),
+                comboModifier4.SelectedItem.ToString() + comboHotkey4.SelectedItem.ToString(),
+                comboModifier5.SelectedItem.ToString() + comboHotkey5.SelectedItem.ToString(),
+                comboModifier6.SelectedItem.ToString() + comboHotkey6.SelectedItem.ToString()
+            };
+
             byte i = 0;
             HashSet<string> hs = new HashSet<string>();
-            string[] a =
-            {comboModifier1.SelectedItem.ToString() + comboHotkey1.SelectedItem.ToString(),
-            comboModifier2.SelectedItem.ToString() + comboHotkey2.SelectedItem.ToString(),
-            comboModifier3.SelectedItem.ToString() + comboHotkey3.SelectedItem.ToString(),
-            comboModifier4.SelectedItem.ToString() + comboHotkey4.SelectedItem.ToString(),
-            comboModifier5.SelectedItem.ToString() + comboHotkey5.SelectedItem.ToString(),
-            comboModifier6.SelectedItem.ToString() + comboHotkey6.SelectedItem.ToString()};
-            foreach (string x in a)
-                if (hs.Add(x))
+            foreach (string s in selectedHotkeys)
+                if (hs.Add(s))
                     i++;
-            if (i < a.Length) //if not every hotkey combo is unique
-            {
-                buttonSave.Enabled = false;
-                buttonSave.Text = "Hotkey conflict!";
-            }
-            else
-            {
-                buttonSave.Enabled = true;
-                buttonSave.Text = "Save";
-            }
+
+            // Update text & enable/disable save button based on every hotkey combo being unique or not
+            buttonSave.Enabled = i >= selectedHotkeys.Length;
+            buttonSave.Text = i < selectedHotkeys.Length ? "Hotkey conflict!" : "Save";
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

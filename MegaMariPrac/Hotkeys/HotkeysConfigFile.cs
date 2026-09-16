@@ -9,7 +9,7 @@ namespace MegaMariPrac.Hotkeys
         #region Properties
 
         public static readonly string name = "hotkey.cfg",
-            path = MainForm._configpath + name,
+            path = MainForm.configpath + name,
             version = "1.0";
 
         #endregion
@@ -40,6 +40,8 @@ namespace MegaMariPrac.Hotkeys
                 return;
             }
 
+            // Create the folder if it doesn't exist already, then the file in it
+            MainForm.CreateConfigDirectory();
             TextWriter writer = new StreamWriter(path);
             writer.WriteLine($"{version}\nLAlt\n1\nLAlt\n2\nLAlt\n3\nLAlt\n4\nLAlt\n5\nLAlt\n6");
             writer.Close();
