@@ -28,10 +28,7 @@ namespace MegaMariPrac.SaveStates
             }
             else
             {
-                MessageBox.Show("No value entered. Try again.",
-                                "Nice name",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
+                MessageBox.Show(this, "No value entered. Try again.", "Nice name", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }
